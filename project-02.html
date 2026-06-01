@@ -436,322 +436,56 @@
     }
     .phase-dot.dim { background: var(--gray-200); }
 
-    /* ── Scatter chart ── */
-    .scatter-wrap {
-      margin-top: 40px;
-      background: var(--black);
-      border-radius: 16px;
-      padding: 36px 40px 32px;
-      color: var(--white);
+    /* ── Lowspot tags ── */
+    .lowspot-row {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 8px; margin-top: 20px;
     }
-    .scatter-title {
-      font-size: 13px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 8px;
+    .ls-label {
+      font-size: 12px; color: var(--gray-400);
+      font-weight: 500; white-space: nowrap;
     }
-    .scatter-sub {
-      font-size: 12px; color: rgba(255,255,255,0.45);
-      margin-bottom: 28px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    .ls-tag {
+      font-size: 12px; font-weight: 500;
+      padding: 4px 10px; border-radius: 4px;
+      background: var(--gray-100); color: var(--gray-600);
+      border: 1px solid var(--gray-200);
     }
-    .scatter-legend-dot {
-      display: inline-block; width: 8px; height: 8px;
-      border-radius: 50%; flex-shrink: 0;
-    }
-    .scatter-legend-dot.red { background: #ff4d4d; }
-    .scatter-chart {
-      position: relative;
-      width: 100%; height: 360px;
-      border-left: 1.5px solid rgba(255,255,255,0.2);
-      border-bottom: 1.5px solid rgba(255,255,255,0.2);
-      margin-left: 36px;
-      margin-bottom: 32px;
-    }
-    /* 均值参考线 */
-    .scatter-hline {
-      position: absolute;
-      left: 0; right: 0;
-      top: 52%;
-      border-top: 1px dashed rgba(255,255,255,0.3);
-    }
-    .scatter-vline {
-      position: absolute;
-      top: 0; bottom: 0;
-      left: 50%;
-      border-left: 1px dashed rgba(255,255,255,0.3);
-    }
-    .scatter-hline-label {
-      position: absolute;
-      top: 52%; left: -34px;
-      transform: translateY(-50%);
-      font-size: 10px; color: rgba(255,255,255,0.4);
-      white-space: nowrap;
-    }
-    .scatter-vline-label {
-      position: absolute;
-      left: 50%; bottom: -22px;
-      transform: translateX(-50%);
-      font-size: 10px; color: rgba(255,255,255,0.4);
-    }
-    /* 重点优化区斜线阴影 */
-    .scatter-hatch {
-      position: absolute;
-      right: 0; bottom: 0;
-      width: 50%; height: 48%;
-      background: repeating-linear-gradient(
-        -45deg,
-        rgba(190,255,0,0.04) 0px,
-        rgba(190,255,0,0.04) 2px,
-        transparent 2px,
-        transparent 8px
-      );
-      border: 1px solid rgba(190,255,0,0.15);
-      border-radius: 0 0 4px 0;
-    }
-    /* 象限标签 */
-    .scatter-quadrant-label {
-      position: absolute;
-      font-size: 10px; font-weight: 600;
-      letter-spacing: 0.04em;
-      line-height: 1.5;
-      pointer-events: none;
-    }
-    .scatter-quadrant-label span {
-      display: block; font-size: 9px;
-      font-weight: 400; opacity: 0.5; margin-top: 2px;
-    }
-    .scatter-quadrant-label.tl { top: 6px; left: 6px; color: rgba(255,255,255,0.25); }
-    .scatter-quadrant-label.tr { top: 6px; right: 6px; text-align: right; color: rgba(255,255,255,0.25); }
-    .scatter-quadrant-label.bl { bottom: 6px; left: 6px; color: rgba(255,255,255,0.2); }
-    .scatter-quadrant-label.br { bottom: 6px; right: 6px; text-align: right; color: var(--accent); opacity: 0.8; }
-    .accent-text { color: var(--accent); }
-    /* 散点 */
-    .s-dot {
-      position: absolute;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .s-dot.gray { background: rgba(255,255,255,0.25); }
-    .s-dot.red {
-      background: #ff4d4d;
-      box-shadow: 0 0 0 3px rgba(255,77,77,0.25);
-    }
-    /* 散点标签 */
-    .s-label {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      font-size: 11px; font-weight: 500;
-      color: rgba(255,255,255,0.85);
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    .s-label.right { left: 16px; }
-    .s-label.left { right: 16px; text-align: right; }
-    /* 坐标轴刻度 */
-    .scatter-axis-x {
-      position: absolute;
-      bottom: -28px; left: 0; right: 0;
-      display: flex; justify-content: space-between;
-      font-size: 10px; color: rgba(255,255,255,0.3);
-    }
-    .scatter-axis-y {
-      position: absolute;
-      top: 0; bottom: 0; left: -32px;
-      display: flex; flex-direction: column;
-      justify-content: space-between;
-      font-size: 10px; color: rgba(255,255,255,0.3);
-      text-align: right;
-    }
-    .scatter-xlabel {
-      position: absolute;
-      bottom: -44px; right: 0;
-      font-size: 11px; color: rgba(255,255,255,0.4);
-    }
-    .scatter-ylabel {
-      position: absolute;
-      top: 50%; left: -52px;
-      transform: translateY(-50%) rotate(-90deg);
-      font-size: 11px; color: rgba(255,255,255,0.4);
-      white-space: nowrap;
-    }
-    /* 洞察条 */
-    .scatter-insight {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 13px; line-height: 1.7;
-      color: rgba(255,255,255,0.65);
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 20px;
-    }
-    .scatter-insight strong { color: var(--white); }
-    .si-tag {
-      flex-shrink: 0;
-      background: var(--accent); color: var(--black);
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      padding: 3px 8px; border-radius: 2px;
-      margin-top: 2px;
+    .ls-tag.focus {
+      background: var(--black); color: var(--white);
+      border-color: var(--black);
     }
 
-    /* ── Scene Matrix ── */
-    .scene-matrix-wrap {
-      margin-top: 40px;
-      background: var(--black);
-      border-radius: 16px;
-      padding: 36px 40px 32px;
-      color: var(--white);
-      overflow-x: auto;
+    /* ── Scene strip ── */
+    .scene-strip {
+      margin: 20px 0 28px;
+      display: flex; flex-direction: column; gap: 0;
+      border-left: 2px solid var(--gray-200);
+      padding-left: 20px;
     }
-    .scene-matrix {
-      min-width: 760px;
+    .ss-row {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
     }
-    /* 表头行 */
-    .sm-header-row {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 0;
-      margin-bottom: 0;
+    .ss-row:last-child { border-bottom: none; }
+    .ss-intent {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.04em; white-space: nowrap;
+      padding: 3px 8px; border-radius: 3px; flex-shrink: 0;
     }
-    .sm-corner {
-      display: flex; flex-direction: column;
-      justify-content: flex-end; padding-bottom: 8px;
-      padding-right: 12px;
+    .ss-intent.high { background: var(--black); color: var(--white); }
+    .ss-intent.mid  { background: var(--gray-200); color: var(--gray-800); }
+    .ss-intent.low  { background: var(--gray-100); color: var(--gray-400); }
+    .ss-desc {
+      font-size: 13px; color: var(--gray-600); line-height: 1.6; flex: 1;
     }
-    .sm-corner-x {
-      font-size: 10px; color: rgba(255,255,255,0.35);
-      letter-spacing: 0.04em;
+    .ss-arrow {
+      font-size: 12px; color: var(--gray-400); flex-shrink: 0;
     }
-    .sm-corner-y {
-      font-size: 10px; color: rgba(255,255,255,0.35);
-      letter-spacing: 0.04em; margin-top: 2px;
-    }
-    .sm-phase-group {
-      display: grid;
-      grid-template-columns: 2fr 3fr 2fr;
-      gap: 4px;
-    }
-    .sm-phase {
-      border-radius: 8px 8px 0 0;
-      padding: 10px 14px 8px;
-      text-align: center;
-    }
-    .sm-phase.flow { background: rgba(255,255,255,0.08); }
-    .sm-phase.trade { background: rgba(190,255,0,0.12); }
-    .sm-phase.after { background: rgba(255,255,255,0.05); }
-    .sm-phase-name {
-      font-size: 13px; font-weight: 800;
-      letter-spacing: 0.04em; margin-bottom: 6px;
-    }
-    .sm-phase.trade .sm-phase-name { color: var(--accent); }
-    .sm-phase-subs {
-      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
-    }
-    .sm-phase-subs span {
-      font-size: 10px; color: rgba(255,255,255,0.45);
-      background: rgba(255,255,255,0.07);
-      border-radius: 3px; padding: 2px 6px;
-    }
-    /* 目标行 */
-    .sm-goal-row {
-      display: grid;
-      grid-template-columns: 140px 2fr 3fr 2fr;
-      gap: 4px;
-      margin-bottom: 4px;
-    }
-    .sm-goal-spacer {}
-    .sm-goal {
-      padding: 10px 14px;
-      border-radius: 0;
-    }
-    .sm-goal.flow { background: rgba(255,255,255,0.05); }
-    .sm-goal.trade { background: rgba(190,255,0,0.08); }
-    .sm-goal.after { background: rgba(255,255,255,0.03); }
-    .sm-goal-badge {
-      font-size: 9px; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: rgba(255,255,255,0.3); margin-bottom: 6px;
-    }
-    .sm-goal-items div {
-      font-size: 11px; color: rgba(255,255,255,0.55);
-      line-height: 1.6; margin-bottom: 2px;
-    }
-    /* 场景行 */
-    .sm-scene-row {
-      display: grid;
-      grid-template-columns: 140px 2fr 3fr 2fr;
-      gap: 4px;
-      margin-bottom: 4px;
-    }
-    .sm-scene-label {
-      display: flex; align-items: center; gap: 10px;
-      padding: 16px 12px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 8px;
-    }
-    .sm-intent-badge {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 800;
-      flex-shrink: 0;
-    }
-    .sm-intent-badge.strong { background: var(--black); color: var(--white); border: 2px solid rgba(255,255,255,0.5); }
-    .sm-intent-badge.mid { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
-    .sm-intent-badge.weak { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); }
-    .sm-scene-num {
-      font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8);
-    }
-    .sm-scene-desc {
-      font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px;
-    }
-    /* 单元格 */
-    .sm-cell {
-      padding: 14px;
-      border-radius: 8px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .sm-cell.flow { background: rgba(255,255,255,0.06); }
-    .sm-cell.trade { background: rgba(190,255,0,0.07); }
-    .sm-cell.after { background: rgba(255,255,255,0.04); }
-    .sm-cell.dim {
-      background: rgba(255,255,255,0.02);
-      color: rgba(255,255,255,0.2);
-      font-size: 18px; font-weight: 300;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sm-cell.multi { flex-direction: row; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
-    /* 行动标签 */
-    .sm-action {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 6px; padding: 8px 10px;
-      flex: 1; min-width: 120px;
-    }
-    .sm-verb {
-      font-size: 18px; font-weight: 900;
-      color: var(--white); line-height: 1;
-      flex-shrink: 0;
-    }
-    .sm-action-text {
-      font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.4;
-    }
-    /* 竖排动词块（用/检/激/复） */
-    .sm-action-col {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.07);
-      border-radius: 6px; padding: 10px 8px;
-      min-width: 52px; flex: 1;
-      text-align: center;
-    }
-    .sm-verb-col {
-      font-size: 20px; font-weight: 900;
-      color: rgba(255,255,255,0.7); line-height: 1;
-      margin-bottom: 4px;
-    }
-    .sm-verb-col.accent { color: var(--accent); }
-    .sm-verb-desc {
-      font-size: 10px; color: rgba(255,255,255,0.4);
-      line-height: 1.4; text-align: center;
+    .ss-arrow.last {
+      font-size: 11px; font-weight: 700;
+      color: var(--black); letter-spacing: 0.02em;
     }
 
     /* ── Footer nav ── */
