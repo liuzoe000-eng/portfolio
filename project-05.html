@@ -493,11 +493,20 @@
 
   <script>
     /* 正常模式：把 data-src 赋值给 src 才开始加载视频 */
-    if(!location.search.includes('preview')){
+    function loadVideos(){
       document.querySelectorAll('source[data-src]').forEach(s=>{
         s.src = s.dataset.src;
-        s.parentElement.load();
+        const v = s.parentElement;
+        v.load();
+        v.play().catch(function(){});
       });
+    }
+    if(!location.search.includes('preview')){
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded', loadVideos);
+      } else {
+        loadVideos();
+      }
     } else {
       /* preview 模式：不加载视频，直接显示所有内容 */
       document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
