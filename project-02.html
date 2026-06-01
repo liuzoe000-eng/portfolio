@@ -664,16 +664,35 @@
       padding-bottom: 8px;
       border-bottom: 1px solid var(--gray-100);
     }
-    .rg-metrics { display: flex; flex-direction: column; gap: 6px; }
-    .rg-metric { display: flex; align-items: baseline; gap: 6px; }
-    .rg-val {
-      font-size: 13px;
-      font-weight: 700;
+    .rg-metrics { display: flex; flex-direction: column; gap: 7px; }
+    .rg-metric { display: flex; align-items: center; gap: 7px; }
+    .rg-arrow-icon {
+      flex-shrink: 0;
+      width: 14px; height: 14px;
     }
-    .rg-val.up { color: #e84040; }
     .rg-key {
       font-size: 10px;
-      color: var(--gray-400);
+      color: var(--gray-500);
+      font-weight: 500;
+      flex: 1;
+      white-space: nowrap;
+    }
+    /* 打码色块 + 扫光 */
+    .redact-bar {
+      display: inline-block;
+      width: 52px; height: 12px;
+      background: rgba(232,64,64,0.18);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .redact-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+      animation: redact-shimmer 2s infinite;
     }
     .award-block {
       display: flex;
@@ -1371,50 +1390,56 @@
       </div>
 
       <!-- 分页面数据（数值脱敏） -->
+      <!-- SVG 上升箭头，复用 symbol -->
+      <svg width="0" height="0" style="position:absolute">
+        <symbol id="ico-up" viewBox="0 0 20 20" fill="none">
+          <path d="M10 2 C6 8 3 10 3 14 Q3 17 6 17 Q8 17 9 15 L9 18 Q9 19 10 19 Q11 19 11 18 L11 15 Q12 17 14 17 Q17 17 17 14 C17 10 14 8 10 2Z" fill="#ff4d2e"/>
+        </symbol>
+      </svg>
       <div class="result-grid">
         <div class="rg-card">
           <div class="rg-page">全链路 · 价格力</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">UV_CXR</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">UV_RPM</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">人均GMV</span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均GMV</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">全链路 · 营销触达</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">UV_CXR</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">人均订单</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">人均实付GMV</span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均订单</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">搜索 · 发券升级</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">UV_CTR &amp; CXR</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">红包核销率</span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CTR &amp; CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">红包核销率</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">店铺页 · 购物车</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">提单率</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">UV_RPM</span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">提单率</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">提单页 · 用券引导</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">UV_CXR</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">人均实付GMV</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">人均订单数</span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均订单数</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">订单页 · 复购激发</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">再来一单CTR</span></div>
-            <div class="rg-metric"><span class="rg-val up"><span class="redact"></span></span><span class="rg-key">列表UV_RPM</span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">再来一单 CTR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">列表 UV_RPM</span><span class="redact-bar"></span></div>
           </div>
         </div>
       </div>
