@@ -86,7 +86,9 @@
     /* SVG border — 保留但不用，改用 border */
     .video-phone-border { display:none; }
     .video-right-panel { padding:40px 36px; display:flex; flex-direction:column; justify-content:center; gap:0; }
-    .video-right-label { font-size:10px; font-weight:var(--fw-black); letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+    .video-right-label { font-size:10px; font-weight:var(--fw-black); letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+    .video-load-tip { font-size:10px; color:rgba(255,255,255,.2); margin-bottom:16px; display:flex; align-items:center; gap:5px; }
+    .video-load-tip::before { content:''; width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,.2); flex-shrink:0; }
     .video-right-label .dot { width:6px; height:6px; background:#ef4444; border-radius:50%; animation:blink 1.2s ease-in-out infinite; flex-shrink:0; }
     .video-right-title { font-size:clamp(18px,2vw,24px); font-weight:var(--fw-black); color:var(--white); letter-spacing:-.02em; line-height:1.2; margin-bottom:20px; }
     .video-rounds { list-style:none; display:flex; flex-direction:column; gap:0; }
@@ -332,6 +334,7 @@
         </div>
         <div class="video-right-panel">
           <div class="video-right-label"><span class="dot"></span>交互原型录屏</div>
+          <div class="video-load-tip">视频加载较慢，请稍候</div>
           <div class="video-right-title">三轮对齐，每轮都可以直接上手操作</div>
           <ul class="video-rounds">
             <li>
@@ -413,6 +416,7 @@
       <div class="video-row">
         <div class="video-right-panel" style="background:var(--black);">
           <div class="video-right-label"><span class="dot"></span>动效编码录屏</div>
+          <div class="video-load-tip">视频加载较慢，请稍候</div>
           <div class="video-right-title">设计师直接交付可运行代码</div>
           <ul class="video-rounds">
             <li>

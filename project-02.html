@@ -186,71 +186,6 @@
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--gray-400); margin-bottom: 12px;
     }
-
-    /* ── 右侧章节导航 ── */
-    .page-nav {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 200;
-      /* 宽度固定为圆点大小，绝不扩展 */
-      width: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      pointer-events: none;
-    }
-    .page-nav-item {
-      width: 12px;
-      height: 12px;
-      position: relative;
-      cursor: pointer;
-      text-decoration: none;
-      pointer-events: auto;
-      flex-shrink: 0;
-    }
-    .page-nav-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--gray-300);
-      border: 1.5px solid var(--gray-400);
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      transition: background 0.2s, border-color 0.2s, transform 0.2s;
-    }
-    .page-nav-label { display: none; }
-    .page-nav-item.active .page-nav-dot {
-      background: var(--black);
-      border-color: var(--black);
-      transform: translate(-50%,-50%) scale(1.2);
-    }
-    .page-nav-item:hover .page-nav-dot {
-      transform: translate(-50%,-50%) scale(1.3);
-    }
-    /* 标签层：fixed，紧贴圆点左侧，JS 只控制 top */
-    #pnl {
-      position: fixed;
-      right: 38px;  /* 20px(nav right) + 12px(dot) + 6px gap */
-      z-index: 201;
-      pointer-events: none;
-      font-size: 11px;
-      font-weight: 500;
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.15s;
-      transform: translateY(-50%);
-      color: var(--gray-500);
-    }
-    #pnl.show { opacity: 1; }
-    #pnl.is-active { color: var(--black); font-weight: 700; }
-    @media (max-width: 768px) {
-      .page-nav { display: none; }
-      #pnl { display: none; }
-    }
     .section h2 {
       font-size: clamp(24px, 3vw, 36px);
       font-weight: 800; letter-spacing: -0.02em;
@@ -1277,42 +1212,11 @@
 </a>
 </nav>
 
-  <!-- 右侧章节导航 -->
-  <nav class="page-nav" id="page-nav">
-    <a class="page-nav-item" href="#sec-01">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">01 定义问题</span>
-    </a>
-    <a class="page-nav-item" href="#sec-02">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">02 用户视角</span>
-    </a>
-    <a class="page-nav-item" href="#sec-03">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">03 调研洞察</span>
-    </a>
-    <a class="page-nav-item" href="#sec-04">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">04 问题拆解</span>
-    </a>
-    <a class="page-nav-item" href="#sec-05">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">05 设计策略</span>
-    </a>
-    <a class="page-nav-item" href="#sec-06">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">06 项目成果</span>
-    </a>
-    <a class="page-nav-item" href="#sec-07">
-      <span class="page-nav-dot"></span>
-      <span class="page-nav-label">07 项目复盘</span>
-    </a>
-  </nav>
 
   <!-- Hero -->
   <section class="hero">
     <div class="hero-tag reveal">全链路设计 · S 级项目</div>
-    <h1 class="reveal">补贴比竞对高，<br>用户却觉得竞对更便宜</h1>
+    <h1 class="reveal">优惠存在，但用户没感受到——<br>这正是设计要解决的问题</h1>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
@@ -1893,61 +1797,6 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    // ── 右侧章节导航 ──
-    (function() {
-      const sections = ['sec-01','sec-02','sec-03','sec-04','sec-05','sec-06','sec-07'];
-      const navItems = document.querySelectorAll('.page-nav-item');
-      if (!navItems.length) return;
-
-      // 全局标签 div
-      const pnl = document.createElement('div');
-      pnl.id = 'pnl';
-      document.body.appendChild(pnl);
-
-      const labels = ['01 定义问题','02 用户视角','03 调研洞察','04 问题拆解','05 设计策略','06 项目成果','07 项目复盘'];
-      let activeIdx = 0;
-      let isHovering = false;
-
-      function pointTo(idx, isActive) {
-        const rect = navItems[idx].getBoundingClientRect();
-        pnl.textContent = labels[idx];
-        pnl.style.top = (rect.top + rect.height / 2) + 'px';
-        pnl.className = 'show' + (isActive ? ' is-active' : '');
-      }
-
-      function updateActive() {
-        const scrollY = window.scrollY + window.innerHeight * 0.35;
-        let cur = 0;
-        sections.forEach(function(id, i) {
-          const el = document.getElementById(id);
-          if (el && el.offsetTop <= scrollY) cur = i;
-        });
-        navItems.forEach(function(item, i) {
-          item.classList.toggle('active', i === cur);
-        });
-        activeIdx = cur;
-        if (!isHovering) pointTo(activeIdx, true);
-      }
-
-      window.addEventListener('scroll', updateActive, { passive: true });
-      updateActive();
-
-      navItems.forEach(function(item, i) {
-        item.addEventListener('mouseenter', function() {
-          isHovering = true;
-          pointTo(i, i === activeIdx);
-        });
-        item.addEventListener('mouseleave', function() {
-          isHovering = false;
-          pointTo(activeIdx, true);
-        });
-        item.addEventListener('click', function(e) {
-          e.preventDefault();
-          const target = document.querySelector(item.getAttribute('href'));
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-    })();
 
     (function(){
       const el = document.getElementById('logo-xh');
