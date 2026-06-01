@@ -59,6 +59,12 @@
 
     .content { max-width: 1200px; margin: 0 auto; padding: 0 48px 120px; }
 
+    /* Hero visual */
+    .hero-visual { width:100%; max-width:1200px; margin:0 auto 80px; padding:0 48px; }
+    .hero-visual-inner { width:100%; border-radius:16px; overflow:hidden; position:relative; }
+    .hero-visual-inner img { width:100%; height:auto; display:block; }
+    @media(max-width:768px){ .hero-visual{ padding:0 24px; } }
+
     /* AARRR funnel */
     .funnel {
       background: var(--black); border-radius: 16px; padding: 48px; margin-bottom: 80px;
@@ -178,6 +184,13 @@
     </div>
     <p class="hero-desc reveal">趋势播报以"为外卖用户提供最新、最热美食的种拔草榜单"为使命。通过 AARRR 增长模型拆解热点种草全链路，构建引流→兴趣→种草→交易四阶段设计策略，目标将热点渗透用户从 45w/日提升至 1200w/日。</p>
   </section>
+
+  <!-- Hero visual -->
+  <div class="hero-visual reveal">
+    <div class="hero-visual-inner">
+      <img src="cover-trend.png" alt="搜索热点趋势播报种草">
+    </div>
+  </div>
 
   <!-- Content -->
   <div class="content">
