@@ -190,64 +190,66 @@
     /* ── 右侧章节导航 ── */
     .page-nav {
       position: fixed;
-      right: 28px;
+      right: 20px;
       top: 50%;
       transform: translateY(-50%);
       z-index: 200;
+      /* 宽度固定为圆点大小，绝不扩展 */
+      width: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
-      width: 14px; /* 严格限宽，只有圆点区域 */
+      gap: 16px;
+      pointer-events: none;
     }
     .page-nav-item {
+      width: 12px;
+      height: 12px;
       position: relative;
-      display: block;
-      width: 14px;
-      height: 14px;
       cursor: pointer;
       text-decoration: none;
+      pointer-events: auto;
+      flex-shrink: 0;
     }
     .page-nav-dot {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--gray-200);
+      background: var(--gray-300);
       border: 1.5px solid var(--gray-400);
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
       transition: background 0.2s, border-color 0.2s, transform 0.2s;
     }
-    .page-nav-item:hover .page-nav-dot {
-      transform: translate(-50%, -50%) scale(1.3);
-    }
+    .page-nav-label { display: none; }
     .page-nav-item.active .page-nav-dot {
       background: var(--black);
       border-color: var(--black);
-      transform: translate(-50%, -50%) scale(1.2);
+      transform: translate(-50%,-50%) scale(1.2);
     }
-    /* 全局 tooltip，由 JS 控制 */
-    #page-nav-tooltip {
+    .page-nav-item:hover .page-nav-dot {
+      transform: translate(-50%,-50%) scale(1.3);
+    }
+    /* 标签层：fixed，紧贴圆点左侧，JS 只控制 top */
+    #pnl {
       position: fixed;
-      z-index: 9999;
+      right: 38px;  /* 20px(nav right) + 12px(dot) + 6px gap */
+      z-index: 201;
       pointer-events: none;
       font-size: 11px;
       font-weight: 500;
-      color: var(--gray-600);
       white-space: nowrap;
-      background: var(--white);
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid var(--gray-200);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       opacity: 0;
       transition: opacity 0.15s;
-      /* left/top 完全由 JS 控制 */
+      transform: translateY(-50%);
+      color: var(--gray-500);
     }
-    #page-nav-tooltip.visible { opacity: 1; }
+    #pnl.show { opacity: 1; }
+    #pnl.is-active { color: var(--black); font-weight: 700; }
     @media (max-width: 768px) {
       .page-nav { display: none; }
+      #pnl { display: none; }
     }
     .section h2 {
       font-size: clamp(24px, 3vw, 36px);
@@ -1277,26 +1279,33 @@
 
   <!-- 右侧章节导航 -->
   <nav class="page-nav" id="page-nav">
-    <a class="page-nav-item" href="#sec-01" data-label="01 定义问题">
+    <a class="page-nav-item" href="#sec-01">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">01 定义问题</span>
     </a>
-    <a class="page-nav-item" href="#sec-02" data-label="02 用户视角">
+    <a class="page-nav-item" href="#sec-02">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">02 用户视角</span>
     </a>
-    <a class="page-nav-item" href="#sec-03" data-label="03 调研洞察">
+    <a class="page-nav-item" href="#sec-03">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">03 调研洞察</span>
     </a>
-    <a class="page-nav-item" href="#sec-04" data-label="04 问题拆解">
+    <a class="page-nav-item" href="#sec-04">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">04 问题拆解</span>
     </a>
-    <a class="page-nav-item" href="#sec-05" data-label="05 设计策略">
+    <a class="page-nav-item" href="#sec-05">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">05 设计策略</span>
     </a>
-    <a class="page-nav-item" href="#sec-06" data-label="06 项目成果">
+    <a class="page-nav-item" href="#sec-06">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">06 项目成果</span>
     </a>
-    <a class="page-nav-item" href="#sec-07" data-label="07 项目复盘">
+    <a class="page-nav-item" href="#sec-07">
       <span class="page-nav-dot"></span>
+      <span class="page-nav-label">07 项目复盘</span>
     </a>
   </nav>
 
@@ -1327,7 +1336,7 @@
 
   <!-- Cover -->
   <div class="cover-wrap reveal">
-    <img src="cover-discount.png" alt="优惠感传递设计封面">
+    <img src="cover-discount.webp" alt="优惠感传递设计封面">
   </div>
 
   <!-- Content -->
@@ -1763,46 +1772,46 @@
         <div class="rg-card">
           <div class="rg-page">全链路 · 价格力</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">人均GMV</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">全链路 · 营销触达</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均订单</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">人均订单</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">搜索 · 发券升级</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CTR &amp; CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">红包核销率</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">UV_CTR &amp; CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">红包核销率</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">店铺页 · 购物车</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">提单率</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">提单率</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">提单页 · 用券引导</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均订单数</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">人均订单数</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">订单页 · 复购激发</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">再来一单 CTR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">列表 UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">再来一单 CTR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.webp" alt="↑"><span class="rg-key">列表 UV_RPM</span><span class="redact-bar"></span></div>
           </div>
         </div>
       </div>
@@ -1884,83 +1893,57 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    // ── 右侧章节导航 scroll-spy + tooltip ──
+    // ── 右侧章节导航 ──
     (function() {
       const sections = ['sec-01','sec-02','sec-03','sec-04','sec-05','sec-06','sec-07'];
       const navItems = document.querySelectorAll('.page-nav-item');
       if (!navItems.length) return;
 
-      // 创建全局 tooltip
-      const tip = document.createElement('div');
-      tip.id = 'page-nav-tooltip';
-      document.body.appendChild(tip);
+      // 全局标签 div
+      const pnl = document.createElement('div');
+      pnl.id = 'pnl';
+      document.body.appendChild(pnl);
+
+      const labels = ['01 定义问题','02 用户视角','03 调研洞察','04 问题拆解','05 设计策略','06 项目成果','07 项目复盘'];
+      let activeIdx = 0;
+      let isHovering = false;
+
+      function pointTo(idx, isActive) {
+        const rect = navItems[idx].getBoundingClientRect();
+        pnl.textContent = labels[idx];
+        pnl.style.top = (rect.top + rect.height / 2) + 'px';
+        pnl.className = 'show' + (isActive ? ' is-active' : '');
+      }
 
       function updateActive() {
         const scrollY = window.scrollY + window.innerHeight * 0.35;
-        let current = 0;
+        let cur = 0;
         sections.forEach(function(id, i) {
           const el = document.getElementById(id);
-          if (el && el.offsetTop <= scrollY) current = i;
+          if (el && el.offsetTop <= scrollY) cur = i;
         });
         navItems.forEach(function(item, i) {
-          item.classList.toggle('active', i === current);
+          item.classList.toggle('active', i === cur);
         });
+        activeIdx = cur;
+        if (!isHovering) pointTo(activeIdx, true);
       }
 
       window.addEventListener('scroll', updateActive, { passive: true });
       updateActive();
 
-      // tooltip hover
-      navItems.forEach(function(item) {
+      navItems.forEach(function(item, i) {
         item.addEventListener('mouseenter', function() {
-          const label = item.getAttribute('data-label');
-          if (!label) return;
-          // 先设内容，放到屏外测量宽度
-          tip.classList.remove('visible');
-          tip.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
-          tip.textContent = label;
-          document.body.appendChild(tip); // 确保在 DOM 里
-          // 强制 reflow
-          void tip.offsetWidth;
-          const tipW = tip.offsetWidth;
-          const tipH = tip.offsetHeight;
-          const rect = item.getBoundingClientRect();
-          const dotCY = rect.top + rect.height / 2;
-          const leftPos = Math.max(8, rect.left - tipW - 10);
-          tip.style.cssText = [
-            'position:fixed',
-            'left:' + leftPos + 'px',
-            'top:' + (dotCY - tipH / 2) + 'px',
-            'opacity:0',
-            'transition:opacity 0.15s',
-            'z-index:9999',
-            'pointer-events:none',
-            'font-size:11px',
-            'font-weight:500',
-            'color:var(--gray-600)',
-            'white-space:nowrap',
-            'background:var(--white)',
-            'padding:3px 8px',
-            'border-radius:4px',
-            'border:1px solid var(--gray-200)',
-            'box-shadow:0 2px 8px rgba(0,0,0,0.08)',
-          ].join(';');
-          // 下一帧淡入
-          requestAnimationFrame(function() {
-            tip.style.opacity = '1';
-          });
+          isHovering = true;
+          pointTo(i, i === activeIdx);
         });
         item.addEventListener('mouseleave', function() {
-          tip.style.opacity = '0';
+          isHovering = false;
+          pointTo(activeIdx, true);
         });
-      });
-
-      // 平滑滚动
-      navItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
           e.preventDefault();
-          const href = item.getAttribute('href');
-          const target = document.querySelector(href);
+          const target = document.querySelector(item.getAttribute('href'));
           if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
