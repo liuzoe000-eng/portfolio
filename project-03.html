@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>趋势播报升级 — Liu Xiaohui</title>
+  <style>
+    :root {
+      --accent: #beff00;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--white); color: var(--black); cursor: none;
+    }
+    .cursor {
+      width: 12px; height: 12px; background: var(--black);
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 9999; transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      width: 36px; height: 36px; border: 1.5px solid var(--black);
+      border-radius: 50%; position: fixed; pointer-events: none;
+      z-index: 9998; transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--black); display: inline-flex; align-items: baseline; gap: 1px; user-select: none; }
+    .nav-logo .logo-xh { color: #9ed400; display: inline-block; transform-style: preserve-3d; perspective: 200px; }
+    @keyframes xh-to-ux { 0%{transform:rotate(0deg) scale(1);} 15%{transform:rotate(-14deg) scale(1);} 30%{transform:rotate(10deg) scale(1);} 48%{transform:rotate(-3deg) scale(.88);} 65%{transform:rotate(360deg) scale(1.06);} 80%{transform:rotate(358deg) scale(1);} 100%{transform:rotate(360deg) scale(1);} } 18%{transform:rotate(-14deg);} 36%{transform:rotate(9deg);} 52%{transform:rotate(-4deg) scale(.9);} 70%{transform:rotate(184deg) scale(1.05);} 85%{transform:rotate(178deg);} 100%{transform:rotate(180deg);} } 15%{transform:rotate(-12deg) rotateY(0deg);} 30%{transform:rotate(8deg) rotateY(0deg);} 45%{transform:rotate(-5deg) rotateY(90deg);} 60%{transform:rotate(0deg) rotateY(180deg);} 80%{transform:rotate(3deg) rotateY(180deg);} 100%{transform:rotate(0deg) rotateY(180deg);} }
+    @keyframes ux-to-xh { 0%{transform:rotate(360deg) scale(1);} 15%{transform:rotate(374deg) scale(1);} 30%{transform:rotate(350deg) scale(1);} 48%{transform:rotate(363deg) scale(.88);} 65%{transform:rotate(0deg) scale(1.06);} 80%{transform:rotate(2deg) scale(1);} 100%{transform:rotate(0deg) scale(1);} } 18%{transform:rotate(194deg);} 36%{transform:rotate(171deg);} 52%{transform:rotate(184deg) scale(.9);} 70%{transform:rotate(-4deg) scale(1.05);} 85%{transform:rotate(2deg);} 100%{transform:rotate(0deg);} } 20%{transform:rotate(5deg) rotateY(180deg);} 45%{transform:rotate(-4deg) rotateY(90deg);} 65%{transform:rotate(8deg) rotateY(0deg);} 80%{transform:rotate(-5deg) rotateY(0deg);} 100%{transform:rotate(0deg) rotateY(0deg);} }
+    .nav-logo .logo-xh.flip-to-ux{animation:xh-to-ux .75s cubic-bezier(.4,0,.2,1) forwards;}
+    .nav-logo .logo-xh.flip-to-xh{animation:ux-to-xh .75s cubic-bezier(.4,0,.2,1) forwards;}
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--gray-600); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--black); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    .hero { padding: 140px 48px 80px; max-width: 1200px; margin: 0 auto; }
+    .hero-tag { display: inline-block; background: var(--accent); color: var(--black); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; margin-bottom: 28px; }
+    .hero h1 { font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 28px; max-width: 800px; }
+    .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+    .meta-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px; }
+    .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
+    .hero-desc { font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px; }
+
+    .content { max-width: 1200px; margin: 0 auto; padding: 0 48px 120px; }
+
+    /* AARRR funnel */
+    .funnel {
+      background: var(--black); border-radius: 16px; padding: 48px; margin-bottom: 80px;
+    }
+    .funnel-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .funnel h2 { font-size: clamp(22px, 3vw, 36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 32px; line-height: 1.15; color: var(--white); }
+    .funnel-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    @media (max-width: 768px) { .funnel-steps { grid-template-columns: repeat(2, 1fr); } }
+    .funnel-step {
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 20px;
+      position: relative;
+    }
+    .funnel-step-num { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 8px; }
+    .funnel-step h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+    .funnel-step p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    .section { margin-bottom: 80px; }
+    .section-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+    .section h2 { font-size: clamp(24px, 3vw, 36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 24px; line-height: 1.15; }
+    .section p { font-size: 16px; line-height: 1.8; color: var(--gray-600); max-width: 720px; margin-bottom: 20px; }
+
+    /* Metrics */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; margin-bottom: 80px; }
+    @media (max-width: 768px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+    .metric-item { background: var(--white); padding: 28px 24px; text-align: center; }
+    .metric-num { font-size: 36px; font-weight: 800; letter-spacing: -0.04em; color: var(--black); line-height: 1; margin-bottom: 6px; }
+    .metric-num span { color: var(--accent); background: var(--black); padding: 0 4px; border-radius: 3px; }
+    .metric-label { font-size: 12px; color: var(--gray-600); font-weight: 500; }
+
+    /* Hot type table */
+    .hot-types { margin-top: 32px; }
+    .hot-type-item {
+      display: grid; grid-template-columns: 120px 1fr 1fr;
+      gap: 16px; padding: 20px 0;
+      border-bottom: 1px solid var(--gray-200);
+      align-items: start;
+    }
+    .hot-type-item:last-child { border-bottom: none; }
+    .hot-type-name { font-size: 14px; font-weight: 700; }
+    .hot-type-example { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+    .hot-type-form { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+    .hot-type-header { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); padding-bottom: 12px; border-bottom: 2px solid var(--gray-200); }
+
+    /* Two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    .card { background: var(--gray-100); border-radius: 12px; padding: 28px; }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .card p { font-size: 14px; line-height: 1.7; color: var(--gray-600); margin: 0; }
+    .card-accent { background: var(--black); color: var(--white); }
+    .card-accent h3 { color: var(--accent); }
+    .card-accent p { color: rgba(255,255,255,0.7); }
+
+    /* Data callout */
+    .data-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
+    .data-callout {
+      flex: 1; min-width: 160px;
+      background: var(--gray-100); border-radius: 10px; padding: 20px 24px;
+    }
+    .data-callout .num { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .data-callout .label { font-size: 12px; color: var(--gray-600); }
+
+    .highlight { border-left: 3px solid var(--accent); padding: 20px 24px; background: var(--gray-100); border-radius: 0 8px 8px 0; margin: 24px 0; }
+    .highlight p { font-size: 15px; font-style: italic; color: var(--gray-800); margin: 0; }
+
+    .footer-nav { border-top: 1px solid var(--gray-200); padding: 48px; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+    .footer-nav a { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
+    .footer-nav a:hover { opacity: 0.6; }
+    .next-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); display: block; margin-bottom: 4px; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .hero { padding: 100px 24px 60px; }
+      .content { padding: 0 24px 80px; }
+      .funnel { padding: 32px 24px; }
+      .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      返回作品集
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag reveal">内容种草 · 搜索热点</div>
+    <h1 class="reveal">趋势播报<br>产品升级</h1>
+    <div class="hero-meta reveal">
+      <div class="meta-item">
+        <div class="meta-label">角色</div>
+        <div class="meta-value">主设计师 · 全程参与</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">方向</div>
+        <div class="meta-value">外卖搜索 · 趋势热点</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">类型</div>
+        <div class="meta-value">内容产品 · 增长设计</div>
+      </div>
+    </div>
+    <p class="hero-desc reveal">趋势播报以"为外卖用户提供最新、最热美食的种拔草榜单"为使命。通过 AARRR 增长模型拆解热点种草全链路，构建引流→兴趣→种草→交易四阶段设计策略，目标将热点渗透用户从 45w/日提升至 1200w/日。</p>
+  </section>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Metrics -->
+    <div class="metrics reveal">
+      <div class="metric-item">
+        <div class="metric-num"><span>12%→15%</span></div>
+        <div class="metric-label">7日点击留存目标</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>45w→1200w</span></div>
+        <div class="metric-label">日热点渗透用户目标</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>+67%</span></div>
+        <div class="metric-label">核心用户人均点击词数提升</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>2.71%</span></div>
+        <div class="metric-label">核心用户 UV_CTR（从1.24%提升）</div>
+      </div>
+    </div>
+
+    <!-- AARRR Framework -->
+    <div class="funnel reveal">
+      <div class="funnel-title">设计框架</div>
+      <h2>用 AARRR 增长模型<br>拆解热点种草全链路</h2>
+      <div class="funnel-steps">
+        <div class="funnel-step">
+          <div class="funnel-step-num">① 引流</div>
+          <h3>先看到热点</h3>
+          <p>全场景渗透，制造热点存在感。前置链路增加热点触达，精准化运营刷"存在感"。</p>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-num">② 兴趣</div>
+          <h3>被激发感兴趣</h3>
+          <p>优化榜单吸引力，降低参与门槛。衍生榜单多形态，优化信息层级和可见性。</p>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-num">③ 种草</div>
+          <h3>接纳种草</h3>
+          <p>热点分层运营，精准匹配场景需求。定义5类热点类型，差异化承接策略。</p>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-num">④ 交易</div>
+          <h3>转化交易</h3>
+          <p>探索热点与交易的平衡点。短期积累热点选购认知，长期探索转化路径。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="section reveal">
+      <div class="section-num">01 — 现状分析</div>
+      <h2>已有积累，但增长遇到瓶颈</h2>
+      <p>趋势播报全年运营效果复盘发现，已吸引一批高频用户并积累了内容偏好认知，但渗透率仍然偏低：</p>
+      <div class="data-row">
+        <div class="data-callout">
+          <div class="num">0.35%</div>
+          <div class="label">每日热点渗透率</div>
+        </div>
+        <div class="data-callout">
+          <div class="num">0.71%</div>
+          <div class="label">7日热点渗透率</div>
+        </div>
+        <div class="data-callout">
+          <div class="num">23.9%</div>
+          <div class="label">查看完整10条热词用户占比</div>
+        </div>
+        <div class="data-callout">
+          <div class="num">2条</div>
+          <div class="label">已形成差异化内容壁垒</div>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top: 32px;">
+        <p>调研发现：键盘和搜索结果遮挡导致部分用户不了解榜单功能，但了解后展示出极大兴趣——这说明问题在于触达和发现，而非内容本身。</p>
+      </div>
+    </div>
+
+    <!-- Hot types -->
+    <div class="section reveal">
+      <div class="section-num">02 — 核心创新</div>
+      <h2>首次定义外卖平台 5 类热点类型</h2>
+      <p>不同热点类型的用户场景和信息需求差异显著，需要差异化的承接形态。这是本次升级的核心信息架构创新：</p>
+      <div class="hot-types">
+        <div class="hot-type-item hot-type-header">
+          <div>热点类型</div>
+          <div>典型案例</div>
+          <div>承接形态</div>
+        </div>
+        <div class="hot-type-item">
+          <div class="hot-type-name">周期热点</div>
+          <div class="hot-type-example">端午节礼盒、毕业花束<br><span style="color:var(--gray-400);font-size:12px">节日临近，有礼赠需求</span></div>
+          <div class="hot-type-form">小一点的阿拉丁或轻量半浮层</div>
+        </div>
+        <div class="hot-type-item">
+          <div class="hot-type-name">爆发新热点</div>
+          <div class="hot-type-example">芋泥香酥鸭、青草蛋糕<br><span style="color:var(--gray-400);font-size:12px">新热点概念，需要科普</span></div>
+          <div class="hot-type-form">大一点的阿拉丁，支持互动组件</div>
+        </div>
+        <div class="hot-type-item">
+          <div class="hot-type-name">品牌新品</div>
+          <div class="hot-type-example">瑞幸酱香拿铁、DQ美乐蒂<br><span style="color:var(--gray-400);font-size:12px">品牌联名新品，新奇口味</span></div>
+          <div class="hot-type-form">非常规结果页，针对单 SPU</div>
+        </div>
+        <div class="hot-type-item">
+          <div class="hot-type-name">小话题专题</div>
+          <div class="hot-type-example">碱水面包怎么吃、榴莲选购指南<br><span style="color:var(--gray-400);font-size:12px">熟悉又不特了解的话题</span></div>
+          <div class="hot-type-form">导购落地页</div>
+        </div>
+        <div class="hot-type-item">
+          <div class="hot-type-name">大话题合集</div>
+          <div class="hot-type-example">奶茶趋势播报<br><span style="color:var(--gray-400);font-size:12px">自带多个热点的品类</span></div>
+          <div class="hot-type-form">二搜落地页</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design strategy -->
+    <div class="section reveal">
+      <div class="section-num">03 — 设计策略</div>
+      <h2>种草信息体系：三个维度</h2>
+      <p>提炼热点内容的核心信息需求，建立可扩展的种草信息架构：</p>
+      <div class="two-col">
+        <div class="card card-accent">
+          <h3>热度体现</h3>
+          <p>热度值、时效性（节日/季节限定）。让用户感知到"这个现在很火"，激发从众心理和尝鲜欲望。</p>
+        </div>
+        <div class="card">
+          <h3>是什么 & 为什么</h3>
+          <p>热点起源、商品描述（外观/口味/食材/热量）、延展内容。80% 访谈对象认为引入用户评论将有助于提高购买概率。</p>
+        </div>
+        <div class="card">
+          <h3>相信认同</h3>
+          <p>用户真实评价、购买偏好认同（群体认同）、平台/品牌信任感、互动讨论。48% 用户期待口味描述和营养成分。</p>
+        </div>
+        <div class="card">
+          <h3>多形态榜单生态</h3>
+          <p>新建沉浸落地页 + 轻量半浮层两种榜单形态，满足从稳定心智到快捷浏览的不同场景需求。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Highlights -->
+    <div class="section reveal">
+      <div class="section-num">04 — 设计亮点</div>
+      <h2>值得一提的几个决策</h2>
+      <div class="two-col">
+        <div class="card card-accent">
+          <h3>系统化框架搭建</h3>
+          <p>基于 AARRR 模型拆解热点种草全链路，构建四阶段设计策略框架，而非碎片化需求堆砌。</p>
+        </div>
+        <div class="card">
+          <h3>数据驱动设计决策</h3>
+          <p>通过用户访谈（Q1）+ 数据分析发现用户行为特征，精准定位问题：键盘遮挡可见性、路径跳转冗余、种草信息缺失。</p>
+        </div>
+        <div class="card">
+          <h3>热点类型信息架构</h3>
+          <p>首次定义外卖平台 5 类热点类型，构建差异化的信息呈现和种草策略矩阵，为后续运营提供可复用框架。</p>
+        </div>
+        <div class="card">
+          <h3>种草信息体系设计</h3>
+          <p>提炼热度体现、是什么/为什么、相信认同三个种草信息维度，建立可扩展的热点内容信息架构。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer nav -->
+  <div class="footer-nav">
+    <a href="project-02.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      优惠感传递设计
+    </a>
+    <a href="project-04.html">
+      <div>
+        <span class="next-label">下一个项目</span>
+        蛋糕品类建设
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 3l5 5-5 5"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+    (function(){const el=document.getElementById('logo-xh');if(!el)return;let isUX=false,animating=false;function flipTo(toUX){if(animating)return;animating=true;const cls=toUX?'flip-to-ux':'flip-to-xh';el.classList.remove('flip-to-ux','flip-to-xh');void el.offsetWidth;el.classList.add(cls);setTimeout(()=>{el.textContent=toUX?'ux':'xh';},380);el.addEventListener('animationend',function done(){el.removeEventListener('animationend',done);isUX=toUX;animating=false;});}setTimeout(()=>flipTo(true),1500);document.getElementById('nav-logo').addEventListener('mouseenter',()=>{if(!animating)flipTo(!isUX);});})();
+</script>
+</body>
+</html>

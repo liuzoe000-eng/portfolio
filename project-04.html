@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蛋糕品类建设 — Liu Xiaohui</title>
+  <style>
+    :root {
+      --accent: #beff00;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--white); color: var(--black); cursor: none;
+    }
+    .cursor { width: 12px; height: 12px; background: var(--black); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+    .cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--black); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.15s ease-out; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); }
+    .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--black); display: inline-flex; align-items: baseline; gap: 1px; user-select: none; }
+    .nav-logo .logo-xh { color: #9ed400; display: inline-block; transform-style: preserve-3d; perspective: 200px; }
+    @keyframes xh-to-ux { 0%{transform:rotate(0deg) scale(1);} 15%{transform:rotate(-14deg) scale(1);} 30%{transform:rotate(10deg) scale(1);} 48%{transform:rotate(-3deg) scale(.88);} 65%{transform:rotate(360deg) scale(1.06);} 80%{transform:rotate(358deg) scale(1);} 100%{transform:rotate(360deg) scale(1);} } 18%{transform:rotate(-14deg);} 36%{transform:rotate(9deg);} 52%{transform:rotate(-4deg) scale(.9);} 70%{transform:rotate(184deg) scale(1.05);} 85%{transform:rotate(178deg);} 100%{transform:rotate(180deg);} } 15%{transform:rotate(-12deg) rotateY(0deg);} 30%{transform:rotate(8deg) rotateY(0deg);} 45%{transform:rotate(-5deg) rotateY(90deg);} 60%{transform:rotate(0deg) rotateY(180deg);} 80%{transform:rotate(3deg) rotateY(180deg);} 100%{transform:rotate(0deg) rotateY(180deg);} }
+    @keyframes ux-to-xh { 0%{transform:rotate(360deg) scale(1);} 15%{transform:rotate(374deg) scale(1);} 30%{transform:rotate(350deg) scale(1);} 48%{transform:rotate(363deg) scale(.88);} 65%{transform:rotate(0deg) scale(1.06);} 80%{transform:rotate(2deg) scale(1);} 100%{transform:rotate(0deg) scale(1);} } 18%{transform:rotate(194deg);} 36%{transform:rotate(171deg);} 52%{transform:rotate(184deg) scale(.9);} 70%{transform:rotate(-4deg) scale(1.05);} 85%{transform:rotate(2deg);} 100%{transform:rotate(0deg);} } 20%{transform:rotate(5deg) rotateY(180deg);} 45%{transform:rotate(-4deg) rotateY(90deg);} 65%{transform:rotate(8deg) rotateY(0deg);} 80%{transform:rotate(-5deg) rotateY(0deg);} 100%{transform:rotate(0deg) rotateY(0deg);} }
+    .nav-logo .logo-xh.flip-to-ux{animation:xh-to-ux .75s cubic-bezier(.4,0,.2,1) forwards;}
+    .nav-logo .logo-xh.flip-to-xh{animation:ux-to-xh .75s cubic-bezier(.4,0,.2,1) forwards;}
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--gray-600); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--black); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    .hero { padding: 140px 48px 80px; max-width: 1200px; margin: 0 auto; }
+    .hero-tag { display: inline-block; background: var(--accent); color: var(--black); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; margin-bottom: 28px; }
+    .hero h1 { font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 28px; max-width: 800px; }
+    .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+    .meta-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px; }
+    .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
+    .hero-desc { font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px; }
+
+    .cover-wrap { width: 100%; max-width: 1200px; margin: 0 auto 80px; padding: 0 48px; }
+    .cover-wrap img { width: 100%; border-radius: 12px; display: block; border: 1px solid var(--gray-200); }
+
+    .content { max-width: 1200px; margin: 0 auto; padding: 0 48px 120px; }
+
+    /* Insight block */
+    .insight-block {
+      background: var(--black); border-radius: 16px; padding: 48px; margin-bottom: 80px;
+    }
+    .insight-block-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .insight-block h2 { font-size: clamp(22px, 3vw, 36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.2; color: var(--white); }
+    .insight-block p { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.65); max-width: 680px; }
+    .insight-compare {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;
+    }
+    @media (max-width: 768px) { .insight-compare { grid-template-columns: 1fr; } }
+    .compare-item { border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 24px; }
+    .compare-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+    .compare-label.bad { color: rgba(255,255,255,0.4); }
+    .compare-label.good { color: var(--accent); }
+    .compare-item h3 { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .compare-item p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    .section { margin-bottom: 80px; }
+    .section-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+    .section h2 { font-size: clamp(24px, 3vw, 36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 24px; line-height: 1.15; }
+    .section p { font-size: 16px; line-height: 1.8; color: var(--gray-600); max-width: 720px; margin-bottom: 20px; }
+
+    /* Dual track */
+    .dual-track { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--gray-200); border-radius: 12px; overflow: hidden; margin-top: 32px; }
+    @media (max-width: 768px) { .dual-track { grid-template-columns: 1fr; } }
+    .track-item { background: var(--white); padding: 36px 32px; }
+    .track-num { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+    .track-item h3 { font-size: 20px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.01em; }
+    .track-item ul { list-style: none; }
+    .track-item ul li { font-size: 14px; color: var(--gray-600); line-height: 1.6; padding: 8px 0; border-bottom: 1px solid var(--gray-200); display: flex; gap: 10px; }
+    .track-item ul li:last-child { border-bottom: none; }
+    .track-item ul li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* AI section */
+    .ai-section {
+      background: var(--gray-100); border-radius: 16px; padding: 40px; margin-top: 32px;
+    }
+    .ai-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--black); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-bottom: 16px; }
+    .ai-section h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+    .ai-section p { font-size: 14px; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; }
+    .ai-items { display: flex; flex-direction: column; gap: 12px; }
+    .ai-item { display: flex; gap: 12px; align-items: flex-start; }
+    .ai-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .ai-item p { font-size: 14px; color: var(--gray-600); line-height: 1.6; margin: 0; }
+
+    /* Two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    .card { background: var(--gray-100); border-radius: 12px; padding: 28px; }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .card p { font-size: 14px; line-height: 1.7; color: var(--gray-600); margin: 0; }
+    .card-accent { background: var(--black); color: var(--white); }
+    .card-accent h3 { color: var(--accent); }
+    .card-accent p { color: rgba(255,255,255,0.7); }
+
+    .highlight { border-left: 3px solid var(--accent); padding: 20px 24px; background: var(--gray-100); border-radius: 0 8px 8px 0; margin: 24px 0; }
+    .highlight p { font-size: 15px; font-style: italic; color: var(--gray-800); margin: 0; }
+
+    .footer-nav { border-top: 1px solid var(--gray-200); padding: 48px; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+    .footer-nav a { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
+    .footer-nav a:hover { opacity: 0.6; }
+    .next-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); display: block; margin-bottom: 4px; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .hero { padding: 100px 24px 60px; }
+      .cover-wrap { padding: 0 24px; }
+      .content { padding: 0 24px 80px; }
+      .insight-block { padding: 32px 24px; }
+      .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      返回作品集
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag reveal">品类精细化 · AI 融合</div>
+    <h1 class="reveal">外卖蛋糕<br>品类建设</h1>
+    <div class="hero-meta reveal">
+      <div class="meta-item">
+        <div class="meta-label">角色</div>
+        <div class="meta-value">主设计师 · 全程参与</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">方向</div>
+        <div class="meta-value">品类精细化运营</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">类型</div>
+        <div class="meta-value">品类体验 · AI 能力融合</div>
+      </div>
+    </div>
+    <p class="hero-desc reveal">蛋糕用户的核心关注点聚焦于商品本身（口味、品质、性价比），而非品牌和店铺——但外卖平台的展示逻辑并未适配这一品类特性。通过搭建蛋糕品类专属运营场域，并前瞻性地融入 AI 能力，探索品类建设新范式。</p>
+  </section>
+
+  <!-- Cover -->
+  <div class="cover-wrap reveal">
+    <img src="cover-cake.png" alt="蛋糕品类建设封面">
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Core insight -->
+    <div class="insight-block reveal">
+      <div class="insight-block-label">核心洞察</div>
+      <h2>蛋糕品类与餐饮大盘<br>存在显著分化</h2>
+      <p>调研数据揭示了一个关键差异：蛋糕用户的决策逻辑与普通外卖用户截然不同。这个洞察决定了整个设计策略的方向。</p>
+      <div class="insight-compare">
+        <div class="compare-item">
+          <div class="compare-label bad">普通外卖用户</div>
+          <h3>以店铺为中心</h3>
+          <p>关注品牌、评分、配送时间、商家口碑。决策路径：选店 → 选菜。</p>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label good">蛋糕用户</div>
+          <h3>以商品为中心</h3>
+          <p>关注口味、造型、食材、性价比。对品牌和店铺信息敏感度较低。决策路径：选品 → 选店。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="section reveal">
+      <div class="section-num">01 — 背景</div>
+      <h2>为什么蛋糕品类需要专属设计？</h2>
+      <p>外卖平台当前的展示逻辑并未适配蛋糕品类特性，既未体现蛋糕品类的差异化，也未能满足用户的个性化需求，导致该品类的订单量与用户渗透率仍存在较大提升空间。</p>
+      <div class="highlight">
+        <p>蛋糕品类天然具有"仪式感"属性（生日/节庆），设计上需要主动构建情感化语言，差异化于普通外卖场景，强化"给蛋糕一个专属的好状态"的品类心智。</p>
+      </div>
+    </div>
+
+    <!-- Dual track strategy -->
+    <div class="section reveal">
+      <div class="section-num">02 — 设计策略</div>
+      <h2>双轨并行：心智建设 × 选购体验</h2>
+      <p>两大方向同时推进，形成完整的品类建设闭环：</p>
+      <div class="dual-track">
+        <div class="track-item">
+          <div class="track-num">目标 01</div>
+          <h3>强化用户心智<br>激发下单意愿</h3>
+          <ul>
+            <li>打造蛋糕专属品类视觉体系，区别于普通外卖商品呈现</li>
+            <li>通过情感化设计元素（如配送过程动效）强化品类仪式感</li>
+            <li>突出蛋糕商品的视觉吸引力（色彩、质感、口感展示）</li>
+            <li>建立品类内容消费场景（发现好蛋糕的乐趣）</li>
+          </ul>
+        </div>
+        <div class="track-item">
+          <div class="track-num">目标 02</div>
+          <h3>优化选购体验<br>增强品类吸引力</h3>
+          <ul>
+            <li>商品列表页：优化蛋糕商品图片展示标准，突出口味/造型等视觉核心信息</li>
+            <li>筛选交互：建立适合蛋糕品类的多维筛选体系（口味、尺寸、场合、价格区间）</li>
+            <li>点菜页体验：完善商品详情页的蛋糕专属信息展示（食材、规格、定制说明）</li>
+            <li>商品基建：推动蛋糕品类商品数据标准化，为精准筛选和推荐提供数据基础</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI section -->
+    <div class="section reveal">
+      <div class="section-num">03 — AI 能力融合</div>
+      <h2>将 AI 能力前瞻性地融入品类建设</h2>
+      <p>在设计和运营环节引入 AI 能力，提升品类建设效率，这也是本项目区别于传统品类设计的创新亮点：</p>
+      <div class="ai-section">
+        <div class="ai-badge">✦ AI Integration</div>
+        <h3>三个 AI 应用场景</h3>
+        <p>将 AI 能力与品类设计深度结合，探索 UX 设计与技术能力协同的新思维：</p>
+        <div class="ai-items">
+          <div class="ai-item">
+            <div class="ai-dot"></div>
+            <p><strong>AI 辅助商品图片质量检测与标准化处理</strong> — 自动识别不符合蛋糕品类展示标准的商品图片，提升整体视觉质量，降低人工审核成本。</p>
+          </div>
+          <div class="ai-item">
+            <div class="ai-dot"></div>
+            <p><strong>基于商品属性的智能分类和标签自动化生成</strong> — 通过 AI 理解商品描述，自动生成口味、场合、食材等多维标签，为精准筛选和推荐提供数据基础。</p>
+          </div>
+          <div class="ai-item">
+            <div class="ai-dot"></div>
+            <p><strong>蛋糕推荐 Agent</strong> — 理解用户选购意图（生日/节日/日常），精准匹配场景化推荐，缩短"想要蛋糕"到"找到合适蛋糕"的路径。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Highlights -->
+    <div class="section reveal">
+      <div class="section-num">04 — 设计亮点</div>
+      <h2>值得一提的几个决策</h2>
+      <div class="two-col">
+        <div class="card card-accent">
+          <h3>品类差异化定位</h3>
+          <p>发现蛋糕品类与餐饮大盘的核心差异——用户关注商品本身（非品牌/店铺），整个设计策略从"以商品为中心"出发，重构品类体验。</p>
+        </div>
+        <div class="card">
+          <h3>情感化设计探索</h3>
+          <p>蛋糕品类天然具有"仪式感"属性，设计上主动构建情感化语言，差异化于普通外卖场景，强化品类专属心智。</p>
+        </div>
+        <div class="card">
+          <h3>AI 能力整合</h3>
+          <p>在设计提案中前瞻性地融入 AI 提效能力（商品图片处理、标签自动生成、推荐 Agent），展示 UX 设计与技术能力协同的思维。</p>
+        </div>
+        <div class="card">
+          <h3>全链路体验设计</h3>
+          <p>覆盖从搜索发现到点菜页选购的完整链路，确保蛋糕品类体验的一致性和差异化，为后续其他品类精细化运营提供可复用方法论。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer nav -->
+  <div class="footer-nav">
+    <a href="project-03.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      趋势播报升级
+    </a>
+    <a href="index.html">
+      <div>
+        <span class="next-label">返回</span>
+        查看全部作品
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 3l5 5-5 5"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+    (function(){const el=document.getElementById('logo-xh');if(!el)return;let isUX=false,animating=false;function flipTo(toUX){if(animating)return;animating=true;const cls=toUX?'flip-to-ux':'flip-to-xh';el.classList.remove('flip-to-ux','flip-to-xh');void el.offsetWidth;el.classList.add(cls);setTimeout(()=>{el.textContent=toUX?'ux':'xh';},380);el.addEventListener('animationend',function done(){el.removeEventListener('animationend',done);isUX=toUX;animating=false;});}setTimeout(()=>flipTo(true),1500);document.getElementById('nav-logo').addEventListener('mouseenter',()=>{if(!animating)flipTo(!isUX);});})();
+</script>
+</body>
+</html>

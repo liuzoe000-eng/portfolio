@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>优惠感传递设计 — Liu Xiaohui</title>
+  <style>
+    :root {
+      --accent: #beff00;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #222;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      cursor: none;
+    }
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--black);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--black);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .nav-logo {
+      font-size: 15px; font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none; color: var(--black);
+      display: inline-flex; align-items: baseline; gap: 1px; user-select: none;
+    }
+    .nav-logo .logo-xh { color: #9ed400; display: inline-block; transform-style: preserve-3d; perspective: 200px; }
+    @keyframes xh-to-ux { 0%{transform:rotate(0deg) scale(1);} 15%{transform:rotate(-14deg) scale(1);} 30%{transform:rotate(10deg) scale(1);} 48%{transform:rotate(-3deg) scale(.88);} 65%{transform:rotate(360deg) scale(1.06);} 80%{transform:rotate(358deg) scale(1);} 100%{transform:rotate(360deg) scale(1);} }
+    @keyframes ux-to-xh { 0%{transform:rotate(360deg) scale(1);} 15%{transform:rotate(374deg) scale(1);} 30%{transform:rotate(350deg) scale(1);} 48%{transform:rotate(363deg) scale(.88);} 65%{transform:rotate(0deg) scale(1.06);} 80%{transform:rotate(2deg) scale(1);} 100%{transform:rotate(0deg) scale(1);} }
+    .nav-logo .logo-xh.flip-to-ux{animation:xh-to-ux .75s cubic-bezier(.4,0,.2,1) forwards;}
+    .nav-logo .logo-xh.flip-to-xh{animation:ux-to-xh .75s cubic-bezier(.4,0,.2,1) forwards;}
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-600); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--black); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 140px 48px 80px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent); color: var(--black);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em; margin-bottom: 28px; max-width: 820px;
+    }
+    .hero-meta {
+      display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px;
+    }
+    .meta-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 4px;
+    }
+    .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
+    .hero-desc {
+      font-size: 18px; line-height: 1.75;
+      color: var(--gray-600); max-width: 680px;
+    }
+
+    /* ── Cover ── */
+    .cover-wrap {
+      width: 100%; max-width: 1200px;
+      margin: 0 auto 80px; padding: 0 48px;
+    }
+    .cover-wrap img {
+      width: 100%; border-radius: 12px; display: block;
+      border: 1px solid var(--gray-200);
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 1200px; margin: 0 auto; padding: 0 48px 120px;
+    }
+
+    /* ── Paradox block ── */
+    .paradox {
+      background: var(--black);
+      border-radius: 16px;
+      padding: 56px 48px;
+      margin-bottom: 80px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .paradox::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.06;
+    }
+    .paradox-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 20px;
+    }
+    .paradox h2 {
+      font-size: clamp(22px, 3vw, 38px);
+      font-weight: 800; letter-spacing: -0.02em;
+      line-height: 1.2; margin-bottom: 32px;
+      max-width: 640px;
+    }
+    .paradox-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 768px) { .paradox-stats { grid-template-columns: 1fr; } }
+    .stat-item {
+      border-left: 2px solid rgba(255,255,255,0.15);
+      padding-left: 20px;
+    }
+    .stat-num {
+      font-size: 36px; font-weight: 800;
+      color: var(--accent); line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-desc {
+      font-size: 13px; line-height: 1.5;
+      color: rgba(255,255,255,0.55);
+    }
+    .paradox-insight {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 28px;
+      font-size: 15px; line-height: 1.7;
+      color: rgba(255,255,255,0.7);
+      max-width: 640px;
+    }
+    .paradox-insight strong { color: var(--white); }
+
+    /* ── Section ── */
+    .section { margin-bottom: 80px; }
+    .section-num {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 24px; line-height: 1.15;
+    }
+    .section > p {
+      font-size: 16px; line-height: 1.8;
+      color: var(--gray-600); max-width: 720px; margin-bottom: 20px;
+    }
+
+    /* ── Framework ── */
+    .framework-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 32px;
+    }
+    @media (max-width: 768px) { .framework-row { grid-template-columns: 1fr; } }
+    .fw-col {
+      padding: 28px 24px;
+      border-right: 1px solid var(--gray-200);
+    }
+    .fw-col:last-child { border-right: none; }
+    .fw-col.active {
+      background: var(--black);
+      color: var(--white);
+    }
+    .fw-tag {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 12px;
+    }
+    .fw-col.active .fw-tag { color: var(--accent); }
+    .fw-col h3 {
+      font-size: 18px; font-weight: 800;
+      margin-bottom: 10px; letter-spacing: -0.01em;
+    }
+    .fw-col.active h3 { color: var(--white); }
+    .fw-col p {
+      font-size: 13px; line-height: 1.65;
+      color: var(--gray-600);
+    }
+    .fw-col.active p { color: rgba(255,255,255,0.6); }
+    .fw-focus-badge {
+      display: inline-block;
+      background: var(--accent); color: var(--black);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 2px;
+      margin-top: 12px;
+    }
+
+    /* ── Perception model ── */
+    .perception-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+    }
+    @media (max-width: 768px) { .perception-grid { grid-template-columns: 1fr 1fr; } }
+    .perception-item {
+      background: var(--gray-100);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .perception-num {
+      font-size: 28px; font-weight: 800;
+      color: var(--gray-200); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .perception-item h4 {
+      font-size: 15px; font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .perception-item p {
+      font-size: 12px; line-height: 1.6;
+      color: var(--gray-600);
+    }
+
+    /* ── Problem cards ── */
+    .problem-list {
+      display: flex; flex-direction: column; gap: 16px; margin-top: 24px;
+    }
+    .problem-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      padding: 24px; border-radius: 10px;
+      border: 1px solid var(--gray-200);
+      align-items: flex-start;
+    }
+    .problem-badge {
+      flex-shrink: 0;
+      background: var(--gray-100);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.05em; color: var(--gray-600);
+      white-space: nowrap;
+    }
+    .problem-body h4 {
+      font-size: 15px; font-weight: 700; margin-bottom: 6px;
+    }
+    .problem-body p {
+      font-size: 14px; color: var(--gray-600);
+      line-height: 1.65; margin: 0;
+    }
+    .problem-arrow {
+      display: flex; align-items: center;
+      font-size: 13px; font-weight: 700;
+      color: var(--accent);
+      background: var(--black);
+      border-radius: 6px;
+      padding: 6px 12px;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    /* ── Research callout ── */
+    .research-callout {
+      background: var(--gray-100);
+      border-radius: 12px;
+      padding: 32px;
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 768px) { .research-callout { grid-template-columns: 1fr; } }
+    .rc-left h3 {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 16px;
+    }
+    .rc-stat {
+      display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;
+    }
+    .rc-num {
+      font-size: 32px; font-weight: 800;
+      color: var(--black); line-height: 1;
+    }
+    .rc-label { font-size: 13px; color: var(--gray-600); }
+    .rc-right h3 {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 16px;
+    }
+    .voice-list {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .voice-item {
+      font-size: 13px; line-height: 1.6;
+      color: var(--gray-600);
+      padding-left: 14px;
+      border-left: 2px solid var(--gray-200);
+      font-style: italic;
+    }
+
+    /* ── Touchpoint map ── */
+    .touchpoint-map {
+      background: var(--gray-100);
+      border-radius: 12px;
+      padding: 32px;
+      margin-top: 32px;
+    }
+    .touchpoint-map h3 {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 20px;
+    }
+    .tp-flow {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .tp-node {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 13px; font-weight: 500;
+    }
+    .tp-node.highlight-node {
+      background: var(--black);
+      color: var(--accent);
+      border-color: var(--black);
+      font-weight: 700;
+    }
+    .tp-arrow { color: var(--gray-400); font-size: 14px; }
+
+    /* ── Two col cards ── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 32px;
+    }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--gray-100); border-radius: 12px; padding: 28px;
+    }
+    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .card p { font-size: 14px; line-height: 1.7; color: var(--gray-600); margin: 0; }
+    .card-accent { background: var(--black); color: var(--white); }
+    .card-accent h3 { color: var(--accent); }
+    .card-accent p { color: rgba(255,255,255,0.7); }
+
+    /* ── Highlight quote ── */
+    .highlight {
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      background: var(--gray-100);
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+    .highlight p { font-size: 15px; font-style: italic; color: var(--gray-800); margin: 0; line-height: 1.7; }
+
+    /* ── Scale block ── */
+    .scale-block {
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 32px;
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 768px) { .scale-block { grid-template-columns: 1fr; } }
+    .scale-item h4 {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray-400); margin-bottom: 16px;
+    }
+    .scale-num {
+      font-size: 48px; font-weight: 800;
+      color: var(--black); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .scale-num span { font-size: 20px; color: var(--gray-400); }
+    .scale-desc { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+    .phase-list { display: flex; flex-direction: column; gap: 10px; }
+    .phase-item {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; color: var(--gray-600);
+    }
+    .phase-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .phase-dot.dim { background: var(--gray-200); }
+
+    /* ── Scatter chart ── */
+    .scatter-wrap {
+      margin-top: 40px;
+      background: var(--black);
+      border-radius: 16px;
+      padding: 36px 40px 32px;
+      color: var(--white);
+    }
+    .scatter-title {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .scatter-sub {
+      font-size: 12px; color: rgba(255,255,255,0.45);
+      margin-bottom: 28px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .scatter-legend-dot {
+      display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; flex-shrink: 0;
+    }
+    .scatter-legend-dot.red { background: #ff4d4d; }
+    .scatter-chart {
+      position: relative;
+      width: 100%; height: 360px;
+      border-left: 1.5px solid rgba(255,255,255,0.2);
+      border-bottom: 1.5px solid rgba(255,255,255,0.2);
+      margin-left: 36px;
+      margin-bottom: 32px;
+    }
+    /* 均值参考线 */
+    .scatter-hline {
+      position: absolute;
+      left: 0; right: 0;
+      top: 52%;
+      border-top: 1px dashed rgba(255,255,255,0.3);
+    }
+    .scatter-vline {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      border-left: 1px dashed rgba(255,255,255,0.3);
+    }
+    .scatter-hline-label {
+      position: absolute;
+      top: 52%; left: -34px;
+      transform: translateY(-50%);
+      font-size: 10px; color: rgba(255,255,255,0.4);
+      white-space: nowrap;
+    }
+    .scatter-vline-label {
+      position: absolute;
+      left: 50%; bottom: -22px;
+      transform: translateX(-50%);
+      font-size: 10px; color: rgba(255,255,255,0.4);
+    }
+    /* 重点优化区斜线阴影 */
+    .scatter-hatch {
+      position: absolute;
+      right: 0; bottom: 0;
+      width: 50%; height: 48%;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(190,255,0,0.04) 0px,
+        rgba(190,255,0,0.04) 2px,
+        transparent 2px,
+        transparent 8px
+      );
+      border: 1px solid rgba(190,255,0,0.15);
+      border-radius: 0 0 4px 0;
+    }
+    /* 象限标签 */
+    .scatter-quadrant-label {
+      position: absolute;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      pointer-events: none;
+    }
+    .scatter-quadrant-label span {
+      display: block; font-size: 9px;
+      font-weight: 400; opacity: 0.5; margin-top: 2px;
+    }
+    .scatter-quadrant-label.tl { top: 6px; left: 6px; color: rgba(255,255,255,0.25); }
+    .scatter-quadrant-label.tr { top: 6px; right: 6px; text-align: right; color: rgba(255,255,255,0.25); }
+    .scatter-quadrant-label.bl { bottom: 6px; left: 6px; color: rgba(255,255,255,0.2); }
+    .scatter-quadrant-label.br { bottom: 6px; right: 6px; text-align: right; color: var(--accent); opacity: 0.8; }
+    .accent-text { color: var(--accent); }
+    /* 散点 */
+    .s-dot {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .s-dot.gray { background: rgba(255,255,255,0.25); }
+    .s-dot.red {
+      background: #ff4d4d;
+      box-shadow: 0 0 0 3px rgba(255,77,77,0.25);
+    }
+    /* 散点标签 */
+    .s-label {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      font-size: 11px; font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .s-label.right { left: 16px; }
+    .s-label.left { right: 16px; text-align: right; }
+    /* 坐标轴刻度 */
+    .scatter-axis-x {
+      position: absolute;
+      bottom: -28px; left: 0; right: 0;
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: rgba(255,255,255,0.3);
+    }
+    .scatter-axis-y {
+      position: absolute;
+      top: 0; bottom: 0; left: -32px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      font-size: 10px; color: rgba(255,255,255,0.3);
+      text-align: right;
+    }
+    .scatter-xlabel {
+      position: absolute;
+      bottom: -44px; right: 0;
+      font-size: 11px; color: rgba(255,255,255,0.4);
+    }
+    .scatter-ylabel {
+      position: absolute;
+      top: 50%; left: -52px;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 11px; color: rgba(255,255,255,0.4);
+      white-space: nowrap;
+    }
+    /* 洞察条 */
+    .scatter-insight {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 13px; line-height: 1.7;
+      color: rgba(255,255,255,0.65);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+    }
+    .scatter-insight strong { color: var(--white); }
+    .si-tag {
+      flex-shrink: 0;
+      background: var(--accent); color: var(--black);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 2px;
+      margin-top: 2px;
+    }
+
+    /* ── Scene Matrix ── */
+    .scene-matrix-wrap {
+      margin-top: 40px;
+      background: var(--black);
+      border-radius: 16px;
+      padding: 36px 40px 32px;
+      color: var(--white);
+      overflow-x: auto;
+    }
+    .scene-matrix {
+      min-width: 760px;
+    }
+    /* 表头行 */
+    .sm-header-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0;
+      margin-bottom: 0;
+    }
+    .sm-corner {
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding-bottom: 8px;
+      padding-right: 12px;
+    }
+    .sm-corner-x {
+      font-size: 10px; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+    .sm-corner-y {
+      font-size: 10px; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em; margin-top: 2px;
+    }
+    .sm-phase-group {
+      display: grid;
+      grid-template-columns: 2fr 3fr 2fr;
+      gap: 4px;
+    }
+    .sm-phase {
+      border-radius: 8px 8px 0 0;
+      padding: 10px 14px 8px;
+      text-align: center;
+    }
+    .sm-phase.flow { background: rgba(255,255,255,0.08); }
+    .sm-phase.trade { background: rgba(190,255,0,0.12); }
+    .sm-phase.after { background: rgba(255,255,255,0.05); }
+    .sm-phase-name {
+      font-size: 13px; font-weight: 800;
+      letter-spacing: 0.04em; margin-bottom: 6px;
+    }
+    .sm-phase.trade .sm-phase-name { color: var(--accent); }
+    .sm-phase-subs {
+      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+    }
+    .sm-phase-subs span {
+      font-size: 10px; color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.07);
+      border-radius: 3px; padding: 2px 6px;
+    }
+    /* 目标行 */
+    .sm-goal-row {
+      display: grid;
+      grid-template-columns: 140px 2fr 3fr 2fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .sm-goal-spacer {}
+    .sm-goal {
+      padding: 10px 14px;
+      border-radius: 0;
+    }
+    .sm-goal.flow { background: rgba(255,255,255,0.05); }
+    .sm-goal.trade { background: rgba(190,255,0,0.08); }
+    .sm-goal.after { background: rgba(255,255,255,0.03); }
+    .sm-goal-badge {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 6px;
+    }
+    .sm-goal-items div {
+      font-size: 11px; color: rgba(255,255,255,0.55);
+      line-height: 1.6; margin-bottom: 2px;
+    }
+    /* 场景行 */
+    .sm-scene-row {
+      display: grid;
+      grid-template-columns: 140px 2fr 3fr 2fr;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .sm-scene-label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 12px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+    }
+    .sm-intent-badge {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .sm-intent-badge.strong { background: var(--black); color: var(--white); border: 2px solid rgba(255,255,255,0.5); }
+    .sm-intent-badge.mid { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
+    .sm-intent-badge.weak { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); }
+    .sm-scene-num {
+      font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8);
+    }
+    .sm-scene-desc {
+      font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px;
+    }
+    /* 单元格 */
+    .sm-cell {
+      padding: 14px;
+      border-radius: 8px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .sm-cell.flow { background: rgba(255,255,255,0.06); }
+    .sm-cell.trade { background: rgba(190,255,0,0.07); }
+    .sm-cell.after { background: rgba(255,255,255,0.04); }
+    .sm-cell.dim {
+      background: rgba(255,255,255,0.02);
+      color: rgba(255,255,255,0.2);
+      font-size: 18px; font-weight: 300;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sm-cell.multi { flex-direction: row; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+    /* 行动标签 */
+    .sm-action {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 6px; padding: 8px 10px;
+      flex: 1; min-width: 120px;
+    }
+    .sm-verb {
+      font-size: 18px; font-weight: 900;
+      color: var(--white); line-height: 1;
+      flex-shrink: 0;
+    }
+    .sm-action-text {
+      font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.4;
+    }
+    /* 竖排动词块（用/检/激/复） */
+    .sm-action-col {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.07);
+      border-radius: 6px; padding: 10px 8px;
+      min-width: 52px; flex: 1;
+      text-align: center;
+    }
+    .sm-verb-col {
+      font-size: 20px; font-weight: 900;
+      color: rgba(255,255,255,0.7); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .sm-verb-col.accent { color: var(--accent); }
+    .sm-verb-desc {
+      font-size: 10px; color: rgba(255,255,255,0.4);
+      line-height: 1.4; text-align: center;
+    }
+
+    /* ── Footer nav ── */
+    .footer-nav {
+      border-top: 1px solid var(--gray-200);
+      padding: 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .footer-nav a {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600;
+      color: var(--black); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .footer-nav a:hover { opacity: 0.6; }
+    .next-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray-400); display: block; margin-bottom: 4px;
+    }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .hero { padding: 100px 24px 60px; }
+      .cover-wrap { padding: 0 24px; }
+      .content { padding: 0 24px 80px; }
+      .paradox { padding: 36px 24px; }
+      .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
+      .problem-item { grid-template-columns: 1fr; }
+      .problem-arrow { align-self: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      返回作品集
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag reveal">全链路设计 · S 级项目</div>
+    <h1 class="reveal">补贴比竞对高，<br>用户却觉得竞对更便宜</h1>
+    <div class="hero-meta reveal">
+      <div class="meta-item">
+        <div class="meta-label">角色</div>
+        <div class="meta-value">主设计师 · 100% 参与</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">方向</div>
+        <div class="meta-value">外卖主链路 · 优惠感传递</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">规模</div>
+        <div class="meta-value">20 个子项 · 12+ 触点</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">类型</div>
+        <div class="meta-value">系统性体验改造</div>
+      </div>
+    </div>
+    <p class="hero-desc reveal">这是一个关于"感知失真"的设计问题。我们的补贴投入高于竞对，但用户调研显示他们觉得竞对更便宜。钱花了，但用户没感受到——这不是钱的问题，是设计问题。</p>
+  </section>
+
+  <!-- Cover -->
+  <div class="cover-wrap reveal">
+    <img src="cover-discount.png" alt="优惠感传递设计封面">
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Paradox -->
+    <div class="paradox reveal">
+      <div class="paradox-label">核心矛盾</div>
+      <h2>补贴系数持续压制竞对，<br>但用户感知却反过来了</h2>
+      <div class="paradox-stats">
+        <div class="stat-item">
+          <div class="stat-num">1.17×</div>
+          <div class="stat-desc">我方补贴系数持续高于竞对，实际让利更多</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">37%</div>
+          <div class="stat-desc">双平台用户中，认为竞对整体更优惠，高出 1pp</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">+7pp</div>
+          <div class="stat-desc">认为竞对红包额度更大的用户比例，高出我方 7pp</div>
+        </div>
+      </div>
+      <div class="paradox-insight">
+        这组数据说明：<strong>优惠感不等于优惠力度</strong>。用户感知到的"便宜"，很大程度上取决于平台如何呈现和传递优惠信息，而不只是实际补贴了多少钱。这是一个设计可以真正发挥作用的地方。
+      </div>
+    </div>
+
+    <!-- Define -->
+    <div class="section reveal">
+      <div class="section-num">01 — 定义问题</div>
+      <h2>先把"优惠感"说清楚，<br>再谈怎么提升它</h2>
+      <p>在启动设计之前，我们做的第一件事是给"优惠感"下一个可操作的定义。这个概念太模糊——每个人说的"优惠感"可能是不同的东西，如果不先对齐，设计方向就会散。</p>
+      <p>我们将优惠感拆解为三个要素，并明确了设计的切入层：</p>
+      <div class="framework-row">
+        <div class="fw-col">
+          <div class="fw-tag">要素 01</div>
+          <h3>价格力</h3>
+          <p>与市场同类商品对比，成交价越低，价格力越高。这是优惠感的底层基础，涉及补贴策略，本项目不直接介入。</p>
+        </div>
+        <div class="fw-col">
+          <div class="fw-tag">要素 02</div>
+          <h3>优惠卖法</h3>
+          <p>基于价格力包装出来的营销动作，如神券节、爆品活动等。这是运营侧的工作，设计配合执行。</p>
+        </div>
+        <div class="fw-col active">
+          <div class="fw-tag">要素 03 · 本项目聚焦</div>
+          <h3>优惠表现力</h3>
+          <p>在价格力和优惠卖法基础上，通过设计表达提升用户的优惠感知。这是设计可以独立发力、且影响最直接的层。</p>
+          <span class="fw-focus-badge">设计切入点</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Perception model -->
+    <div class="section reveal">
+      <div class="section-num">02 — 用户视角</div>
+      <h2>用户感知优惠的四个维度</h2>
+      <p>基于心智模型研究，我们将用户感知优惠的过程拆解为四个维度，这也成为后续设计方向的评估框架：</p>
+      <div class="perception-grid">
+        <div class="perception-item">
+          <div class="perception-num">01</div>
+          <h4>触达</h4>
+          <p>优惠能有效触达到，让用户清晰感知到有什么优惠可用</p>
+        </div>
+        <div class="perception-item">
+          <div class="perception-num">02</div>
+          <h4>吸引</h4>
+          <p>优惠的信息展示和呈现形式，对用户有足够的吸引力</p>
+        </div>
+        <div class="perception-item">
+          <div class="perception-num">03</div>
+          <h4>认同</h4>
+          <p>让用户认同优惠确实实惠、可用，价格合理有性价比</p>
+        </div>
+        <div class="perception-item">
+          <div class="perception-num">04</div>
+          <h4>行动</h4>
+          <p>能高效完成对比决策，并可以方便地得到和用到优惠</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research -->
+    <div class="section reveal">
+      <div class="section-num">03 — 调研洞察</div>
+      <h2>数据说话：7 个满意度洼地，<br>精准定位发力方向</h2>
+      <p>在确定设计方向之前，我们先做了一轮优惠满意度调研，目的是把"用户觉得优惠感差"这件事量化出来，找到真正的痛点在哪里，而不是凭感觉做设计。</p>
+      <div class="research-callout">
+        <div class="rc-left">
+          <h3>关键数据</h3>
+          <div class="rc-stat">
+            <div class="rc-num">3.37</div>
+            <div class="rc-label">优惠满意度基线（满分 5 分）</div>
+          </div>
+          <div class="rc-stat">
+            <div class="rc-num">43%</div>
+            <div class="rc-label">用户"为优惠而来"，优惠是核心动机</div>
+          </div>
+          <div class="rc-stat">
+            <div class="rc-num">7</div>
+            <div class="rc-label">满意度体验分值洼地，集中在选购和交易环节</div>
+          </div>
+        </div>
+        <div class="rc-right">
+          <h3>用户真实声音</h3>
+          <div class="voice-list">
+            <div class="voice-item">"各种优惠相互排斥，优惠前价格虚高"</div>
+            <div class="voice-item">"天天神券金额越来越小了"</div>
+            <div class="voice-item">"满减能使用的菜品少，很多热门商家根本用不了"</div>
+            <div class="voice-item">"看着满减很多，但点进去都是不能共享的折扣商品"</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight">
+        <p>调研结论指向了一个关键方向：用户不是不知道有优惠，而是在需要用的时候找不到、用不上、感知不到。这是一个"触达和引导"的问题，而不是"优惠力度"的问题——这正是设计可以解决的。</p>
+      </div>
+
+      <!-- 洼地标签行 -->
+      <div class="lowspot-row">
+        <span class="ls-label">7 个洼地集中在 →</span>
+        <span class="ls-tag focus">营销活动可见</span>
+        <span class="ls-tag focus">便捷找到优惠爆品</span>
+        <span class="ls-tag focus">营销活动有效触达</span>
+        <span class="ls-tag focus">商家优惠吸引力</span>
+        <span class="ls-tag focus">领取优惠吸引力</span>
+        <span class="ls-tag focus">领券入口可见性</span>
+        <span class="ls-tag focus">购后权益玩法</span>
+      </div>
+    </div>
+
+    <!-- Problems -->
+    <div class="section reveal">
+      <div class="section-num">04 — 问题拆解</div>
+      <h2>四大核心问题，对应四种解法</h2>
+      <p>这 7 个洼地背后，是三类不同意图的用户在全链路上反复碰壁。把场景摊开来看，问题的根源就清晰了：</p>
+
+      <!-- 轻量场景条 -->
+      <div class="scene-strip">
+        <div class="ss-row">
+          <div class="ss-intent high">优惠意图强</div>
+          <div class="ss-desc">主动来找优惠 → 找不到入口、领不到券、算不清到手价</div>
+          <div class="ss-arrow">↓</div>
+        </div>
+        <div class="ss-row">
+          <div class="ss-intent mid">优惠意图中</div>
+          <div class="ss-desc">比价时参考优惠 → 优惠信息散乱、对比成本高</div>
+          <div class="ss-arrow">↓</div>
+        </div>
+        <div class="ss-row">
+          <div class="ss-intent low">优惠意图弱</div>
+          <div class="ss-desc">被活动吸引进来 → 进店后氛围感弱、惊喜感缺失</div>
+          <div class="ss-arrow last">↓ 归纳为四类设计问题</div>
+        </div>
+      </div>
+
+      <div class="problem-list">
+        <div class="problem-item">
+          <div class="problem-badge">问题 01</div>
+          <div class="problem-body">
+            <h4>价格没算到最便宜，表达单一</h4>
+            <p>到手价计算未包含红包、代金券和膨胀津贴，导致展示价格虚高。缺少专属感价格命名（"会员价""新客价"），也没有凸显价格降幅（"直降多少"）。</p>
+          </div>
+          <div class="problem-arrow">→ 价格表达升级</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-badge">问题 02</div>
+          <div class="problem-body">
+            <h4>优惠活动缺少触达，用户感知不到</h4>
+            <p>竞对在全链路"见缝插针"植入优惠信息，覆盖 Appstore→图标→首页→落地页→店铺页→商详→购物车→提单。我方有对应活动，但在用户交易路径上感知较弱，覆盖范围差距明显。</p>
+          </div>
+          <div class="problem-arrow">→ 全链路触达</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-badge">问题 03</div>
+          <div class="problem-body">
+            <h4>已有优惠表达不极致，视觉冲击力弱</h4>
+            <p>"配送约0元"不如"免配送费"直接；搜索活动标签设计偏冷静；商品到手价仅在店铺页展示，前置页面均未应用，优惠感知太后置、不连贯。</p>
+          </div>
+          <div class="problem-arrow">→ 表达极致化</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-badge">问题 04</div>
+          <div class="problem-body">
+            <h4>缺少优惠氛围感和惊喜感</h4>
+            <p>缺少进店优惠浮层、惊喜感营造等氛围设计。提单页缺少"平台为你自动领券"的贴心感知，购后缺少"本单已享权益"的强化。</p>
+          </div>
+          <div class="problem-arrow">→ 惊喜感设计</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Touchpoint -->
+    <div class="section reveal">
+      <div class="section-num">05 — 设计策略</div>
+      <h2>全链路覆盖：让优惠感<br>贯穿每一个决策节点</h2>
+      <p>识别到优惠感缺失是全链路问题，而非单点问题。我们按用户决策阶段分层分级透出优惠信息，确保用户在每个关键节点都能感知到"这里有优惠"：</p>
+      <div class="touchpoint-map">
+        <h3>触点地图 · 高亮为本次重点改造节点</h3>
+        <div class="tp-flow">
+          <div class="tp-node">桌面图标</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node highlight-node">首页频道</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node highlight-node">搜索结果</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node">商家卡片</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node highlight-node">店铺页</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node highlight-node">商品详情</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node">购物车</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node highlight-node">提单页</div>
+          <div class="tp-arrow">→</div>
+          <div class="tp-node">购后</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decisions -->
+    <div class="section reveal">
+      <div class="section-num">06 — 值得一提的几个决策</div>
+      <h2>做这个项目，我学到的几件事</h2>
+      <div class="two-col">
+        <div class="card card-accent">
+          <h3>先定义，再设计</h3>
+          <p>项目启动时，"优惠感"对每个人意味着不同的东西。我们花了相当多的时间把它拆解成三要素框架，明确设计只能在"优惠表现力"层发力——这个定义工作，比后来所有的设计动作都重要。</p>
+        </div>
+        <div class="card">
+          <h3>用数据锁定优先级</h3>
+          <p>调研发现 7 个满意度洼地，但不可能同时解决所有问题。我们通过"已规划项目覆盖情况"和"设计可影响程度"两个维度筛选，最终聚焦在"触达和激发"方向——这是设计影响最大、且尚未被覆盖的空白。</p>
+        </div>
+        <div class="card">
+          <h3>脑暴不是走过场</h3>
+          <p>我们组织了一次团队脑暴，收集线上/线下的优惠 goodcase，提炼出 10+ 个外卖可落地的创新 idea。其中"反复浏览时发券助推""老客进店展示新优惠"等想法，最终被产品认可并纳入规划——这是设计主动影响产品方向的一次实践。</p>
+        </div>
+        <div class="card">
+          <h3>双轨验证，不只看数据</h3>
+          <p>我们同时设置了定量指标（访购率/RPM）和定性指标（优惠满意度），并额外观测"提单后返回""往返切换竞对"等行为信号。这样即使数据波动，也能判断是真实改善还是噪音。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scale -->
+    <div class="section reveal">
+      <div class="section-num">07 — 项目规模</div>
+      <h2>从一个框架，到 20 个子项落地</h2>
+      <p>这个项目最终的规模超出了最初的预期。产品侧梳理 18 个子项，设计侧梳理 7 个子项，合并后共推进 20 个子项，分两期落地：</p>
+      <div class="scale-block">
+        <div class="scale-item">
+          <h4>项目规模</h4>
+          <div class="scale-num">20<span> 个子项</span></div>
+          <div class="scale-desc">覆盖从首页到购后的完整链路，是外卖主链路近年来规模最大的优惠感专项改造之一。</div>
+        </div>
+        <div class="scale-item">
+          <h4>落地节奏</h4>
+          <div class="phase-list">
+            <div class="phase-item">
+              <div class="phase-dot"></div>
+              <span>一期 9 个子项 · 已上线 · 效果验证中</span>
+            </div>
+            <div class="phase-item">
+              <div class="phase-dot"></div>
+              <span>全链路商品价格优惠感（P0 · 主 R）</span>
+            </div>
+            <div class="phase-item">
+              <div class="phase-dot"></div>
+              <span>营销活动全链路透传（P0 · 主 R）</span>
+            </div>
+            <div class="phase-item">
+              <div class="phase-dot"></div>
+              <span>提单页优惠动效 · 搜索发券升级（P0 · 主 R）</span>
+            </div>
+            <div class="phase-item">
+              <div class="phase-dot dim"></div>
+              <span style="color:var(--gray-400)">二期 12 个子项 · 规划中</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer nav -->
+  <div class="footer-nav">
+    <a href="project-01.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      搜索结果页改版
+    </a>
+    <a href="project-03.html">
+      <div>
+        <span class="next-label">下一个项目</span>
+        趋势播报升级
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 3l5 5-5 5"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+    (function(){
+      const el = document.getElementById('logo-xh');
+      if (!el) return;
+      let isUX = false, animating = false;
+      function flipTo(toUX) {
+        if (animating) return;
+        animating = true;
+        const cls = toUX ? 'flip-to-ux' : 'flip-to-xh';
+        el.classList.remove('flip-to-ux', 'flip-to-xh');
+        void el.offsetWidth;
+        el.classList.add(cls);
+        setTimeout(() => { el.textContent = toUX ? 'ux' : 'xh'; }, 380);
+        el.addEventListener('animationend', function done() {
+          el.removeEventListener('animationend', done);
+          isUX = toUX; animating = false;
+        });
+      }
+      setTimeout(() => flipTo(true), 1500);
+      document.getElementById('nav-logo').addEventListener('mouseenter', () => {
+        if (!animating) flipTo(!isUX);
+      });
+    })();
+  </script>
+</body>
+</html>

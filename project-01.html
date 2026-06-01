@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索结果页改版 — Liu Xiaohui</title>
+  <style>
+    :root {
+      --accent: #beff00;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #222;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--black);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--black);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--black);
+      display: inline-flex;
+      align-items: baseline;
+      gap: 1px;
+      user-select: none;
+    }
+    .nav-logo .logo-xh {
+      color: #9ed400;
+      display: inline-block;
+      transform-style: preserve-3d;
+      perspective: 200px;
+    }
+    @keyframes xh-to-ux { 0%{transform:rotate(0deg) scale(1);} 15%{transform:rotate(-14deg) scale(1);} 30%{transform:rotate(10deg) scale(1);} 48%{transform:rotate(-3deg) scale(.88);} 65%{transform:rotate(360deg) scale(1.06);} 80%{transform:rotate(358deg) scale(1);} 100%{transform:rotate(360deg) scale(1);} } 18%{transform:rotate(-14deg);} 36%{transform:rotate(9deg);} 52%{transform:rotate(-4deg) scale(.9);} 70%{transform:rotate(184deg) scale(1.05);} 85%{transform:rotate(178deg);} 100%{transform:rotate(180deg);} }
+      15%  { transform: rotate(-12deg) rotateY(0deg); }
+      30%  { transform: rotate(8deg) rotateY(0deg); }
+      45%  { transform: rotate(-5deg) rotateY(90deg); }
+      60%  { transform: rotate(0deg) rotateY(180deg); }
+      80%  { transform: rotate(3deg) rotateY(180deg); }
+      100% { transform: rotate(0deg) rotateY(180deg); }
+    }
+    @keyframes ux-to-xh { 0%{transform:rotate(360deg) scale(1);} 15%{transform:rotate(374deg) scale(1);} 30%{transform:rotate(350deg) scale(1);} 48%{transform:rotate(363deg) scale(.88);} 65%{transform:rotate(0deg) scale(1.06);} 80%{transform:rotate(2deg) scale(1);} 100%{transform:rotate(0deg) scale(1);} } 18%{transform:rotate(194deg);} 36%{transform:rotate(171deg);} 52%{transform:rotate(184deg) scale(.9);} 70%{transform:rotate(-4deg) scale(1.05);} 85%{transform:rotate(2deg);} 100%{transform:rotate(0deg);} }
+      20%  { transform: rotate(5deg) rotateY(180deg); }
+      45%  { transform: rotate(-4deg) rotateY(90deg); }
+      65%  { transform: rotate(8deg) rotateY(0deg); }
+      80%  { transform: rotate(-5deg) rotateY(0deg); }
+      100% { transform: rotate(0deg) rotateY(0deg); }
+    }
+    .nav-logo .logo-xh.flip-to-ux { animation: xh-to-ux .75s cubic-bezier(.4,0,.2,1) forwards; }
+    .nav-logo .logo-xh.flip-to-xh { animation: ux-to-xh .75s cubic-bezier(.4,0,.2,1) forwards; }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--black); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* Hero */
+    .hero {
+      padding: 140px 48px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+      max-width: 800px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .meta-item { }
+    .meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .hero-desc {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--gray-600);
+      max-width: 680px;
+    }
+
+    /* Cover image */
+    .cover-wrap {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 48px;
+    }
+    .cover-wrap img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      border: 1px solid var(--gray-200);
+    }
+
+    /* Content sections */
+    .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+    }
+
+    /* Metrics bar */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--gray-200);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 80px;
+    }
+    .metric-item {
+      background: var(--white);
+      padding: 36px 32px;
+      text-align: center;
+    }
+    .metric-num {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .metric-num span {
+      color: var(--accent);
+      background: var(--black);
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+    .metric-label {
+      font-size: 13px;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 80px;
+    }
+    .section-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      line-height: 1.15;
+    }
+    .section p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--gray-600);
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+
+    /* Two-col layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    /* Card */
+    .card {
+      background: var(--gray-100);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .card p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--gray-600);
+      margin-bottom: 0;
+    }
+    .card-accent {
+      background: var(--black);
+      color: var(--white);
+    }
+    .card-accent h3 { color: var(--accent); }
+    .card-accent p { color: rgba(255,255,255,0.7); }
+
+    /* Highlight block */
+    .highlight {
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      background: var(--gray-100);
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+    .highlight p {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--gray-800);
+      margin: 0;
+    }
+
+    /* Strategy list */
+    .strategy-list {
+      list-style: none;
+      margin-top: 24px;
+    }
+    .strategy-list li {
+      display: flex;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .strategy-list li:last-child { border-bottom: none; }
+    .strategy-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      color: var(--black);
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-top: 2px;
+    }
+    .strategy-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .strategy-content p {
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Insight row */
+    .insight-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    @media (max-width: 768px) {
+      .insight-row { grid-template-columns: 1fr; }
+    }
+    .insight-item {
+      padding: 24px;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+    }
+    .insight-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .insight-item h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .insight-item p {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Footer nav */
+    .footer-nav {
+      border-top: 1px solid var(--gray-200);
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-nav a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .footer-nav a:hover { opacity: 0.6; }
+    .footer-nav .next-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .hero { padding: 100px 24px 60px; }
+      .cover-wrap { padding: 0 24px; }
+      .content { padding: 0 24px 80px; }
+      .metrics { grid-template-columns: 1fr; }
+      .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      返回作品集
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag reveal">搜索体验 · S级项目</div>
+    <h1 class="reveal">外卖搜索<br>结果页改版</h1>
+    <div class="hero-meta reveal">
+      <div class="meta-item">
+        <div class="meta-label">角色</div>
+        <div class="meta-value">主设计师 · 100% 参与</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">方向</div>
+        <div class="meta-value">外卖搜索主链路</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">类型</div>
+        <div class="meta-value">全链路改版 · 框架重构</div>
+      </div>
+    </div>
+    <p class="hero-desc reveal">搜索结果页是外卖主链路的核心选购环节。面对多年叠加式迭代带来的框架臃肿、决策信息繁杂等问题，通过系统化重构实现屏效提升 10%、全局搜索访购率提升 0.09pp。</p>
+  </section>
+
+  <!-- Cover -->
+  <div class="cover-wrap reveal">
+    <img src="cover-search.png" alt="搜索结果页改版封面">
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Metrics -->
+    <div class="metrics reveal">
+      <div class="metric-item">
+        <div class="metric-num"><span>+0.09pp</span></div>
+        <div class="metric-label">全局搜索 UV_CXR</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>+0.31pp</span></div>
+        <div class="metric-label">搜索结果页 UV_CXR</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>~+10%</span></div>
+        <div class="metric-label">页面屏效提升</div>
+      </div>
+    </div>
+
+    <!-- Background -->
+    <div class="section reveal">
+      <div class="section-num">01 — 背景</div>
+      <h2>为什么要做这次改版？</h2>
+      <p>搜索结果页在业务快速扩张过程中经历多次迭代，但改进更多是在原有框架基础上叠加式优化，页面复杂度不断提升。三个核心问题亟待解决：</p>
+      <div class="insight-row">
+        <div class="insight-item">
+          <div class="insight-icon">🏗️</div>
+          <h4>框架臃肿</h4>
+          <p>新增模块较多、历史模块冗余，页面框架难以承载不同业务功能扩展，适配性差。</p>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon">🔍</div>
+          <h4>决策信息繁杂</h4>
+          <p>商家卡片信息密度大，有效内容有限，商家区分度低，用户决策困难。</p>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon">💰</div>
+          <h4>供给分发不足</h4>
+          <p>消费降级趋势下，高性价比商家商品分发样式与动线探索不足，前端架构与策略协同低效。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design principles -->
+    <div class="section reveal">
+      <div class="section-num">02 — 设计原则</div>
+      <h2>理想搜索结果页的三个特性</h2>
+      <div class="highlight">
+        <p>好的搜索结果页应该同时具备效率、兼容性和可扩展性——这三个维度构成了本次改版的设计北极星。</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>效率</h3>
+          <p>呈现用户需要的所有内容，做到详略得当。核心决策信息突出，噪音信息降噪。</p>
+        </div>
+        <div class="card">
+          <h3>兼容性</h3>
+          <p>多类供给可兼容且合理分布，多种动线可丝滑转换，适配不同搜索场景。</p>
+        </div>
+        <div class="card card-accent">
+          <h3>可扩展性</h3>
+          <p>未来增加新模块，可在当前框架中无痛扩展，避免再次陷入叠加式迭代的困境。</p>
+        </div>
+        <div class="card">
+          <h3>数据驱动</h3>
+          <p>通过改版前线上各模块数据分析 + 专家走查，梳理出三类核心问题及对应设计目标。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy -->
+    <div class="section reveal">
+      <div class="section-num">03 — 设计策略</div>
+      <h2>两大目标，六项核心策略</h2>
+      <p>围绕"提升屏效及导购效率"和"优化决策信息、丰富供给维度"两大目标，展开六项具体设计策略。</p>
+
+      <ul class="strategy-list">
+        <li>
+          <div class="strategy-num">1</div>
+          <div class="strategy-content">
+            <h4>调整页面框架布局，精简功能模块层级</h4>
+            <p>通过竞品调研发现行业主流框架向轻量化发展。重新梳理页面功能模块，按亲密性原则精简合并同类功能模块。通过三明治框架 vs 双层框架 A/B 实验，数据验证更轻量的双层框架表现更优。</p>
+          </div>
+        </li>
+        <li>
+          <div class="strategy-num">2</div>
+          <div class="strategy-content">
+            <h4>根据不同外卖品类，打造差异化二搜模板</h4>
+            <p>优化分组关系，融入商家列表增强与推荐列表关联性。基于商品特性 + 用户决策逻辑，设计多种差异化模板，实现"场景适配 × 信息效率"平衡。</p>
+          </div>
+        </li>
+        <li>
+          <div class="strategy-num">3</div>
+          <div class="strategy-content">
+            <h4>整合筛选排序功能，丰富快筛表达维度</h4>
+            <p>将排序筛选合并为一行，排序功能聚合为"综合"智能排序入口，可展开切换。丰富快筛词表达维度（优惠信息、产品信息、商家信息等），提升筛选词吸引力。</p>
+          </div>
+        </li>
+        <li>
+          <div class="strategy-num">4</div>
+          <div class="strategy-content">
+            <h4>调整商家卡片布局，开辟运营新空间</h4>
+            <p>重新梳理卡片信息分组，调整信息布局。利用商家卡片右侧空档，结合比价策略，将用户账户中大额低门槛可用券展示在搜索结果页，增强优惠感知。</p>
+          </div>
+        </li>
+        <li>
+          <div class="strategy-num">5</div>
+          <div class="strategy-content">
+            <h4>增强商家信息表达，刻画差异化商家卖点</h4>
+            <p>从"平台背书""商家表现""用户个性化"等维度建设新的推荐理由，分层分级展示。参考历史线上全量推荐理由数据，选择更能刺激用户点击进店的推荐理由作为二级标签。</p>
+          </div>
+        </li>
+        <li>
+          <div class="strategy-num">6</div>
+          <div class="strategy-content">
+            <h4>优化商家供给表达方式，差异化展示特价商品</h4>
+            <p>接入神抢手、拼好饭、自取等商品，透出统一品牌下更多低价供给。建设特价供给承接页，优化商家非货架商品的购买路径。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Highlights -->
+    <div class="section reveal">
+      <div class="section-num">04 — 设计亮点</div>
+      <h2>值得一提的几个决策</h2>
+      <div class="two-col">
+        <div class="card card-accent">
+          <h3>系统化视角</h3>
+          <p>不是单点优化，而是通过整体框架重构实现多目标同向提升。从框架到卡片到供给，形成完整的改版体系。</p>
+        </div>
+        <div class="card">
+          <h3>数据驱动决策</h3>
+          <p>双框架 A/B 对比，用数据选择最优方案。每一个设计决策都有数据支撑，而非主观判断。</p>
+        </div>
+        <div class="card">
+          <h3>策略与体验协同</h3>
+          <p>将比价策略、供给多样化与界面设计深度结合，让商业目标和用户体验目标同向而行。</p>
+        </div>
+        <div class="card">
+          <h3>体验结果同向</h3>
+          <p>屏效提升 10% 的同时，用户体验也有明显改善——框架更清晰、选购更高效，两者并不矛盾。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer nav -->
+  <div class="footer-nav">
+    <a href="index.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M10 3L5 8l5 5"/>
+      </svg>
+      返回作品集
+    </a>
+    <a href="project-02.html">
+      <div>
+        <span class="next-label">下一个项目</span>
+        优惠感传递设计
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 3l5 5-5 5"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Logo flip
+    (function(){
+      const el = document.getElementById('logo-xh');
+      if(!el) return;
+      let isUX = false, animating = false;
+      function flipTo(toUX){
+        if(animating) return;
+        animating = true;
+        const cls = toUX ? 'flip-to-ux' : 'flip-to-xh';
+        el.classList.remove('flip-to-ux','flip-to-xh');
+        void el.offsetWidth;
+        el.classList.add(cls);
+        setTimeout(()=>{ el.textContent = toUX ? 'ux' : 'xh'; }, 340);
+        el.addEventListener('animationend', function done(){
+          el.removeEventListener('animationend', done);
+          isUX = toUX; animating = false;
+        });
+      }
+      setTimeout(()=> flipTo(true), 1500);
+      document.getElementById('nav-logo').addEventListener('mouseenter', ()=>{ if(!animating) flipTo(!isUX); });
+    })();
+  </script>
+</body>
+</html>
