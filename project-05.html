@@ -4,176 +4,224 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>神抢手 AI 偏好定制 — Liu Xiaohui</title>
+  <link rel="stylesheet" href="design-tokens.css">
   <style>
-    :root {
-      --accent: #beff00;
-      --ai-purple: #a78bfa;
-      --ai-purple-dark: #7c3aed;
-      --ai-orange: #fb923c;
-      --black: #0a0a0a;
-      --white: #ffffff;
-      --gray-100: #f5f5f5;
-      --gray-200: #e8e8e8;
-      --gray-400: #999;
-      --gray-600: #555;
-      --gray-800: #222;
-    }
+    /* ── 页面补充样式（以 design-tokens.css 为基准）── */
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: var(--white);
-      color: var(--black);
-      cursor: none;
-    }
-
-    /* Cursor */
-    .cursor { width:12px;height:12px;background:var(--black);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s,background .2s; }
-    .cursor-ring { width:36px;height:36px;border:1.5px solid var(--black);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease-out,width .2s,height .2s; }
+    /* 修复 design-tokens.css 中 img{max-width:100%} 对 SVG 图标的影响 */
+    nav svg, .nav-back svg, .footer-nav svg { max-width:none; width:16px; height:16px; flex-shrink:0; }
 
     /* Nav */
-    nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 48px;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200); }
-    .nav-logo { font-size:15px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--black);display:inline-flex;align-items:baseline;gap:1px;user-select:none; }
-    .nav-logo .logo-xh { color:#9ed400;display:inline-block;transform-style:preserve-3d;perspective:200px; }
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; gap:24px;
+      padding:20px 48px; height:60px;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--gray-200);
+    }
+    .nav-logo { font-size:15px; font-weight:700; letter-spacing:.04em; color:var(--black); display:inline-flex; align-items:baseline; gap:1px; user-select:none; }
+    .nav-logo .logo-xh { color:#9ed400; display:inline-block; transform-style:preserve-3d; perspective:200px; }
     @keyframes xh-to-ux { 0%{transform:rotate(0deg) scale(1);}15%{transform:rotate(-14deg) scale(1);}30%{transform:rotate(10deg) scale(1);}48%{transform:rotate(-3deg) scale(.88);}65%{transform:rotate(360deg) scale(1.06);}80%{transform:rotate(358deg) scale(1);}100%{transform:rotate(360deg) scale(1);} }
     @keyframes ux-to-xh { 0%{transform:rotate(360deg) scale(1);}15%{transform:rotate(374deg) scale(1);}30%{transform:rotate(350deg) scale(1);}48%{transform:rotate(363deg) scale(.88);}65%{transform:rotate(0deg) scale(1.06);}80%{transform:rotate(2deg) scale(1);}100%{transform:rotate(0deg) scale(1);} }
     .nav-logo .logo-xh.flip-to-ux { animation:xh-to-ux .75s cubic-bezier(.4,0,.2,1) forwards; }
     .nav-logo .logo-xh.flip-to-xh { animation:ux-to-xh .75s cubic-bezier(.4,0,.2,1) forwards; }
-    .nav-back { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--gray-600);text-decoration:none;transition:color .2s; }
+    .nav-back { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--gray-600); transition:color .2s; }
     .nav-back:hover { color:var(--black); }
-    .nav-back svg { width:16px;height:16px; }
 
     /* Hero */
-    .hero { padding:140px 48px 80px;max-width:1200px;margin:0 auto; }
-    .hero-tag { display:inline-block;background:var(--black);color:var(--ai-purple);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:28px; }
-    .hero h1 { font-size:clamp(36px,5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:28px;max-width:900px; }
-    .hero-meta { display:flex;gap:40px;flex-wrap:wrap;margin-bottom:48px; }
-    .meta-label { font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:4px; }
-    .meta-value { font-size:14px;font-weight:500;color:var(--black); }
-    .hero-desc { font-size:18px;line-height:1.7;color:var(--gray-600);max-width:680px; }
+    .hero { padding:140px 48px 80px; max-width:1200px; margin:0 auto; }
+    .hero h1 { font-size:var(--text-h1); font-weight:var(--fw-black); line-height:1.05; letter-spacing:-.03em; margin-bottom:28px; max-width:900px; }
+    .hero-meta { display:flex; gap:40px; flex-wrap:wrap; margin-bottom:48px; }
+    .meta-label { font-size:var(--text-tag); font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-400); margin-bottom:4px; }
+    .meta-value { font-size:var(--text-sm); font-weight:500; color:var(--black); }
+    .hero-desc { font-size:var(--text-body-lg); line-height:1.7; color:var(--gray-600); max-width:680px; }
 
-    /* AI badge */
-    .ai-badge { display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 10px;border-radius:20px;margin-left:10px;vertical-align:middle; }
-    .ai-badge svg { width:12px;height:12px; }
-
-    /* Cover — gradient */
-    .hero-visual { width:100%;max-width:1200px;margin:0 auto 80px;padding:0 48px; }
+/* Hero visual — 封面图直接铺满，无黑色外框 */
+    .hero-visual { width:100%; max-width:1200px; margin:0 auto 80px; padding:0 48px; }
     .hero-visual-inner {
-      width:100%;border-radius:16px;overflow:hidden;
-      background:linear-gradient(135deg,#1e1b4b 0%,#312e81 30%,#4c1d95 60%,#7c2d8a 100%);
-      padding:48px;display:flex;align-items:center;justify-content:center;min-height:340px;position:relative;
+    width:100%; border-radius:var(--r-card); overflow:hidden;
+    position:relative;
     }
-    .hero-visual-inner img { max-width:100%;max-height:260px;object-fit:contain;border-radius:8px;box-shadow:0 24px 80px rgba(0,0,0,0.5); }
-    .hero-visual-label { position:absolute;bottom:20px;right:24px;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:.06em;font-weight:600; }
+    .hero-visual-inner img { width:100%; height:auto; display:block; }
+    .hero-visual-label { position:absolute; bottom:20px; right:24px; font-size:10px; color:rgba(255,255,255,.35); letter-spacing:.1em; font-weight:700; text-transform:uppercase; }
 
     /* Content */
-    .content { max-width:1200px;margin:0 auto;padding:0 48px 120px; }
+    .content { max-width:1200px; margin:0 auto; padding:0 48px 120px; }
 
     /* Metrics */
-    .metrics { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;margin-bottom:80px; }
-    .metric-item { background:var(--white);padding:36px 32px;text-align:center; }
-    .metric-num { font-size:42px;font-weight:800;letter-spacing:-.04em;color:var(--black);line-height:1;margin-bottom:8px; }
-    .metric-num span { color:var(--accent);background:var(--black);padding:0 4px;border-radius:3px; }
-    .metric-num .purple { color:#c4b5fd;background:#3b0764;padding:0 4px;border-radius:3px; }
-    .metric-label { font-size:13px;color:var(--gray-600);font-weight:500; }
+    .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--gray-200); border:1px solid var(--gray-200); border-radius:var(--r-card); overflow:hidden; margin-bottom:80px; }
+    .metric-item { background:var(--white); padding:36px 32px; text-align:center; }
+    .metric-num { font-size:42px; font-weight:var(--fw-black); letter-spacing:-.04em; color:var(--black); line-height:1; margin-bottom:8px; }
+    .metric-num span { color:var(--accent); background:var(--black); padding:0 4px; border-radius:3px; }
+    .metric-label { font-size:13px; color:var(--gray-600); font-weight:500; }
+
+    /* Insight 策略点 — 无 icon 版，用编号线条替代 */
+    .strategy-principles { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:32px; border:1px solid var(--gray-200); border-radius:var(--r-card); overflow:hidden; }
+    .sp-item { padding:28px 28px 32px; border-right:1px solid var(--gray-200); position:relative; }
+    .sp-item:last-child { border-right:none; }
+    .sp-num { font-size:11px; font-weight:var(--fw-black); letter-spacing:.14em; color:var(--gray-400); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+    .sp-num::after { content:''; flex:1; height:1px; background:var(--gray-200); }
+    .sp-item h4 { font-size:15px; font-weight:var(--fw-black); margin-bottom:10px; letter-spacing:-.01em; color:var(--black); }
+    .sp-item p { font-size:13px; color:var(--gray-600); line-height:1.7; margin:0; }
+    @media(max-width:768px){ .strategy-principles{ grid-template-columns:1fr; } .sp-item{ border-right:none; border-bottom:1px solid var(--gray-200); } .sp-item:last-child{ border-bottom:none; } }
+
+    /* 视频左右布局 */
+    .video-row { display:grid; grid-template-columns:1fr 1fr; gap:0; margin:40px 0; border-radius:var(--r-card); overflow:hidden; background:var(--black); }
+    .video-phone-wrap { position:relative; background:var(--black); display:flex; align-items:center; justify-content:center; padding:40px 40px; }
+    .video-phone-clip {
+      width:min(220px, calc(100% - 80px)); aspect-ratio:9/19.5; position:relative;
+      border-radius:clamp(20px, 3vw, 32px);
+      background:rgba(255,255,255,.06);
+      border:1.5px solid rgba(255,255,255,.35);
+      overflow:hidden;
+    }
+    .video-phone-clip video { width:100%; height:100%; object-fit:cover; display:block; }
+    /* 顶部刘海装饰 */
+    .video-phone-clip::before {
+      content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%);
+      width:36px; height:5px; background:rgba(255,255,255,.2); border-radius:3px;
+      z-index:2;
+    }
+    /* SVG border — 保留但不用，改用 border */
+    .video-phone-border { display:none; }
+    .video-right-panel { padding:40px 36px; display:flex; flex-direction:column; justify-content:center; gap:0; }
+    .video-right-label { font-size:10px; font-weight:var(--fw-black); letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+    .video-right-label .dot { width:6px; height:6px; background:#ef4444; border-radius:50%; animation:blink 1.2s ease-in-out infinite; flex-shrink:0; }
+    .video-right-title { font-size:clamp(18px,2vw,24px); font-weight:var(--fw-black); color:var(--white); letter-spacing:-.02em; line-height:1.2; margin-bottom:20px; }
+    .video-rounds { list-style:none; display:flex; flex-direction:column; gap:0; }
+    .video-rounds li { display:flex; gap:14px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.07); align-items:flex-start; }
+    .video-rounds li:last-child { border-bottom:none; }
+    .vr-num { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--accent); color:var(--black); font-size:11px; font-weight:var(--fw-black); display:flex; align-items:center; justify-content:center; margin-top:1px; }
+    .vr-text h5 { font-size:13px; font-weight:var(--fw-bold); color:var(--white); margin-bottom:3px; }
+    .vr-text p  { font-size:12px; color:rgba(255,255,255,.45); line-height:1.5; margin:0; }
+    @media(max-width:768px){ .video-row{ grid-template-columns:1fr; } }
 
     /* Section */
     .section { margin-bottom:80px; }
-    .section-num { font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:12px; }
-    .section h2 { font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.02em;margin-bottom:24px;line-height:1.15; }
-    .section p { font-size:16px;line-height:1.8;color:var(--gray-600);max-width:720px;margin-bottom:20px; }
+    .section-num { font-size:var(--text-tag); font-weight:var(--fw-bold); letter-spacing:.1em; text-transform:uppercase; color:var(--gray-400); margin-bottom:12px; }
+    .section h2 { font-size:var(--text-h2); font-weight:var(--fw-black); letter-spacing:-.02em; margin-bottom:24px; line-height:1.15; }
+    .section p { font-size:var(--text-body); line-height:1.8; color:var(--gray-600); max-width:720px; margin-bottom:20px; }
 
-    /* Video block */
-    .video-block { margin:40px 0;border-radius:16px;overflow:hidden;background:#0a0a0a;position:relative; }
-    .video-block video { width:100%;display:block;max-height:600px;object-fit:contain;background:#0a0a0a; }
-    .video-label { position:absolute;top:16px;left:20px;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:20px;display:flex;align-items:center;gap:6px; }
-    .video-label .dot { width:6px;height:6px;background:#ef4444;border-radius:50%;animation:blink 1.2s ease-in-out infinite; }
-    @keyframes blink { 0%,100%{opacity:1;}50%{opacity:0.3;} }
-    .video-caption { padding:16px 20px;background:#111;color:rgba(255,255,255,0.5);font-size:12px;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06); }
+    /* Video block — 黑底，与整站 dark section 一致 */
+    .video-block { margin:40px 0; border-radius:var(--r-card); overflow:hidden; background:var(--black); position:relative; }
+    .video-block video { width:100%; display:block; max-height:600px; object-fit:contain; background:var(--black); }
+    .video-label {
+      position:absolute; top:16px; left:20px;
+      background:rgba(0,0,0,.6); backdrop-filter:blur(8px);
+      color:var(--white); font-size:var(--text-tag); font-weight:var(--fw-bold);
+      letter-spacing:.08em; text-transform:uppercase;
+      padding:5px 12px; border-radius:var(--r-pill);
+      display:flex; align-items:center; gap:6px;
+    }
+    .video-label .dot { width:6px; height:6px; background:#ef4444; border-radius:50%; animation:blink 1.2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1;}50%{opacity:.3;} }
+    .video-caption { padding:16px 20px; background:#111; color:rgba(255,255,255,.45); font-size:var(--text-xs); line-height:1.6; border-top:1px solid rgba(255,255,255,.06); }
 
-    /* Color transition diagram */
-    .color-story { display:flex;align-items:center;gap:0;margin:32px 0;border-radius:12px;overflow:hidden;height:80px; }
-    .color-story-left { flex:1;background:linear-gradient(135deg,#f97316,#fb923c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;height:100%; }
-    .color-story-arrow { width:60px;background:linear-gradient(90deg,#fb923c,#7c3aed);height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px; }
-    .color-story-right { flex:1;background:linear-gradient(135deg,#7c3aed,#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;height:100%; }
+    /* 色彩转变图示 — 用 black/off-white 替代紫/橙渐变 */
+    .color-story { display:flex; align-items:stretch; gap:0; margin:32px 0; border-radius:var(--r-card); overflow:hidden; height:88px; border:1px solid var(--gray-200); }
+    .color-story-left {
+      flex:1; background:var(--off-white);
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column; gap:4px;
+      font-size:13px; font-weight:var(--fw-bold); color:var(--black);
+    }
+    .color-story-left small { font-size:11px; font-weight:400; color:var(--gray-400); }
+    .color-story-arrow {
+      width:56px; background:var(--gray-200);
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; color:var(--gray-400);
+    }
+    .color-story-right {
+      flex:1; background:var(--black);
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column; gap:4px;
+      font-size:13px; font-weight:var(--fw-bold); color:var(--white);
+    }
+    .color-story-right small { font-size:11px; font-weight:400; color:rgba(255,255,255,.4); }
+    /* accent 小圆点指示 */
+    .color-story-right .accent-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; margin-right:4px; }
+
+    /* Workflow steps — 用 accent + black 替代橙/紫 */
+    .workflow { display:flex; gap:0; margin:32px 0; position:relative; }
+    .workflow::before { content:''; position:absolute; top:20px; left:20px; right:20px; height:2px; background:var(--gray-200); z-index:0; }
+    .workflow-step { flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; z-index:1; }
+    .step-dot {
+      width:40px; height:40px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:15px; margin-bottom:12px;
+      border:2px solid var(--white);
+    }
+    .step-dot.first { background:var(--off-white); box-shadow:0 0 0 2px var(--gray-200); color:var(--black); }
+    .step-dot.ai    { background:var(--black);     box-shadow:0 0 0 2px var(--black);    color:var(--accent); }
+    .step-label { font-size:11px; font-weight:var(--fw-bold); color:var(--gray-600); letter-spacing:.04em; margin-bottom:4px; }
+    .step-desc  { font-size:12px; color:var(--gray-400); line-height:1.4; max-width:80px; }
 
     /* Two-col */
-    .two-col { display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:40px; }
     @media(max-width:768px){ .two-col{grid-template-columns:1fr;} }
 
-    /* Card */
-    .card { background:var(--gray-100);border-radius:12px;padding:32px; }
-    .card h3 { font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.01em; }
-    .card p { font-size:14px;line-height:1.7;color:var(--gray-600);margin-bottom:0; }
-    .card-dark { background:var(--black);color:var(--white); }
-    .card-dark h3 { color:var(--ai-purple); }
-    .card-dark p { color:rgba(255,255,255,0.65); }
-    .card-purple { background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff; }
-    .card-purple h3 { color:#e9d5ff; }
-    .card-purple p { color:rgba(255,255,255,0.75); }
+    /* Card — 沿用 project-01~04 规范 */
+    .card { background:var(--gray-100); border-radius:var(--r-card); padding:32px; }
+    .card h3 { font-size:16px; font-weight:var(--fw-bold); margin-bottom:12px; letter-spacing:-.01em; }
+    .card p  { font-size:14px; line-height:1.7; color:var(--gray-600); margin-bottom:0; }
 
-    /* Workflow steps */
-    .workflow { display:flex;gap:0;margin:32px 0;position:relative; }
-    .workflow::before { content:'';position:absolute;top:20px;left:20px;right:20px;height:2px;background:linear-gradient(90deg,#fb923c,#7c3aed);z-index:0; }
-    .workflow-step { flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1; }
-    .step-dot { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:12px;border:2px solid var(--white);box-shadow:0 0 0 2px currentColor; }
-    .step-dot.orange { background:#fb923c;color:#fff;box-shadow:0 0 0 2px #fb923c; }
-    .step-dot.purple { background:#7c3aed;color:#fff;box-shadow:0 0 0 2px #7c3aed; }
-    .step-label { font-size:11px;font-weight:700;color:var(--gray-600);letter-spacing:.04em;margin-bottom:4px; }
-    .step-desc { font-size:12px;color:var(--gray-400);line-height:1.4;max-width:80px; }
+    /* card-accent: 黑底 + lime 标题（替代 card-purple）*/
+    .card-accent { background:var(--black); color:var(--white); }
+    .card-accent h3 { color:var(--accent); }
+    .card-accent p  { color:rgba(255,255,255,.65); }
 
-    /* Highlight */
-    .highlight { border-left:3px solid var(--ai-purple);padding:20px 24px;background:#faf5ff;border-radius:0 8px 8px 0;margin:24px 0; }
-    .highlight p { font-size:15px;font-style:italic;color:var(--gray-800);margin:0; }
-
-    /* Strategy list */
-    .strategy-list { list-style:none;margin-top:24px; }
-    .strategy-list li { display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--gray-200); }
+    /* Strategy list — 序号用 accent */
+    .strategy-list { list-style:none; margin-top:24px; }
+    .strategy-list li { display:flex; gap:16px; padding:20px 0; border-bottom:1px solid var(--gray-200); }
     .strategy-list li:last-child { border-bottom:none; }
-    .strategy-num { flex-shrink:0;width:28px;height:28px;background:var(--ai-purple);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:50%;margin-top:2px; }
-    .strategy-content h4 { font-size:15px;font-weight:700;margin-bottom:6px; }
-    .strategy-content p { font-size:14px;color:var(--gray-600);line-height:1.6;margin:0; }
+    .strategy-num { flex-shrink:0; width:28px; height:28px; background:var(--accent); color:var(--black); font-size:12px; font-weight:var(--fw-black); display:flex; align-items:center; justify-content:center; border-radius:50%; margin-top:2px; }
+    .strategy-content h4 { font-size:15px; font-weight:var(--fw-bold); margin-bottom:6px; }
+    .strategy-content p  { font-size:14px; color:var(--gray-600); line-height:1.6; margin:0; }
 
-    /* Dual AI table */
-    .dual-table { border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;margin-top:32px; }
-    .dual-row { display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid var(--gray-200); }
+    /* Dual table — 用 black 替代橙/紫渐变头 */
+    .dual-table { border:1px solid var(--gray-200); border-radius:var(--r-card); overflow:hidden; margin-top:32px; }
+    .dual-row { display:grid; grid-template-columns:160px 1fr; border-bottom:1px solid var(--gray-200); }
     .dual-row:last-child { border-bottom:none; }
-    .dual-head { background:var(--black);color:var(--white);padding:20px 24px;display:flex;align-items:center; }
-    .dual-head h4 { font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase; }
-    .dual-head.purple { background:linear-gradient(135deg,#4c1d95,#7c3aed); }
-    .dual-head.orange { background:linear-gradient(135deg,#92400e,#fb923c); }
-    .dual-body { padding:20px 24px;background:var(--white); }
-    .dual-body p { font-size:14px;line-height:1.7;color:var(--gray-600);margin:0; }
+    .dual-head { background:var(--black); color:var(--white); padding:20px 24px; display:flex; align-items:center; }
+    .dual-head h4 { font-size:12px; font-weight:var(--fw-bold); letter-spacing:.06em; text-transform:uppercase; }
+    /* accent 左边条区分两行 */
+    .dual-head.layer-product  { border-left:3px solid var(--accent); }
+    .dual-head.layer-workflow { border-left:3px solid var(--gray-3); }
+    .dual-body { padding:20px 24px; background:var(--white); }
+    .dual-body p { font-size:14px; line-height:1.7; color:var(--gray-600); margin:0; }
 
     /* Insight row */
-    .insight-row { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px; }
+    .insight-row { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:32px; }
     @media(max-width:768px){ .insight-row{grid-template-columns:1fr;} }
-    .insight-item { padding:24px;border:1px solid var(--gray-200);border-radius:10px; }
-    .insight-icon { font-size:24px;margin-bottom:12px; }
-    .insight-item h4 { font-size:14px;font-weight:700;margin-bottom:8px; }
-    .insight-item p { font-size:13px;color:var(--gray-600);line-height:1.6;margin:0; }
+    .insight-item { padding:24px; border:1px solid var(--gray-200); border-radius:10px; }
+    .insight-icon { font-size:22px; margin-bottom:12px; }
+    .insight-item h4 { font-size:14px; font-weight:var(--fw-bold); margin-bottom:8px; }
+    .insight-item p  { font-size:13px; color:var(--gray-600); line-height:1.6; margin:0; }
 
     /* Reveal */
-    .reveal { opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease; }
-    .reveal.visible { opacity:1;transform:translateY(0); }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
 
     /* Footer nav */
-    .footer-nav { border-top:1px solid var(--gray-200);padding:48px;display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto; }
-    .footer-nav a { display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--black);text-decoration:none;transition:opacity .2s; }
+    .footer-nav { border-top:1px solid var(--gray-200); padding:48px; display:flex; justify-content:space-between; align-items:center; max-width:1200px; margin:0 auto; }
+    .footer-nav a { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--black); text-decoration:none; transition:opacity .2s; }
     .footer-nav a:hover { opacity:.6; }
-    .next-label { font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);display:block;margin-bottom:4px; }
+    .next-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-400); display:block; margin-bottom:4px; }
 
     @media(max-width:768px){
-      nav{padding:16px 24px;}
-      .hero{padding:100px 24px 60px;}
-      .hero-visual{padding:0 24px;}
-      .content{padding:0 24px 80px;}
-      .metrics{grid-template-columns:1fr;}
-      .workflow{flex-wrap:wrap;gap:20px;} .workflow::before{display:none;}
-      .workflow-step{flex:0 0 45%;}
-      .dual-row{grid-template-columns:1fr;} .dual-head{padding:14px 20px;}
-      .footer-nav{padding:32px 24px;flex-direction:column;gap:24px;}
+      nav{ padding:16px 24px; }
+      .hero{ padding:100px 24px 60px; }
+      .hero-visual{ padding:0 24px; }
+      .content{ padding:0 24px 80px; }
+      .metrics{ grid-template-columns:1fr; }
+      .insight-row{ grid-template-columns:1fr; }
+      .workflow{ flex-wrap:wrap; gap:20px; }
+      .workflow::before{ display:none; }
+      .workflow-step{ flex:0 0 45%; }
+      .dual-row{ grid-template-columns:1fr; }
+      .dual-head{ padding:14px 20px; }
+      .footer-nav{ padding:32px 24px; flex-direction:column; gap:24px; }
     }
   </style>
 </head>
@@ -182,22 +230,22 @@
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
-  <nav>
-    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
-    <a href="index.html" class="nav-back">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>
-      返回作品集
-    </a>
-  </nav>
+<nav>
+<a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+<a href="index.html" class="nav-back">
+<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>
+返回作品集
+</a>
+</nav>
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-tag reveal">AI 产品设计 · Vibe Coding</div>
+    <div class="hero-tag reveal">AI 产品设计 · VIBE CODING</div>
     <h1 class="reveal">设计一个 AI 产品<br>也用 AI 方式做设计</h1>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
-        <div class="meta-value">主设计师 · 65%（交互策略全责，视觉协作）</div>
+        <div class="meta-value">主设计师（交互策略全责，视觉协作）</div>
       </div>
       <div class="meta-item">
         <div class="meta-label">项目</div>
@@ -215,7 +263,7 @@
   <div class="hero-visual reveal">
     <div class="hero-visual-inner">
       <img src="sqs-screens.png" alt="神抢手 AI 偏好定制设计方案全览">
-      <div class="hero-visual-label">DESIGN SCREENS OVERVIEW</div>
+      <div class="hero-visual-label">Design Screens Overview</div>
     </div>
   </div>
 
@@ -224,20 +272,20 @@
     <!-- Metrics -->
     <div class="metrics reveal">
       <div class="metric-item">
-        <div class="metric-num"><span class="purple">3轮</span></div>
-        <div class="metric-label">Vibe Coding 原型驱动方案决策</div>
+        <div class="metric-num"><span>当天</span></div>
+        <div class="metric-label">可交互原型上手机，方向当天确定</div>
       </div>
       <div class="metric-item">
-        <div class="metric-num"><span class="purple">0</span></div>
-        <div class="metric-label">AE 文件 · 动效全程 Coding 交付</div>
+        <div class="metric-num"><span>100%</span></div>
+        <div class="metric-label">动效还原度 · 代码直接交付前端</div>
       </div>
       <div class="metric-item">
-        <div class="metric-num"><span class="purple">2x</span></div>
-        <div class="metric-label">评审效率提升（可交互 vs 静态稿）</div>
+        <div class="metric-num"><span>2x</span></div>
+        <div class="metric-label">评审效率提升 · 可操作 vs 看图猜想</div>
       </div>
     </div>
 
-    <!-- 背景 -->
+    <!-- 01 背景 -->
     <div class="section reveal">
       <div class="section-num">01 — 项目背景</div>
       <h2>真正的命题不是「做个性化」</h2>
@@ -246,137 +294,165 @@
       <div class="highlight">
         <p>「不要让用户觉得自己在"设置"，而是让用户觉得自己在"表达今天的状态"。」设置是需要思考的决策动作，告诉状态是轻量的表达动作——心理负担差很多。</p>
       </div>
-      <div class="insight-row">
-        <div class="insight-item">
-          <div class="insight-icon">🎯</div>
+      <div class="strategy-principles">
+        <div class="sp-item">
+          <div class="sp-num">01</div>
           <h4>问题重定义</h4>
           <p>从「改造页面」前移到「让用户愿意喂数据」——设计介入点提前到产品策略层。</p>
         </div>
-        <div class="insight-item">
-          <div class="insight-icon">⚡</div>
+        <div class="sp-item">
+          <div class="sp-num">02</div>
           <h4>即时反馈原则</h4>
           <p>用户提供偏好后页面要立刻有变化，建立「我的行为影响了结果」的认知闭环。</p>
         </div>
-        <div class="insight-item">
-          <div class="insight-icon">🪄</div>
+        <div class="sp-item">
+          <div class="sp-num">03</div>
           <h4>寄生而非替代</h4>
           <p>偏好采集不覆盖现有功能，而是「寄生」其中——用户不觉得在喂数据，觉得在为自己做事。</p>
         </div>
       </div>
     </div>
 
-    <!-- Vibe Coding 原型 -->
+    <!-- 02 Vibe Coding -->
     <div class="section reveal">
       <div class="section-num">02 — Vibe Coding 原型驱动</div>
       <h2>用可交互 Demo 代替静态稿走评审</h2>
       <p>传统方案评审：设计师出 Figma 原型 → 产品和技术在脑子里「模拟」操作 → 凭想象做决策。这次完全不同——每轮方案都用 Vibe Coding 输出可交互 HTML 原型，直接在手机上操作感受。</p>
 
-      <div class="video-block">
-        <div class="video-label"><span class="dot"></span>DEMO · 交互原型录屏</div>
-        <video autoplay muted loop playsinline>
-          <source src="sqs-demo-prototype.mp4" type="video/mp4">
-        </video>
-        <div class="video-caption">三轮方案迭代均以可交互 HTML 原型呈现。录屏展示了从标签选择 → AI 解析 → 橙紫色彩跃迁 → 专属推荐结果的完整交互流程。</div>
+      <div class="video-row">
+        <div class="video-phone-wrap">
+          <div class="video-phone-clip">
+            <video autoplay muted loop playsinline>
+              <source data-src="sqs-demo-prototype.mp4" type="video/mp4">
+            </video>
+            <svg class="video-phone-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polygon points="6,0 94,0 100,6 100,94 94,100 6,100 0,94 0,6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="video-right-panel">
+          <div class="video-right-label"><span class="dot"></span>交互原型录屏</div>
+          <div class="video-right-title">三轮对齐，每轮都可以直接上手操作</div>
+          <ul class="video-rounds">
+            <li>
+              <div class="vr-num">1</div>
+              <div class="vr-text">
+                <h5>方向探索</h5>
+                <p>A/B 两个可交互原型，产品在真实操作中感受差异，当天确定方向。</p>
+              </div>
+            </li>
+            <li>
+              <div class="vr-num">2</div>
+              <div class="vr-text">
+                <h5>方案细化</h5>
+                <p>coding 原型验证：标签需支持随时刷新和二次编辑，而非一次性设置。</p>
+              </div>
+            </li>
+            <li>
+              <div class="vr-num">3</div>
+              <div class="vr-text">
+                <h5>技术评审兜底</h5>
+                <p>超时兜底交互直接在原型里演示，问题当场对齐，无需额外排期。</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-
-      <ul class="strategy-list">
-        <li>
-          <div class="strategy-num">1</div>
-          <div class="strategy-content">
-            <h4>第一轮：方向探索</h4>
-            <p>快速输出 A/B 两个方向的可交互原型，产品在真实操作中感受差异，而非看图猜想。当天确定方向。</p>
-          </div>
-        </li>
-        <li>
-          <div class="strategy-num">2</div>
-          <div class="strategy-content">
-            <h4>第二轮：方案 B 细化</h4>
-            <p>围绕「用户偏好多维度、有时效性、动态变化」的核心矛盾，coding 原型验证：标签不应该是静态的一次性设置，需要支持随时刷新和二次编辑。</p>
-          </div>
-        </li>
-        <li>
-          <div class="strategy-num">3</div>
-          <div class="strategy-content">
-            <h4>第三轮：技术评审兜底</h4>
-            <p>技术评审发现 AI 推荐可能有加载超时问题，直接在原型里演示超时兜底交互方案，问题当场对齐，无需额外排期。</p>
-          </div>
-        </li>
-      </ul>
     </div>
 
-    <!-- 交互设计 + 动效 -->
+    <!-- 03 交互设计 -->
     <div class="section reveal">
       <div class="section-num">03 — 交互设计 · 让 AI 过程可见</div>
-      <h2>橙 → 紫：用色彩跃迁定义状态隐喻</h2>
-      <p>整个交互的核心视觉语言是一次色彩转变：从橙色到紫色，代表用户从「普通浏览」进入「被 AI 识别的专属状态」。</p>
+      <h2>状态隐喻：普通态 → AI 专属态</h2>
+      <p>整个交互的核心视觉语言是一次状态转变：用户从「普通浏览」进入「被 AI 识别的专属状态」。界面用对比色彩和动效将这个不可见的 AI 推理过程，转化为用户可感知的仪式感体验。</p>
 
       <div class="color-story">
-        <div class="color-story-left">🟠 默认态<br><small style="font-weight:400;opacity:.8">大众 · 温暖 · 未定制</small></div>
+        <div class="color-story-left">
+          默认态
+          <small>大众 · 温暖 · 未定制</small>
+        </div>
         <div class="color-story-arrow">→</div>
-        <div class="color-story-right">🟣 定制态<br><small style="font-weight:400;opacity:.8">AI · 专属 · 科技感</small></div>
+        <div class="color-story-right">
+          <span><span class="accent-dot"></span>AI 专属态</span>
+          <small>AI 识别 · 专属 · 科技感</small>
+        </div>
       </div>
 
       <div class="workflow">
         <div class="workflow-step">
-          <div class="step-dot orange">💬</div>
+          <div class="step-dot first">💬</div>
           <div class="step-label">用户表达</div>
           <div class="step-desc">输入文字 / 语音</div>
         </div>
         <div class="workflow-step">
-          <div class="step-dot purple">✨</div>
+          <div class="step-dot ai">✦</div>
           <div class="step-label">AI 解析中</div>
           <div class="step-desc">Glow 发光 + 闪烁提示</div>
         </div>
         <div class="workflow-step">
-          <div class="step-dot purple">🏷️</div>
+          <div class="step-dot ai">▤</div>
           <div class="step-label">标签生成</div>
           <div class="step-desc">长句拆解为结构化标签</div>
         </div>
         <div class="workflow-step">
-          <div class="step-dot purple">🎉</div>
+          <div class="step-dot ai">◎</div>
           <div class="step-label">即时反馈</div>
           <div class="step-desc">扫光横幅 + 页面变色</div>
         </div>
       </div>
 
-      <p style="margin-top:32px;">每一步 AI 过程都有对应的视觉仪式感：输入框的紫色 Glow 效果代表「正在计算」，成功横幅的扫光动效代表「AI 已响应」，页面全局的橙→紫渐变代表「你的专属状态已激活」。</p>
+      <p style="margin-top:32px;">每一步 AI 过程都有对应的视觉仪式感：输入框 Glow 效果代表「正在计算」，成功横幅的扫光动效代表「AI 已响应」，页面全局色彩变化代表「你的专属状态已激活」。</p>
     </div>
 
-    <!-- 动效 Coding 交付 -->
+    <!-- 04 动效 Coding -->
     <div class="section reveal">
       <div class="section-num">04 — 动效 Coding 交付</div>
       <h2>不出 AE 文件，直接交付可运行代码</h2>
       <p>这个项目的动效复杂度很高：背景渐变过渡、Glow 发光、标签进场动画、成功横幅扫光、声波纹实时动效……传统路径是设计师用 AE 做 demo 视频，前端看着视频还原。这次完全绕开这条路。</p>
 
-      <div class="video-block">
-        <div class="video-label"><span class="dot"></span>DEMO · 动效编码录屏</div>
-        <video autoplay muted loop playsinline>
-          <source src="sqs-demo-motion.mp4" type="video/mp4">
-        </video>
-        <div class="video-caption">动效全程用代码实现并录屏呈现。橙→紫背景渐变、Glow 发光、扫光横幅等关键动效均直接以 CSS/JS 编写，最终交付可运行代码给前端而非参考视频。</div>
-      </div>
-
-      <div class="two-col">
-        <div class="card card-dark">
-          <h3>传统路径</h3>
-          <p>设计师出 AE 文件 → 导出参考视频 → 前端理解并还原 → 设计师验收发现还原度不足 → 反复沟通修改。信息在每次传递中都有损耗。</p>
+      <div class="video-row">
+        <div class="video-right-panel" style="background:var(--black);">
+          <div class="video-right-label"><span class="dot"></span>动效编码录屏</div>
+          <div class="video-right-title">设计师直接交付可运行代码</div>
+          <ul class="video-rounds">
+            <li>
+              <div class="vr-num" style="background:var(--gray-200);color:var(--gray-600);">旧</div>
+              <div class="vr-text">
+                <h5>传统路径</h5>
+                <p>AE 文件 → 参考视频 → 前端还原 → 验收返工。每次传递都有损耗。</p>
+              </div>
+            </li>
+            <li>
+              <div class="vr-num">新</div>
+              <div class="vr-text">
+                <h5>Coding 路径</h5>
+                <p>直接 coding 实现 → 满意后交付可运行代码。还原度接近 100%，设计师对最终呈现有掌控权。</p>
+              </div>
+            </li>
+          </ul>
         </div>
-        <div class="card card-purple">
-          <h3>Coding 路径</h3>
-          <p>设计师直接 coding 实现动效 → 调整参数直到满意 → 把可运行代码交给前端。动效还原度接近 100%，设计师对最终呈现有直接掌控权。</p>
+        <div class="video-phone-wrap">
+          <div class="video-phone-clip">
+            <video autoplay muted loop playsinline>
+              <source data-src="sqs-demo-motion.mp4" type="video/mp4">
+            </video>
+            <svg class="video-phone-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polygon points="6,0 94,0 100,6 100,94 94,100 6,100 0,94 0,6"/>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 双重 AI 叙事 -->
+    <!-- 05 方法论 -->
     <div class="section reveal">
       <div class="section-num">05 — 方法论</div>
-      <h2>双重 AI 叙事：设计 AI 产品 × 用 AI 做设计</h2>
+      <h2>双重叙事：设计 AI 产品 × 用 AI 做设计</h2>
       <p>这个项目形成了一个少见的双重结构，两条线索同时进行：</p>
 
       <div class="dual-table">
         <div class="dual-row">
-          <div class="dual-head orange">
+          <div class="dual-head layer-product">
             <h4>产品层</h4>
           </div>
           <div class="dual-body">
@@ -384,7 +460,7 @@
           </div>
         </div>
         <div class="dual-row">
-          <div class="dual-head purple">
+          <div class="dual-head layer-workflow">
             <h4>工作流层</h4>
           </div>
           <div class="dual-body">
@@ -398,7 +474,7 @@
       </div>
     </div>
 
-  </div>
+  </div><!-- /content -->
 
   <!-- Footer nav -->
   <div class="footer-nav">
@@ -416,43 +492,58 @@
   </div>
 
   <script>
+    /* 正常模式：把 data-src 赋值给 src 才开始加载视频 */
+    if(!location.search.includes('preview')){
+      document.querySelectorAll('source[data-src]').forEach(s=>{
+        s.src = s.dataset.src;
+        s.parentElement.load();
+      });
+    } else {
+      /* preview 模式：不加载视频，直接显示所有内容 */
+      document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+    }
+    /* Cursor */
     const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
+    const ring   = document.getElementById('cursorRing');
     let mx=0,my=0,rx=0,ry=0;
     document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-    function animateCursor(){
-      cursor.style.left=mx+'px';cursor.style.top=my+'px';
-      rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-      ring.style.left=rx+'px';ring.style.top=ry+'px';
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
+    (function tick(){
+      cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+      rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
+      requestAnimationFrame(tick);
+    })();
 
-    const reveals=document.querySelectorAll('.reveal');
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-    },{threshold:0.1});
-    reveals.forEach(el=>observer.observe(el));
+    /* Reveal on scroll */
+    const reveals = document.querySelectorAll('.reveal');
+    new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:.1}).observe ? reveals.forEach(el=>{
+      new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+      },{threshold:.1}).observe(el);
+    }) : reveals.forEach(el=>el.classList.add('visible'));
 
+    /* Logo flip */
     (function(){
       const el=document.getElementById('logo-xh');
-      if(!el)return;
-      let isUX=false,animating=false;
+      if(!el) return;
+      let isUX=false, animating=false;
       function flipTo(toUX){
-        if(animating)return;
+        if(animating) return;
         animating=true;
         const cls=toUX?'flip-to-ux':'flip-to-xh';
         el.classList.remove('flip-to-ux','flip-to-xh');
         void el.offsetWidth;
         el.classList.add(cls);
-        setTimeout(()=>{el.textContent=toUX?'ux':'xh';},340);
+        setTimeout(()=>{ el.textContent=toUX?'ux':'xh'; },340);
         el.addEventListener('animationend',function done(){
           el.removeEventListener('animationend',done);
-          isUX=toUX;animating=false;
+          isUX=toUX; animating=false;
         });
       }
       setTimeout(()=>flipTo(true),1500);
-      document.getElementById('nav-logo').addEventListener('mouseenter',()=>{if(!animating)flipTo(!isUX);});
+      document.getElementById('nav-logo').addEventListener('mouseenter',()=>{ if(!animating) flipTo(!isUX); });
     })();
   </script>
 </body>

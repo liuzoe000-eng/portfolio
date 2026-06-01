@@ -23,7 +23,7 @@
     }
     .cursor { width: 12px; height: 12px; background: var(--black); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
     .cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--black); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.15s ease-out; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; gap: 24px; padding: 20px 48px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); }
     .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--black); display: inline-flex; align-items: baseline; gap: 1px; user-select: none; }
     .nav-logo .logo-xh { color: #9ed400; display: inline-block; transform-style: preserve-3d; perspective: 200px; }
     @keyframes xh-to-ux { 0%{transform:rotate(0deg) scale(1);} 15%{transform:rotate(-14deg) scale(1);} 30%{transform:rotate(10deg) scale(1);} 48%{transform:rotate(-3deg) scale(.88);} 65%{transform:rotate(360deg) scale(1.06);} 80%{transform:rotate(358deg) scale(1);} 100%{transform:rotate(360deg) scale(1);} } 18%{transform:rotate(-14deg);} 36%{transform:rotate(9deg);} 52%{transform:rotate(-4deg) scale(.9);} 70%{transform:rotate(184deg) scale(1.05);} 85%{transform:rotate(178deg);} 100%{transform:rotate(180deg);} } 15%{transform:rotate(-12deg) rotateY(0deg);} 30%{transform:rotate(8deg) rotateY(0deg);} 45%{transform:rotate(-5deg) rotateY(90deg);} 60%{transform:rotate(0deg) rotateY(180deg);} 80%{transform:rotate(3deg) rotateY(180deg);} 100%{transform:rotate(0deg) rotateY(180deg);} }
@@ -130,14 +130,14 @@
   <div class="cursor-ring" id="cursorRing"></div>
 
   <nav>
-    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
-    <a href="index.html" class="nav-back">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M10 3L5 8l5 5"/>
-      </svg>
-      返回作品集
-    </a>
-  </nav>
+<a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+<a href="index.html" class="nav-back">
+<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+<path d="M10 3L5 8l5 5"/>
+</svg>
+返回作品集
+</a>
+</nav>
 
   <!-- Hero -->
   <section class="hero">

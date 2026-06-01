@@ -48,7 +48,7 @@
       z-index: 100;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 24px;
       padding: 20px 48px;
       background: rgba(255,255,255,0.92);
       backdrop-filter: blur(12px);
@@ -74,46 +74,46 @@
     .nav-back:hover { color: var(--black); }
     .nav-back svg { width: 16px; height: 16px; }
 
-    /* ── Hero ── */
-    .hero {
-      padding: 140px 48px 80px;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .hero-tag {
-      display: inline-block;
-      background: var(--accent); color: var(--black);
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 2px; margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-size: clamp(36px, 5vw, 72px);
-      font-weight: 800; line-height: 1.05;
-      letter-spacing: -0.03em; margin-bottom: 28px; max-width: 820px;
-    }
-    .hero-meta {
-      display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px;
-    }
-    .meta-label {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--gray-400); margin-bottom: 4px;
-    }
-    .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
-    .hero-desc {
-      font-size: 18px; line-height: 1.75;
-      color: var(--gray-600); max-width: 680px;
-    }
+/* ── Hero ── */
+.hero {
+  padding: 140px 48px 80px;
+  max-width: 1200px; margin: 0 auto;
+}
+.hero-tag {
+  display: inline-block;
+  background: var(--accent); color: var(--black);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 2px; margin-bottom: 28px;
+}
+.hero h1 {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em; margin-bottom: 28px; max-width: 820px;
+}
+.hero-meta {
+  display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px;
+}
+.meta-label {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--gray-400); margin-bottom: 4px;
+}
+.meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
+.hero-desc {
+  font-size: 18px; line-height: 1.75;
+  color: var(--gray-600); max-width: 680px;
+}
 
-    /* ── Cover ── */
-    .cover-wrap {
-      width: 100%; max-width: 1200px;
-      margin: 0 auto 80px; padding: 0 48px;
-    }
-    .cover-wrap img {
-      width: 100%; border-radius: 12px; display: block;
-      border: 1px solid var(--gray-200);
-    }
+/* ── Cover ── */
+.cover-wrap {
+  width: 100%; max-width: 1200px;
+  margin: 0 auto 80px; padding: 0 48px;
+}
+.cover-wrap img {
+  width: 100%; border-radius: 12px; display: block;
+  border: 1px solid var(--gray-200);
+}
 
     /* ── Content ── */
     .content {
@@ -185,6 +185,69 @@
       font-size: 11px; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--gray-400); margin-bottom: 12px;
+    }
+
+    /* ── 右侧章节导航 ── */
+    .page-nav {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 14px; /* 严格限宽，只有圆点区域 */
+    }
+    .page-nav-item {
+      position: relative;
+      display: block;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .page-nav-dot {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      border: 1.5px solid var(--gray-400);
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .page-nav-item:hover .page-nav-dot {
+      transform: translate(-50%, -50%) scale(1.3);
+    }
+    .page-nav-item.active .page-nav-dot {
+      background: var(--black);
+      border-color: var(--black);
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+    /* 全局 tooltip，由 JS 控制 */
+    #page-nav-tooltip {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-600);
+      white-space: nowrap;
+      background: var(--white);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--gray-200);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      opacity: 0;
+      transition: opacity 0.15s;
+      /* left/top 完全由 JS 控制 */
+    }
+    #page-nav-tooltip.visible { opacity: 1; }
+    @media (max-width: 768px) {
+      .page-nav { display: none; }
     }
     .section h2 {
       font-size: clamp(24px, 3vw, 36px);
@@ -345,6 +408,88 @@
       padding-left: 14px;
       border-left: 2px solid var(--gray-200);
       font-style: italic;
+    }
+
+    /* ── Strategy blocks (平铺) ── */
+    .strategy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin: 32px 0 0;
+    }
+    .strategy-block {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    /* 策略 meta 行 */
+    .strategy-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .strategy-meta-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .strategy-tag {
+      flex-shrink: 0;
+      font-size: 9px; font-weight: 800;
+      letter-spacing: 0.08em;
+      background: var(--black);
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .strategy-problem {
+      font-size: 11px;
+      color: var(--gray-400);
+    }
+    .strategy-title {
+      font-size: 15px; font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+    .strategy-desc {
+      font-size: 12px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    /* 方案纵向大图区 */
+    .strategy-imgs {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 8px;
+    }
+    .strategy-img-wrap {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+    }
+    .strategy-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .strategy-img-label {
+      font-size: 12px;
+      color: var(--gray-600);
+      padding: 12px 16px;
+      border-top: 1px solid var(--gray-200);
+      background: var(--white);
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    /* 策略之间的分割线 */
+    .strategy-block + .strategy-block {
+      padding-top: 32px;
+      border-top: 1px solid var(--gray-100);
     }
 
     /* ── Touchpoint map ── */
@@ -669,6 +814,7 @@
     .rg-arrow-icon {
       flex-shrink: 0;
       width: 14px; height: 14px;
+      object-fit: contain;
     }
     .rg-key {
       font-size: 10px;
@@ -679,7 +825,9 @@
     }
     /* 打码色块 + 扫光 */
     .redact-bar {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 52px; height: 12px;
       background: rgba(232,64,64,0.18);
       border-radius: 3px;
@@ -687,23 +835,91 @@
       overflow: hidden;
       flex-shrink: 0;
     }
+    /* 扫光层：普通白色光带 */
     .redact-bar::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-      animation: redact-shimmer 2s infinite;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.55) 50%,
+        transparent 100%
+      );
+      animation: redact-shimmer 2.4s ease-in-out infinite;
+      z-index: 1;
+    }
+    /* 文字层：用扫光渐变做文字颜色，background-clip:text 实现只在光带处可见 */
+    .redact-bar::before {
+      content: '数据脱敏';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      /* 渐变与扫光同步：光带中心文字可见，两侧透明 */
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(180,60,30,0.0) 30%,
+        rgba(180,60,30,0.28) 50%,
+        rgba(180,60,30,0.0) 70%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: redact-text-shimmer 2.4s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+    @keyframes redact-text-shimmer {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
     }
     .award-block {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 16px;
       background: var(--gray-100);
       border-radius: 10px;
-      padding: 20px;
+      padding: 20px 24px;
       border-left: 3px solid var(--accent);
+      position: relative;
+      overflow: visible;
     }
-    .award-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+    .award-icon {
+      font-size: 32px;
+      line-height: 1;
+      flex-shrink: 0;
+      display: inline-block;
+      transform-origin: center center;
+      align-self: center;
+    }
+    .award-icon.pop {
+      animation: trophy-pop 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+    }
+    @keyframes trophy-pop {
+      0%   { transform: scale(1) rotate(0deg); }
+      20%  { transform: scale(1.4) rotate(-12deg); }
+      40%  { transform: scale(1.5) rotate(10deg); }
+      60%  { transform: scale(1.3) rotate(-6deg); }
+      80%  { transform: scale(1.1) rotate(3deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    /* 撒花 canvas 覆盖在 award-block 上方 */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9990;
+    }
     .award-title {
       font-size: 14px;
       font-weight: 700;
@@ -840,6 +1056,118 @@
       margin-top: 3px;
       white-space: nowrap;
     }
+    /* 推导箭头行 */
+    .sml-row-arrow {
+      border-bottom: none;
+    }
+    .sml-cell-arrow {
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      color: var(--gray-300);
+      padding: 4px 14px;
+      border-right: 1px solid var(--gray-100);
+    }
+    .sml-cell-arrow:last-child { border-right: none; }
+    /* 核心目标行 */
+    .sml-row-goals {
+      background: #f7ffe0;
+      border-top: 1px solid #d8f0a0;
+    }
+    .sml-row-goals .sml-label {
+      border-right: 1px solid #d8f0a0;
+      background: #f0fcd0;
+    }
+    .sml-cell-goals {
+      flex-direction: column;
+      align-items: flex-start;
+      border-right: 1px solid #d8f0a0;
+      padding: 12px 14px;
+      gap: 4px;
+    }
+    .sml-cell-goals:last-child { border-right: none; }
+
+    /* ── 推导图（合并版） ── */
+    .derive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0 28px;
+    }
+    .derive-col {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    /* 列标题 */
+    .derive-col-head {
+      background: var(--gray-100);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .derive-col-head-title {
+      font-size: 12px; font-weight: 800;
+      color: var(--black); letter-spacing: 0.04em;
+    }
+    .derive-col-head-sub {
+      font-size: 10px; color: var(--gray-400);
+      font-weight: 400; margin-top: 2px;
+    }
+    /* 场景区 */
+    .derive-scenes {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .derive-scene-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .derive-scene-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .derive-verbs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    /* 推导箭头 */
+    .derive-arrow {
+      text-align: center;
+      padding: 6px 0 2px;
+      font-size: 16px;
+      color: var(--gray-300);
+      line-height: 1;
+      position: relative;
+    }
+    .derive-arrow::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 10px;
+      background: var(--gray-200);
+      margin: 0 auto 2px;
+    }
+    /* 目标区 */
+    .derive-goals {
+      background: #f7ffe0;
+      border-top: 1px solid var(--gray-200);
+      padding: 12px 14px;
+    }
+    .derive-goals-label {
+      font-size: 9px; font-weight: 800;
+      color: var(--gray-400); letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
     /* 单元格 */
     .sml-cell {
       padding: 14px;
@@ -938,12 +1266,37 @@
   <div class="cursor-ring" id="cursorRing"></div>
 
   <nav>
-    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
-    <a href="index.html" class="nav-back">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M10 3L5 8l5 5"/>
-      </svg>
-      返回作品集
+<a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+<a href="index.html" class="nav-back">
+<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+<path d="M10 3L5 8l5 5"/>
+</svg>
+返回作品集
+</a>
+</nav>
+
+  <!-- 右侧章节导航 -->
+  <nav class="page-nav" id="page-nav">
+    <a class="page-nav-item" href="#sec-01" data-label="01 定义问题">
+      <span class="page-nav-dot"></span>
+    </a>
+    <a class="page-nav-item" href="#sec-02" data-label="02 用户视角">
+      <span class="page-nav-dot"></span>
+    </a>
+    <a class="page-nav-item" href="#sec-03" data-label="03 调研洞察">
+      <span class="page-nav-dot"></span>
+    </a>
+    <a class="page-nav-item" href="#sec-04" data-label="04 问题拆解">
+      <span class="page-nav-dot"></span>
+    </a>
+    <a class="page-nav-item" href="#sec-05" data-label="05 设计策略">
+      <span class="page-nav-dot"></span>
+    </a>
+    <a class="page-nav-item" href="#sec-06" data-label="06 项目成果">
+      <span class="page-nav-dot"></span>
+    </a>
+    <a class="page-nav-item" href="#sec-07" data-label="07 项目复盘">
+      <span class="page-nav-dot"></span>
     </a>
   </nav>
 
@@ -1004,8 +1357,8 @@
     </div>
 
     <!-- Define -->
-    <div class="section reveal">
-      <div class="section-num">01 — 定义问题</div>
+<div class="section reveal" id="sec-01">
+<div class="section-num">01 — 定义问题</div>
       <h2>先把"优惠感"说清楚，<br>再谈怎么提升它</h2>
       <p>在启动设计之前，我们做的第一件事是给"优惠感"下一个可操作的定义。这个概念太模糊——每个人说的"优惠感"可能是不同的东西，如果不先对齐，设计方向就会散。</p>
       <p>我们将优惠感拆解为三个要素，并明确了设计的切入层：</p>
@@ -1030,8 +1383,8 @@
     </div>
 
     <!-- Perception model -->
-    <div class="section reveal">
-      <div class="section-num">02 — 用户视角</div>
+<div class="section reveal" id="sec-02">
+<div class="section-num">02 — 用户视角</div>
       <h2>用户感知优惠的四个维度</h2>
       <p>基于心智模型研究，我们将用户感知优惠的过程拆解为四个维度，这也成为后续设计方向的评估框架：</p>
       <div class="perception-grid">
@@ -1060,8 +1413,8 @@
     </div>
 
     <!-- Research -->
-    <div class="section reveal">
-      <div class="section-num">03 — 调研洞察</div>
+<div class="section reveal" id="sec-03">
+<div class="section-num">03 — 调研洞察</div>
       <h2>数据说话：7 个满意度洼地，<br>精准定位发力方向</h2>
       <p>在确定设计方向之前，我们先做了一轮优惠满意度调研，目的是把"用户觉得优惠感差"这件事量化出来，找到真正的痛点在哪里，而不是凭感觉做设计。</p>
       <div class="research-callout">
@@ -1149,57 +1502,24 @@
     </div>
 
     <!-- Problems -->
-    <div class="section reveal">
-      <div class="section-num">04 — 问题拆解</div>
-      <h2>四大核心问题，对应四种解法</h2>
-      <p>这 7 个洼地不是随机分布的。把它们放回用户的真实决策路径里，按意图强弱分层来看，问题的根源就清晰了——不同意图的用户，在不同链路环节，反复碰到同一类障碍：</p>
+<div class="section reveal" id="sec-04">
+<div class="section-num">04 — 问题拆解</div>
+<h2>三大核心问题，对应三种解法</h2>
+<p>这些问题不是随机分布的。把它们放回用户的真实决策路径里，按链路节点梳理来看，问题的根源就清晰了——用户在不同链路环节，反复碰到同一类障碍：</p>
 
-      <!-- 列核心目标摘要 -->
-      <div class="sml-goals-bar">
-        <div class="sml-goals-card">
-          <div class="sml-goals-card-title">流量<span>首页 · 搜索</span></div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>快速找到优惠&amp;活动</div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>直观对比决策商家优惠</div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标3</span>通过优惠&amp;活动激发吸引</div>
-        </div>
-        <div class="sml-goals-card">
-          <div class="sml-goals-card-title">交易<span>点菜 · 购物车 · 提单</span></div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>优惠便捷获取、最大化使用</div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>优惠规则清晰易懂、算得清</div>
-        </div>
-        <div class="sml-goals-card">
-          <div class="sml-goals-card-title">购后<span>订单详情 · 列表</span></div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>参与购后权益</div>
-          <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>高效发起复购</div>
-        </div>
-      </div>
-
-      <!-- 场景分析矩阵（轻量版） -->
+      <!-- 场景分析矩阵（含核心目标推导行） -->
       <div class="scene-matrix-lite">
         <!-- 表头 -->
         <div class="sml-head">
           <div class="sml-head-cell"></div>
           <div class="sml-head-cell active">流量
             <span class="sml-head-sub">首页 · 搜索</span>
-            <div class="sml-col-goals">
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>快速找到优惠&amp;活动</div>
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>直观对比决策商家优惠</div>
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标3</span>通过优惠&amp;活动激发吸引</div>
-            </div>
           </div>
           <div class="sml-head-cell active">交易
             <span class="sml-head-sub">点菜 · 购物车 · 提单</span>
-            <div class="sml-col-goals">
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>优惠便捷获取、最大化使用</div>
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>优惠规则清晰易懂、算得清</div>
-            </div>
           </div>
           <div class="sml-head-cell">购后
             <span class="sml-head-sub">订单详情 · 列表</span>
-            <div class="sml-col-goals">
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>参与购后权益</div>
-              <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>高效发起复购</div>
-            </div>
           </div>
         </div>
         <!-- 场景一 -->
@@ -1209,45 +1529,17 @@
             <span class="sml-scene-name">为优惠而来</span>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">找</span>
-              <span class="sml-v-sub">找活动</span>
-              <span class="sml-desc">找活动、找优惠商家</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">找</span><span class="sml-v-sub">找活动</span><span class="sml-desc">找活动、找优惠商家</span></div>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">找</span>
-              <span class="sml-v-sub">找商品</span>
-              <span class="sml-desc">找优惠商品</span>
-            </div>
-            <div class="sml-verb-card">
-              <span class="sml-v">领</span>
-              <span class="sml-v-sub">领优惠</span>
-              <span class="sml-desc">领取可用优惠</span>
-            </div>
-            <div class="sml-verb-card">
-              <span class="sml-v">用</span>
-              <span class="sml-v-sub">最大化</span>
-              <span class="sml-desc">优惠最大化使用</span>
-            </div>
-            <div class="sml-verb-card">
-              <span class="sml-v">检</span>
-              <span class="sml-v-sub">确认价</span>
-              <span class="sml-desc">确认最终到手价格</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">找</span><span class="sml-v-sub">找商品</span><span class="sml-desc">找优惠商品</span></div>
+            <div class="sml-verb-card"><span class="sml-v">领</span><span class="sml-v-sub">领优惠</span><span class="sml-desc">领取可用优惠</span></div>
+            <div class="sml-verb-card"><span class="sml-v">用</span><span class="sml-v-sub">最大化</span><span class="sml-desc">优惠最大化使用</span></div>
+            <div class="sml-verb-card"><span class="sml-v">检</span><span class="sml-v-sub">确认价</span><span class="sml-desc">确认最终到手价格</span></div>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">激</span>
-              <span class="sml-v-sub">购后玩法</span>
-              <span class="sml-desc">参与购后权益玩法</span>
-            </div>
-            <div class="sml-verb-card">
-              <span class="sml-v">复</span>
-              <span class="sml-v-sub">复购</span>
-              <span class="sml-desc">强调复购刺激益点</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">激</span><span class="sml-v-sub">购后玩法</span><span class="sml-desc">参与购后权益玩法</span></div>
+            <div class="sml-verb-card"><span class="sml-v">复</span><span class="sml-v-sub">复购</span><span class="sml-desc">强调复购刺激益点</span></div>
           </div>
         </div>
         <!-- 场景二 -->
@@ -1257,23 +1549,11 @@
             <span class="sml-scene-name">选购决策依据</span>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">比</span>
-              <span class="sml-v-sub">比优惠</span>
-              <span class="sml-desc">圈定意向商家，对比优惠价格</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">比</span><span class="sml-v-sub">比优惠</span><span class="sml-desc">圈定意向商家，对比优惠价格</span></div>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">加</span>
-              <span class="sml-v-sub">选商品</span>
-              <span class="sml-desc">选购商品，对比到手价</span>
-            </div>
-            <div class="sml-verb-card">
-              <span class="sml-v">凑</span>
-              <span class="sml-v-sub">凑满减</span>
-              <span class="sml-desc">凑满减优惠</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">加</span><span class="sml-v-sub">选商品</span><span class="sml-desc">选购商品，对比到手价</span></div>
+            <div class="sml-verb-card"><span class="sml-v">凑</span><span class="sml-v-sub">凑满减</span><span class="sml-desc">凑满减优惠</span></div>
           </div>
           <div class="sml-cell dim"><span class="sml-empty">—</span></div>
         </div>
@@ -1284,20 +1564,38 @@
             <span class="sml-scene-name">受活动激发</span>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">激</span>
-              <span class="sml-v-sub">被吸引</span>
-              <span class="sml-desc">受优惠活动吸引，激发转化</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">激</span><span class="sml-v-sub">被吸引</span><span class="sml-desc">受优惠活动吸引，激发转化</span></div>
           </div>
           <div class="sml-cell">
-            <div class="sml-verb-card">
-              <span class="sml-v">找</span>
-              <span class="sml-v-sub">店内福利</span>
-              <span class="sml-desc">受店内活动、福利吸引</span>
-            </div>
+            <div class="sml-verb-card"><span class="sml-v">找</span><span class="sml-v-sub">店内福利</span><span class="sml-desc">受店内活动、福利吸引</span></div>
           </div>
           <div class="sml-cell dim"><span class="sml-empty">—</span></div>
+        </div>
+        <!-- 推导箭头行 -->
+        <div class="sml-row sml-row-arrow">
+          <div class="sml-label" style="border-right:1px solid var(--gray-200);"></div>
+          <div class="sml-cell sml-cell-arrow">↓</div>
+          <div class="sml-cell sml-cell-arrow">↓</div>
+          <div class="sml-cell sml-cell-arrow">↓</div>
+        </div>
+        <!-- 核心目标行 -->
+        <div class="sml-row sml-row-goals">
+          <div class="sml-label">
+            <span style="font-size:9px;font-weight:800;color:var(--gray-400);letter-spacing:0.08em;">核心目标</span>
+          </div>
+          <div class="sml-cell sml-cell-goals">
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>快速找到优惠&amp;活动</div>
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>直观对比决策商家优惠</div>
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标3</span>通过优惠&amp;活动激发吸引</div>
+          </div>
+          <div class="sml-cell sml-cell-goals">
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>优惠便捷获取、最大化使用</div>
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>优惠规则清晰易懂、算得清</div>
+          </div>
+          <div class="sml-cell sml-cell-goals">
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标1</span>参与购后权益</div>
+            <div class="sml-col-goal"><span class="sml-col-goal-num">目标2</span>高效发起复购</div>
+          </div>
         </div>
       </div>
 
@@ -1326,21 +1624,13 @@
           </div>
           <div class="problem-arrow">→ 表达极致化</div>
         </div>
-        <div class="problem-item">
-          <div class="problem-badge">问题 04</div>
-          <div class="problem-body">
-            <h4>缺少优惠氛围感和惊喜感</h4>
-            <p>缺少进店优惠浮层、惊喜感营造等氛围设计。提单页缺少"平台为你自动领券"的贴心感知，购后缺少"本单已享权益"的强化。</p>
-          </div>
-          <div class="problem-arrow">→ 惊喜感设计</div>
-        </div>
       </div>
-      <p style="margin-top:24px;color:var(--gray-600);font-size:13px;">四个问题指向同一个结论：这不是某个页面的单点问题，而是全链路的系统性缺失。解法也必须是系统性的。</p>
+      <p style="margin-top:24px;color:var(--gray-600);font-size:13px;">三个问题指向同一个结论：这不是某个页面的单点问题，而是全链路的系统性缺失。解法也必须是系统性的。</p>
     </div>
 
     <!-- Touchpoint -->
-    <div class="section reveal">
-      <div class="section-num">05 — 设计策略</div>
+<div class="section reveal" id="sec-05">
+<div class="section-num">05 — 设计策略</div>
       <h2>全链路覆盖：让优惠感<br>贯穿每一个决策节点</h2>
       <p>识别到优惠感缺失是全链路问题，而非单点问题。我们按用户决策阶段分层分级透出优惠信息，确保用户在每个关键节点都能感知到"这里有优惠"：</p>
       <div class="touchpoint-map">
@@ -1365,11 +1655,90 @@
           <div class="tp-node">购后</div>
         </div>
       </div>
+
+      <!-- 设计策略 + 方案平铺 -->
+      <div class="strategy-list">
+
+        <!-- 策略一 -->
+        <div class="strategy-block">
+          <div class="strategy-meta">
+            <div class="strategy-meta-left">
+              <span class="strategy-tag">策略 01</span>
+              <div class="strategy-problem">↳ 对应问题：价格没算到最便宜，表达单一</div>
+            </div>
+            <div class="strategy-title">突出商品价格力</div>
+            <div class="strategy-desc">统一外卖全链路商品价格展示，强化价格优惠/降幅表达，全链路同商品价格统一，新增"省xx元"标签</div>
+          </div>
+          <div class="strategy-imgs">
+            <div class="strategy-img-wrap">
+              <img src="sol-price.webp" alt="全链路价格展示">
+              <div class="strategy-img-label">统一全链路价格展示，强化降幅表达</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 策略二 -->
+        <div class="strategy-block">
+          <div class="strategy-meta">
+            <div class="strategy-meta-left">
+              <span class="strategy-tag">策略 02</span>
+              <div class="strategy-problem">↳ 对应问题：优惠活动缺少触达，用户感知不到</div>
+            </div>
+            <div class="strategy-title">优惠卖法触达能力提升</div>
+            <div class="strategy-desc">全链路新增营销标签透传（桌面icon、搜索、店铺、商详、提单、订单），让活动在每个节点都被感知到</div>
+          </div>
+          <div class="strategy-imgs">
+            <div class="strategy-img-wrap">
+              <img src="sol-marketing.webp" alt="营销活动透传">
+              <div class="strategy-img-label">全链路增加营销活动透传</div>
+            </div>
+            <div class="strategy-img-wrap">
+              <img src="sol-coupon.webp" alt="红包信息层级">
+              <div class="strategy-img-label">搜索红包：静默发放 → 主动领取</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 策略三 -->
+        <div class="strategy-block">
+          <div class="strategy-meta">
+            <div class="strategy-meta-left">
+              <span class="strategy-tag">策略 03</span>
+              <div class="strategy-problem">↳ 对应问题：优惠表达不直观，感知不极致</div>
+            </div>
+            <div class="strategy-title">主路径各场景优惠表达更直观</div>
+            <div class="strategy-desc">配送0元文案优化；购物车凑单提示强化；腰封差异化展示不同优惠类型；提单页动效强化省钱感；订单页新增复购优惠标签</div>
+          </div>
+          <div class="strategy-imgs">
+            <div class="strategy-img-wrap">
+              <img src="sol-delivery.webp" alt="配送费零元">
+              <div class="strategy-img-label">配送费零元文案优化</div>
+            </div>
+            <div class="strategy-img-wrap">
+              <img src="sol-banner.webp" alt="优惠腰封">
+              <div class="strategy-img-label">腰封差异化展示优惠类型</div>
+            </div>
+            <div class="strategy-img-wrap">
+              <img src="sol-cart.webp" alt="购物车优惠感">
+              <div class="strategy-img-label">购物车优惠感升级</div>
+            </div>
+            <div class="strategy-img-wrap">
+              <img src="sol-voucher.gif" alt="用券引导">
+              <div class="strategy-img-label">提单页：动效强化省钱感</div>
+            </div>
+            <div class="strategy-img-wrap">
+              <img src="sol-repurchase.webp" alt="复购气泡">
+              <div class="strategy-img-label">订单页：复购优惠气泡</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <!-- Results -->
-    <div class="section reveal">
-      <div class="section-num">06 — 项目成果</div>
+<div class="section reveal" id="sec-06">
+<div class="section-num">06 — 项目成果</div>
       <h2>20 个子项全部落地，<br>日均增加 18 万单</h2>
       <p>策略落地后，全链路数据全面正向。整体项目收益超出预期 50%，并在 2024 年 6 月提前完成全年收益目标。</p>
 
@@ -1390,56 +1759,50 @@
       </div>
 
       <!-- 分页面数据（数值脱敏） -->
-      <!-- SVG 上升箭头，复用 symbol -->
-      <svg width="0" height="0" style="position:absolute">
-        <symbol id="ico-up" viewBox="0 0 20 20" fill="none">
-          <path d="M10 2 C6 8 3 10 3 14 Q3 17 6 17 Q8 17 9 15 L9 18 Q9 19 10 19 Q11 19 11 18 L11 15 Q12 17 14 17 Q17 17 17 14 C17 10 14 8 10 2Z" fill="#ff4d2e"/>
-        </symbol>
-      </svg>
       <div class="result-grid">
         <div class="rg-card">
           <div class="rg-page">全链路 · 价格力</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均GMV</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">全链路 · 营销触达</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均订单</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均订单</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">搜索 · 发券升级</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CTR &amp; CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">红包核销率</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CTR &amp; CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">红包核销率</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">店铺页 · 购物车</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">提单率</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">提单率</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_RPM</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">提单页 · 用券引导</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">人均订单数</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">UV_CXR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均实付GMV</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">人均订单数</span><span class="redact-bar"></span></div>
           </div>
         </div>
         <div class="rg-card">
           <div class="rg-page">订单页 · 复购激发</div>
           <div class="rg-metrics">
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">再来一单 CTR</span><span class="redact-bar"></span></div>
-            <div class="rg-metric"><svg class="rg-arrow-icon"><use href="#ico-up"/></svg><span class="rg-key">列表 UV_RPM</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">再来一单 CTR</span><span class="redact-bar"></span></div>
+            <div class="rg-metric"><img class="rg-arrow-icon" src="arrow-up.png" alt="↑"><span class="rg-key">列表 UV_RPM</span><span class="redact-bar"></span></div>
           </div>
         </div>
       </div>
@@ -1455,8 +1818,8 @@
     </div>
 
     <!-- Decisions -->
-    <div class="section reveal">
-      <div class="section-num">07 — 项目复盘</div>
+<div class="section reveal" id="sec-07">
+<div class="section-num">07 — 项目复盘</div>
       <h2>值得一提的几个决策</h2>
       <div class="two-col">
         <div class="card">
@@ -1520,6 +1883,89 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
+
+    // ── 右侧章节导航 scroll-spy + tooltip ──
+    (function() {
+      const sections = ['sec-01','sec-02','sec-03','sec-04','sec-05','sec-06','sec-07'];
+      const navItems = document.querySelectorAll('.page-nav-item');
+      if (!navItems.length) return;
+
+      // 创建全局 tooltip
+      const tip = document.createElement('div');
+      tip.id = 'page-nav-tooltip';
+      document.body.appendChild(tip);
+
+      function updateActive() {
+        const scrollY = window.scrollY + window.innerHeight * 0.35;
+        let current = 0;
+        sections.forEach(function(id, i) {
+          const el = document.getElementById(id);
+          if (el && el.offsetTop <= scrollY) current = i;
+        });
+        navItems.forEach(function(item, i) {
+          item.classList.toggle('active', i === current);
+        });
+      }
+
+      window.addEventListener('scroll', updateActive, { passive: true });
+      updateActive();
+
+      // tooltip hover
+      navItems.forEach(function(item) {
+        item.addEventListener('mouseenter', function() {
+          const label = item.getAttribute('data-label');
+          if (!label) return;
+          // 先设内容，放到屏外测量宽度
+          tip.classList.remove('visible');
+          tip.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+          tip.textContent = label;
+          document.body.appendChild(tip); // 确保在 DOM 里
+          // 强制 reflow
+          void tip.offsetWidth;
+          const tipW = tip.offsetWidth;
+          const tipH = tip.offsetHeight;
+          const rect = item.getBoundingClientRect();
+          const dotCY = rect.top + rect.height / 2;
+          const leftPos = Math.max(8, rect.left - tipW - 10);
+          tip.style.cssText = [
+            'position:fixed',
+            'left:' + leftPos + 'px',
+            'top:' + (dotCY - tipH / 2) + 'px',
+            'opacity:0',
+            'transition:opacity 0.15s',
+            'z-index:9999',
+            'pointer-events:none',
+            'font-size:11px',
+            'font-weight:500',
+            'color:var(--gray-600)',
+            'white-space:nowrap',
+            'background:var(--white)',
+            'padding:3px 8px',
+            'border-radius:4px',
+            'border:1px solid var(--gray-200)',
+            'box-shadow:0 2px 8px rgba(0,0,0,0.08)',
+          ].join(';');
+          // 下一帧淡入
+          requestAnimationFrame(function() {
+            tip.style.opacity = '1';
+          });
+        });
+        item.addEventListener('mouseleave', function() {
+          tip.style.opacity = '0';
+        });
+      });
+
+      // 平滑滚动
+      navItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          const href = item.getAttribute('href');
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    })();
+
     (function(){
       const el = document.getElementById('logo-xh');
       if (!el) return;
@@ -1690,5 +2136,162 @@
       });
     })();
   </script>
+
+<!-- 星尘轨道 canvas -->
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+(function() {
+  var canvas = document.getElementById('confetti-canvas');
+  var ctx = canvas.getContext('2d');
+  var animId = null;
+  var running = false;
+  var globalAlpha = 0; // 整体淡入
+
+  var awardIcon = document.querySelector('.award-icon');
+
+  // 三条轨道，各自独立参数
+  var orbits = [
+    { rx: 28, ry: 10, speed: 0.022, angle: 0,           size: 3.5, color: '#ffd700', trailLen: 18 },
+    { rx: 22, ry: 14, speed: -0.016, angle: Math.PI * 0.7, size: 2.5, color: '#beff00', trailLen: 14 },
+    { rx: 34, ry: 8,  speed: 0.013, angle: Math.PI * 1.4, size: 2,   color: '#ffffff', trailLen: 10 }
+  ];
+
+  // 每条轨道存储历史坐标用于拖尾
+  orbits.forEach(function(o) { o.trail = []; });
+
+  function getCenter() {
+    if (!awardIcon) return { x: 60, y: 300 };
+    var r = awardIcon.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  }
+
+  // 轨道倾斜角（绕 X 轴透视感）
+  var TILT = 0.38; // sin(tilt) 压缩 Y 轴，模拟椭圆透视
+
+  function orbitPos(o, angle) {
+    return {
+      x: Math.cos(angle) * o.rx,
+      y: Math.sin(angle) * o.ry * TILT
+    };
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 整体淡入
+    if (globalAlpha < 1) globalAlpha = Math.min(1, globalAlpha + 0.025);
+
+    var c = getCenter();
+
+    orbits.forEach(function(o) {
+      o.angle += o.speed;
+
+      var pos = orbitPos(o, o.angle);
+      var wx = c.x + pos.x;
+      var wy = c.y + pos.y;
+
+      // 记录拖尾
+      o.trail.push({ x: wx, y: wy });
+      if (o.trail.length > o.trailLen) o.trail.shift();
+
+      // 绘制拖尾：从旧到新，透明度递增，尺寸递减
+      for (var i = 0; i < o.trail.length; i++) {
+        var t = o.trail[i];
+        var progress = i / o.trail.length;          // 0(旧) → 1(新)
+        var a = progress * progress * globalAlpha;  // 二次曲线，头部更透明
+        var r = o.size * (0.2 + progress * 0.8);
+
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.fillStyle = o.color;
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // 绘制主光点（带柔光晕）
+      var grd = ctx.createRadialGradient(wx, wy, 0, wx, wy, o.size * 2.8);
+      grd.addColorStop(0,   hexAlpha(o.color, globalAlpha));
+      grd.addColorStop(0.4, hexAlpha(o.color, globalAlpha * 0.6));
+      grd.addColorStop(1,   hexAlpha(o.color, 0));
+
+      ctx.save();
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.arc(wx, wy, o.size * 2.8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // 实心核心点
+      ctx.save();
+      ctx.globalAlpha = globalAlpha;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(wx, wy, o.size * 0.55, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    if (running) animId = requestAnimationFrame(loop);
+  }
+
+  // 将 hex 颜色 + alpha 转为 rgba 字符串
+  function hexAlpha(hex, a) {
+    var r = parseInt(hex.slice(1,3),16);
+    var g = parseInt(hex.slice(3,5),16);
+    var b = parseInt(hex.slice(5,7),16);
+    return 'rgba('+r+','+g+','+b+','+a.toFixed(3)+')';
+  }
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function start() {
+    if (running) return;
+    running = true;
+    globalAlpha = 0;
+    orbits.forEach(function(o) { o.trail = []; });
+    // 奖杯弹跳一次
+    if (awardIcon) {
+      awardIcon.classList.add('pop');
+      awardIcon.addEventListener('animationend', function() {
+        awardIcon.classList.remove('pop');
+      }, { once: true });
+    }
+    loop();
+  }
+
+  function stop() {
+    // 先淡出再停
+    var fadeOut = setInterval(function() {
+      globalAlpha = Math.max(0, globalAlpha - 0.04);
+      if (globalAlpha <= 0) {
+        clearInterval(fadeOut);
+        running = false;
+        if (animId) cancelAnimationFrame(animId);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        orbits.forEach(function(o) { o.trail = []; });
+      }
+    }, 16);
+  }
+
+  var awardBlock = document.querySelector('.award-block');
+  if (awardBlock) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) { start(); }
+        else { stop(); }
+      });
+    }, { threshold: 0.5 });
+    observer.observe(awardBlock);
+  }
+})();
+</script>
 </body>
 </html>

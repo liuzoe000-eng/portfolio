@@ -1,0 +1,303 @@
+/*
+ * ╔═══════════════════════════════════════════════════╗
+ * ║         PORTFOLIO DESIGN TOKENS v1.0              ║
+ * ║  所有 project-XX.html 新增时必须引入此文件         ║
+ * ║  <link rel="stylesheet" href="design-tokens.css"> ║
+ * ╚═══════════════════════════════════════════════════╝
+ *
+ * 规则：
+ *   1. 禁止在页面内覆盖 :root 变量为其他颜色
+ *   2. 禁止引入紫色系、橙色系或任何新品牌色
+ *   3. 禁止引入新字体
+ *   4. 新增 token 必须同步更新 DESIGN-SYSTEM.md
+ */
+
+/* ─────────────────────────────────────
+   1. COLOR TOKENS
+───────────────────────────────────── */
+:root {
+  /* ── 强调色（唯一品牌色）── */
+  --accent:     #beff00;   /* lime 主强调：hover / glow / selection */
+  --accent-d:   #9ed400;   /* lime 深版：logo标记 / em文字 / CTA hover */
+
+  /* ── 黑白基础 ── */
+  --black:      #0a0a0a;   /* 正文 / 标题 / 深色区块背景 */
+  --white:      #ffffff;   /* 页面底色 / 卡片底色 */
+  --off-white:  #f7f7f5;   /* 卡片背景 / 轻灰底 */
+
+  /* ── 灰度 Scale ── */
+  --gray:       #f0f0ec;   /* 装饰背景文字 */
+  --gray-100:   #f5f5f5;   /* 卡片填充 / 引用块背景 */
+  --gray-200:   #e8e8e8;   /* 分割线 / 边框 */
+  --gray-2:     #e4e4de;   /* work-tag 背景（首页卡片标签） */
+  --gray-3:     #c0c0b8;   /* 滚动条 / 辅助描边 */
+  --gray-400:   #999999;   /* 辅助文字 / meta 标签 */
+  --gray-600:   #555555;   /* 次级描述文字 */
+  --gray-800:   #222222;   /* 引用文字深色 */
+
+  /* ── 语义化别名 ── */
+  --text:       #0a0a0a;   /* = --black，正文主色 */
+  --text-2:     #666660;   /* 次级文字 */
+  --border:     #e0e0d8;   /* 通用分割线 / 卡片描边 */
+}
+
+/* ─────────────────────────────────────
+   2. TYPOGRAPHY TOKENS
+───────────────────────────────────── */
+:root {
+  /* 字体族 */
+  --font-sans: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Noto Sans SC', Arial, sans-serif;
+
+  /* 字号 Scale */
+  --text-hero:    clamp(52px, 8vw, 120px);   /* Hero 超大标题 */
+  --text-h1:      clamp(36px, 5vw, 72px);    /* 项目详情 H1 */
+  --text-sec:     clamp(32px, 4vw, 52px);    /* Section 标题 */
+  --text-h2:      clamp(24px, 3vw, 36px);    /* 内容 H2 */
+  --text-card:    clamp(16px, 1.8vw, 20px);  /* 卡片标题 */
+  --text-body-lg: 18px;                      /* 详情页正文 */
+  --text-body:    16px;                      /* 标准正文 */
+  --text-sm:      14px;                      /* 次级正文 / 描述 */
+  --text-xs:      12px;                      /* 卡片描述 */
+  --text-tag:     11px;                      /* 标签 / Kicker */
+  --text-micro:   10px;                      /* 最小辅助文字 */
+
+  /* 字重 */
+  --fw-black:  800;
+  --fw-bold:   700;
+  --fw-medium: 500;
+  --fw-normal: 400;
+
+  /* 行高 */
+  --lh-tight:  0.95;   /* 超大标题 */
+  --lh-head:   1.1;    /* 标题 */
+  --lh-card:   1.35;   /* 卡片标题 */
+  --lh-body:   1.8;    /* 正文 */
+  --lh-loose:  1.85;   /* 长描述 */
+}
+
+/* ─────────────────────────────────────
+   3. SPACING TOKENS
+───────────────────────────────────── */
+:root {
+  --space-4:   4px;
+  --space-8:   8px;
+  --space-12:  12px;
+  --space-16:  16px;
+  --space-20:  20px;
+  --space-24:  24px;
+  --space-28:  28px;
+  --space-32:  32px;
+  --space-40:  40px;
+  --space-48:  48px;
+  --space-60:  60px;
+  --space-80:  80px;
+  --space-100: 100px;
+  --space-120: 120px;
+
+  /* 容器 */
+  --container-max: 1280px;
+  --container-pad: 48px;   /* 左右 padding */
+  --section-py:    100px;  /* section 上下 padding */
+}
+
+/* ─────────────────────────────────────
+   4. BORDER RADIUS TOKENS
+───────────────────────────────────── */
+:root {
+  --r-sm:   4px;    /* 标签 tag */
+  --r:      16px;   /* 主卡片 work-card */
+  --r-card: 12px;   /* 内容卡片 / insight */
+  --r-lg:   20px;   /* 图片 / 面板 */
+  --r-pill: 999px;  /* Pill 形按钮 / badge */
+  --r-full: 50%;    /* 圆形（序号 / 光标 / 按钮圆圈） */
+}
+
+/* ─────────────────────────────────────
+   5. SHADOW TOKENS
+───────────────────────────────────── */
+:root {
+  --shadow-card: 0 2px 12px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --shadow-card-hover: 0 0 0 2px var(--accent), 0 32px 80px rgba(0,0,0,.13);
+  --shadow-panel: 0 60px 120px rgba(0,0,0,.3);
+  --shadow-cta-hover: 0 0 48px rgba(190,255,0,.35);
+}
+
+/* ─────────────────────────────────────
+   6. MOTION TOKENS
+───────────────────────────────────── */
+:root {
+  --ease-out:    cubic-bezier(.22,1,.36,1);    /* 标准弹出曲线 */
+  --ease-bounce: cubic-bezier(.34,1.56,.64,1); /* 弹跳出现 */
+  --ease-in-out: cubic-bezier(.4,0,.2,1);      /* Logo 旋转 */
+
+  --dur-fast:   0.2s;
+  --dur-mid:    0.35s;
+  --dur-slow:   0.7s;
+  --dur-enter:  0.85s;
+  --dur-logo:   0.8s;
+}
+
+/* ─────────────────────────────────────
+   7. RESET & BASE（新页面共用基础）
+───────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  cursor: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--white);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+img:not(svg) { display: block; max-width: 100%; }
+svg { overflow: visible; }
+/* 防止 SVG 图标被 max-width:100% 撑大——行内 icon 保持自身尺寸 */
+::selection { background: var(--accent); color: var(--black); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-3); border-radius: 2px; }
+
+/* ─────────────────────────────────────
+   8. SHARED NAV（详情页导航）
+───────────────────────────────────── */
+.pnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px var(--container-pad);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-200);
+  height: 60px;
+}
+.pnav-logo {
+  font-size: 15px; font-weight: var(--fw-bold);
+  letter-spacing: .04em; color: var(--black);
+  display: inline-flex; align-items: baseline; gap: 1px; user-select: none;
+}
+.pnav-logo .logo-xh {
+  color: var(--accent-d);
+  display: inline-block; transform-style: preserve-3d; perspective: 200px;
+}
+@keyframes xh-to-ux {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  15%  { transform: rotate(-14deg) scale(1);    }
+  30%  { transform: rotate(10deg)  scale(1);    }
+  48%  { transform: rotate(-3deg)  scale(.88);  }
+  65%  { transform: rotate(360deg) scale(1.06); }
+  80%  { transform: rotate(358deg) scale(1);    }
+  100% { transform: rotate(360deg) scale(1);    }
+}
+@keyframes ux-to-xh {
+  0%   { transform: rotate(360deg) scale(1);    }
+  15%  { transform: rotate(374deg) scale(1);    }
+  30%  { transform: rotate(350deg) scale(1);    }
+  48%  { transform: rotate(363deg) scale(.88);  }
+  65%  { transform: rotate(0deg)   scale(1.06); }
+  80%  { transform: rotate(2deg)   scale(1);    }
+  100% { transform: rotate(0deg)   scale(1);    }
+}
+.pnav-logo .logo-xh.flip-to-ux { animation: xh-to-ux var(--dur-logo) var(--ease-in-out) forwards; }
+.pnav-logo .logo-xh.flip-to-xh { animation: ux-to-xh var(--dur-logo) var(--ease-in-out) forwards; }
+
+.pnav-back {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: var(--fw-medium);
+  color: var(--gray-600); transition: color var(--dur-fast);
+}
+.pnav-back:hover { color: var(--black); }
+.pnav-back svg { width: 16px; height: 16px; }
+
+/* ─────────────────────────────────────
+   9. SHARED CURSOR
+───────────────────────────────────── */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--black);
+  border-radius: var(--r-full);
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform .1s, width var(--dur-fast), height var(--dur-fast), background var(--dur-fast);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--black);
+  border-radius: var(--r-full);
+  position: fixed; pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform .15s ease-out, width var(--dur-fast), height var(--dur-fast);
+}
+
+/* ─────────────────────────────────────
+   10. SHARED HERO TAG（详情页顶部标签）
+───────────────────────────────────── */
+.hero-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--black);
+  font-size: var(--text-tag);
+  font-weight: var(--fw-bold);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--r-sm);
+  margin-bottom: 28px;
+}
+
+/* ─────────────────────────────────────
+   11. SHARED HIGHLIGHT / BLOCKQUOTE
+───────────────────────────────────── */
+.highlight, .blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--gray-100);
+  border-radius: 0 8px 8px 0;
+  padding: 20px 24px;
+  margin: 24px 0;
+}
+.highlight p, .blockquote p {
+  font-size: 15px; font-style: italic;
+  color: var(--gray-800); margin: 0; line-height: var(--lh-body);
+}
+
+/* ─────────────────────────────────────
+   12. SHARED FOOTER NAV（详情页底部导航）
+───────────────────────────────────── */
+.footer-nav {
+  border-top: 1px solid var(--gray-200);
+  padding: 48px var(--container-pad);
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: var(--container-max); margin: 0 auto;
+}
+.footer-nav a {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: var(--fw-medium);
+  color: var(--gray-600); transition: color var(--dur-fast);
+}
+.footer-nav a:hover { color: var(--black); }
+.footer-nav .fn-label {
+  font-size: 10px; font-weight: var(--fw-bold);
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gray-400); margin-bottom: 4px;
+}
+
+/* ─────────────────────────────────────
+   13. SHARED ANIMATIONS
+───────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lineIn {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1);   opacity: 1;  }
+  50%       { transform: scale(1.7); opacity: .5; }
+}
