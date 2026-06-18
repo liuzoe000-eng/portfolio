@@ -70,7 +70,7 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
 ═══════════════════════════════════════ */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:400;
-  height:58px;display:flex;align-items:center;padding:0 40px;
+  height:64px;display:flex;align-items:center;padding:0 40px;
   transition:background .4s,border-color .4s;
   border-bottom:1px solid transparent;
 }
@@ -81,7 +81,7 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
 }
 .nav-w{max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
 .nav-logo{
-  font-size:17px;font-weight:800;letter-spacing:-.04em;color:var(--black);
+  font-size:25px;font-weight:800;letter-spacing:-.04em;color:var(--black);
   display:inline-flex;align-items:baseline;gap:1px;
   user-select:none;
 }
@@ -120,7 +120,7 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
 /* 翻转后文字内容通过 data-attr 切换 */
 .nav-links{display:flex;gap:32px;}
 .nav-links a{
-  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
   color:var(--text2);transition:color .2s;position:relative;
 }
 .nav-links a::after{
@@ -131,9 +131,9 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
 .nav-links a:hover{color:var(--black);}
 .nav-links a:hover::after{transform:scaleX(1);}
 .nav-cta{
-  padding:8px 20px;border-radius:999px;
+  padding:10px 24px;border-radius:999px;
   background:var(--black);color:var(--white);
-  font-size:11px;font-weight:700;letter-spacing:.06em;
+  font-size:12px;font-weight:700;letter-spacing:.06em;
   transition:background .2s,transform .2s;
 }
 .nav-cta:hover{background:var(--lime);color:var(--black);transform:scale(1.04);}
@@ -146,11 +146,16 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
 /* ═══════════════════════════════════════
    HERO
 ═══════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+
 .hero{
-  min-height:100vh;padding-top:58px;
-  display:flex;flex-direction:column;justify-content:center;
-  position:relative;overflow:hidden;background:var(--white);
+  min-height:100vh;
+  padding-top:64px;
+  position:relative;overflow:hidden;
+  background:var(--white);
+  display:flex;flex-direction:column;
 }
+
 /* 背景网格 */
 .hero-grid-bg{
   position:absolute;inset:0;z-index:0;
@@ -158,16 +163,71 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
     linear-gradient(var(--border) 1px,transparent 1px),
     linear-gradient(90deg,var(--border) 1px,transparent 1px);
   background-size:72px 72px;
-  opacity:.55;
-  mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent 80%);
+  opacity:.5;
+  mask-image:linear-gradient(to right, black 0%, black 40%, transparent 60%);
 }
+
+/* hero 内容区 — 居中文字 */
 .hero-inner{
   position:relative;z-index:2;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:60px;align-items:center;
-  padding:80px 0;
+  max-width:1100px;
+  width:calc(100% - 80px);
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  flex:1 0 auto;
 }
-/* 左 */
+
+/* 主标题 */
+.hero-title{
+  font-size:clamp(56px,8.5vw,140px);
+  font-weight:900;line-height:.92;letter-spacing:-.05em;
+  color:var(--black);margin-bottom:0;
+  perspective:600px;
+}
+
+/* 字符级动画单元 */
+.hero-char{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(60px) rotateX(-40deg);
+  transition:
+    opacity .6s cubic-bezier(.22,1,.36,1),
+    transform .6s cubic-bezier(.22,1,.36,1);
+}
+.hero-char.in{
+  opacity:1;
+  transform:translateY(0) rotateX(0deg);
+}
+.hero-char.out{
+  opacity:0;
+  transform:translateY(-40px) rotateX(30deg);
+}
+
+/* 描边填充字符（第二行“理解用户”效果） */
+.hero-char.outline-char{
+  color:transparent;
+  -webkit-text-stroke:2px var(--black);
+}
+.hero-char.outline-char.in{
+  color:transparent;
+  -webkit-text-stroke:2px var(--black);
+}
+
+/* 荧光色字符（第四行“给出答案”效果） */
+.hero-char.lime-char.in{
+  color:var(--lime);
+}
+
+/* 行分隔 */
+.hero-line{
+  display:block;
+}
+
+/* eyebrow */
 .hero-eyebrow{
   display:flex;align-items:center;gap:10px;
   margin-bottom:28px;
@@ -181,74 +241,13 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
   font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
   color:var(--text2);
 }
-/* 标题逐行动效 */
-.hero-title{
-  font-size:clamp(52px,8vw,120px);
-  font-weight:800;line-height:.95;letter-spacing:-.04em;
-  color:var(--black);margin-bottom:44px;
-  overflow:hidden;
-}
-.ht-line{
-  display:block;
-  transform:translateY(110%);
-  animation:lineIn .85s cubic-bezier(.22,1,.36,1) both;
-}
-.ht-line:nth-child(1){animation-delay:.1s;}
-.ht-line:nth-child(2){animation-delay:.2s;}
-.ht-line:nth-child(3){animation-delay:.3s;}
-.ht-line:nth-child(4){animation-delay:.4s;}
-@keyframes lineIn{
-  from{transform:translateY(110%);}
-  to{transform:translateY(0);}
-}
-.ht-outline{
-  -webkit-text-stroke:2px var(--black);
-  color:transparent;
-}
-.ht-lime{color:var(--lime-d);}
 
-.hero-stats{display:flex;gap:40px;}
-.hero-stat-val{
-  display:block;
-  font-size:clamp(32px,3.5vw,48px);font-weight:800;letter-spacing:-.04em;
-  color:var(--black);line-height:1;
-}
-.hero-stat-lbl{
-  display:block;font-size:11px;color:var(--text2);
-  letter-spacing:.06em;margin-top:4px;
-}
-/* 右 */
-.hero-right{display:flex;flex-direction:column;gap:20px;}
-.hero-img-wrap{
-  position:relative;border-radius:20px;overflow:hidden;
-  border:1px solid var(--border);
-  animation:fadeUp .9s cubic-bezier(.22,1,.36,1) .5s both;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
-.hero-img{
-  width:100%;height:280px;object-fit:cover;object-position:center top;
-  transition:transform .7s cubic-bezier(.22,1,.36,1);
-}
-.hero-img-wrap:hover .hero-img{transform:scale(1.04);}
-.hero-img-badge{
-  position:absolute;bottom:16px;left:16px;
-  display:flex;align-items:center;gap:6px;
-  padding:6px 14px;border-radius:999px;
-  background:rgba(255,255,255,.9);backdrop-filter:blur(8px);
-  font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--black);
-  border:1px solid var(--border);
-}
-.hero-img-badge svg{color:var(--lime-d);}
-.hero-desc{
-  font-size:14px;color:var(--text2);line-height:1.8;
-  animation:fadeUp .9s cubic-bezier(.22,1,.36,1) .65s both;
-}
 /* 滚动提示 */
 .hero-scroll{
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:8px;
   font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text2);
-  z-index:2;animation:fadeUp 1s .9s both;
+  z-index:4;animation:fadeUp 1s .9s both;
 }
 .hero-scroll-line{
   width:1px;height:40px;
@@ -261,6 +260,7 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
   51%{transform:scaleY(1);transform-origin:bottom;}
   100%{transform:scaleY(0);transform-origin:bottom;}
 }
+
 
 /* ═══════════════════════════════════════
    MARQUEE
@@ -647,8 +647,8 @@ transition:border-color .2s,color .2s;
    RESPONSIVE
 ═══════════════════════════════════════ */
 @media(max-width:960px){
-  .hero-inner{grid-template-columns:1fr;gap:40px;}
-  .hero-right{display:none;}
+  .hero-inner{width:calc(100% - 48px);}
+  .hero-title{font-size:clamp(44px,11vw,88px);}
   .works-grid{grid-template-columns:1fr;}
   .work-card:nth-child(n){margin-top:0;}
   .services-grid{grid-template-columns:1fr;}
@@ -695,48 +695,17 @@ transition:border-color .2s,color .2s;
 ══════════════════════════════ -->
 <section class="hero" id="hero">
   <div class="hero-grid-bg"></div>
-  <div class="container">
-    <div class="hero-inner">
-      <!-- LEFT -->
-      <div class="hero-left">
-        <div class="hero-eyebrow">
-          <span class="hero-dot"></span>
-          <span class="hero-eyebrow-txt">UX Designer · Meituan · 8 Years</span>
-        </div>
-        <h1 class="hero-title">
-          <span class="ht-line">用研究</span>
-          <span class="ht-line ht-outline">理解用户</span>
-          <span class="ht-line">用设计</span>
-          <span class="ht-line ht-lime">给出答案</span>
-        </h1>
-        <div class="hero-stats">
-          <div>
-            <span class="hero-stat-val">8+</span>
-            <span class="hero-stat-lbl">Years Exp.</span>
-          </div>
-          <div>
-            <span class="hero-stat-val">~10%</span>
-            <span class="hero-stat-lbl">屏效提升</span>
-          </div>
-          <div>
-            <span class="hero-stat-val">12+</span>
-            <span class="hero-stat-lbl">触点覆盖</span>
-          </div>
-        </div>
-      </div>
-      <!-- RIGHT -->
-      <div class="hero-right">
-        <div class="hero-img-wrap">
-          <img src="cover-search.webp" alt="Featured Work" class="hero-img">
-          <div class="hero-img-badge">
-            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="#beff00"/></svg>
-            Latest Work
-          </div>
-        </div>
-        <p class="hero-desc">系统化设计思维 × 全链路体验策略<br>让设计决策落地为可衡量的业务结果</p>
-      </div>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-dot"></span>
+      <span class="hero-eyebrow-txt">UX Designer · Meituan · 8 Years</span>
     </div>
+
+    <h1 class="hero-title" id="hero-title"></h1>
+
   </div>
+
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
     <span>Scroll</span>
@@ -1048,7 +1017,7 @@ transition:border-color .2s,color .2s;
         <div style="font-size:11px;color:var(--text2);margin-top:6px;">UX Designer · Meituan · 外卖搜索</div>
       </div>
       <div class="footer-right">
-        <span>© 2025 · All rights reserved</span>
+        <span>© <span id="copy-year">2026</span> · All rights reserved</span>
         <strong>用研究理解用户 · 用设计给出答案</strong>
       </div>
     </div>
@@ -1078,6 +1047,8 @@ transition:border-color .2s,color .2s;
 </div>
 
 <script>
+/* 版权年份自动更新 */
+document.getElementById('copy-year').textContent = new Date().getFullYear();
 /* ══════════════════
    CURSOR
 ══════════════════ */
@@ -1328,6 +1299,107 @@ function closeDetail(){
 function closeDetailOnBackdrop(e){
   if(e.target===document.getElementById('detail-overlay')||e.target.classList.contains('detail-backdrop')) closeDetail();
 }
+/* ══════════════════
+   HERO — 字符级文字动画 + 滚动出入场
+══════════════════ */
+(function(){
+  /* ═══ 标题内容定义 ═══ */
+  const LINES = [
+    { text: '用场景', type: 'normal' },
+    { text: '洞察用户', type: 'outline' },
+    { text: '用设计', type: 'normal' },
+    { text: '给出答案', type: 'lime' },
+  ];
+
+  const titleEl = document.getElementById('hero-title');
+  const heroEl = document.getElementById('hero');
+
+  /* ═══ 拆字：将标题拆成字符级 span ═══ */
+  const allChars = [];
+
+  LINES.forEach((line, li) => {
+    const lineSpan = document.createElement('span');
+    lineSpan.className = 'hero-line';
+
+    line.text.split('').forEach((ch, ci) => {
+      const charSpan = document.createElement('span');
+      charSpan.className = 'hero-char';
+      charSpan.textContent = ch;
+
+      // 描边字符
+      if(line.type === 'outline') charSpan.classList.add('outline-char');
+      // 荧光字符
+      if(line.type === 'lime') charSpan.classList.add('lime-char');
+
+      lineSpan.appendChild(charSpan);
+      allChars.push(charSpan);
+    });
+
+    titleEl.appendChild(lineSpan);
+  });
+
+  /* ═══ 入场动画 — 逐字弹入 ═══ */
+  function animateIn(){
+    allChars.forEach((ch, i) => {
+      setTimeout(() => {
+        ch.classList.remove('out');
+        ch.classList.add('in');
+        // 错开延迟：每个字符 40ms
+      }, 100 + i * 40);
+    });
+  }
+
+  /* ═══ 退场动画 — 逐字飘散 ═══ */
+  function animateOut(){
+    allChars.forEach((ch, i) => {
+      setTimeout(() => {
+        ch.classList.remove('in');
+        ch.classList.add('out');
+      }, i * 25);
+    });
+  }
+
+  /* ═══ 滚动监听 — 控制出入场 ═══ */
+  let heroState = 'init'; // init | visible | hidden
+  let ticking = false;
+
+  function checkHeroVisibility(){
+    if(heroState === 'init') return; // 首次由 animateIn 控制
+    const rect = heroEl.getBoundingClientRect();
+    // hero 占满 100vh，用百分比判断：顶部滑出视口 15% 即退场，回来即入场
+    const exitThreshold = -window.innerHeight * 0.15;
+    const shouldHide = rect.top < exitThreshold || rect.bottom < 0;
+    const shouldShow = rect.top >= exitThreshold && rect.bottom > 0;
+
+    if(shouldShow && heroState === 'hidden'){
+      heroState = 'visible';
+      animateIn();
+    } else if(shouldHide && heroState === 'visible'){
+      heroState = 'hidden';
+      animateOut();
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if(!ticking){
+      requestAnimationFrame(() => {
+        checkHeroVisibility();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive:true});
+
+  /* ═══ 初始入场 ═══ */
+  heroState = 'visible';
+  // 页面加载后触发入场
+  if(document.readyState === 'complete'){
+    animateIn();
+  } else {
+    window.addEventListener('load', animateIn);
+  }
+})();
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeDetail();});
 </script>
 </body>

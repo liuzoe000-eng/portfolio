@@ -113,12 +113,13 @@
     /* Two col */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
     @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
-    .card { background: var(--gray-100); border-radius: 12px; padding: 28px; }
-    .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
-    .card p { font-size: 14px; line-height: 1.7; color: var(--gray-600); margin: 0; }
-    .card-accent { background: var(--black); color: var(--white); }
-    .card-accent h3 { color: var(--accent); }
-    .card-accent p { color: rgba(255,255,255,0.7); }
+.card { background: var(--gray-100); border-radius: 12px; padding: 28px; position: relative; transition: background 0.2s; }
+.card:hover { background: var(--gray-100); }
+.card-num { display: inline-block; background: var(--accent); color: var(--black); font-size: 18px; font-weight: 900; padding: 3px 10px; border-radius: 4px; letter-spacing: 0.02em; margin-bottom: 14px; line-height: 1.2; }
+.card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; line-height: 1.4; color: var(--black); }
+.card p { font-size: 14px; line-height: 1.7; color: var(--gray-600); margin: 0; }
+.card .kw { color: var(--gray-600); font-weight: 500; border-bottom: 2px dashed transparent; border-radius: 2px; padding: 0 1px; transition: color 0.18s, border-color 0.18s; cursor: default; }
+.card:hover .kw { color: var(--black); font-weight: 700; border-bottom: 2px solid var(--accent); }
 
     /* Data callout */
     .data-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
@@ -131,6 +132,88 @@
 
     .highlight { border-left: 3px solid var(--accent); padding: 20px 24px; background: var(--gray-100); border-radius: 0 8px 8px 0; margin: 24px 0; }
     .highlight p { font-size: 15px; font-style: italic; color: var(--gray-800); margin: 0; }
+
+    .insight-block { background: var(--gray-100); border-radius: 16px; padding: 48px; margin: 48px 0; }
+    .insight-block-label { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--black); background: var(--accent); padding: 2px 10px; border-radius: 3px; margin-bottom: 16px; }
+    .insight-block h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.2; }
+    .insight-block > p { font-size: 15px; color: var(--gray-600); line-height: 1.7; margin-bottom: 32px; }
+    .insight-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 768px) { .insight-compare { grid-template-columns: 1fr; } }
+    .compare-item { background: var(--white); border-radius: 12px; padding: 24px; }
+    .compare-label { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px; }
+    .compare-label.bad { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .compare-label.good { background: var(--accent); color: var(--black); }
+    .compare-item h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .compare-item p { font-size: 13px; color: var(--gray-600); line-height: 1.6; margin: 0; }
+
+    .divider { height: 1px; background: var(--gray-200); margin: 64px 0; }
+
+    /* 01 断点列表 */
+.break-wrap { display: grid; grid-template-columns: 1fr 260px; gap: 40px; align-items: center; margin-top: 28px; }
+.break-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; }
+.break-item { display: grid; grid-template-columns: 80px 1fr; align-items: start; padding: 20px 24px; border-bottom: 1px solid var(--gray-200); gap: 16px; cursor: default; transition: background .15s; }
+.break-item:last-child { border-bottom: none; }
+.break-item:hover { background: var(--gray-100); }
+.break-item.active { background: var(--gray-100); }
+.break-stage { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--black); background: var(--accent); padding: 2px 8px; border-radius: 3px; }
+.break-body { font-size: 14px; color: var(--gray-800); line-height: 1.6; }
+.break-body strong { font-weight: 700; color: var(--black); }
+.break-body span { color: var(--gray-500); font-size: 13px; }
+/* 右侧图片预览区 */
+.break-preview-area { position: relative; width: 100%; }
+/* 箭头：绝对定位在预览区左侧，JS 控制 top */
+.break-arrow {
+  position: absolute; left: -16px; top: 50%;
+  width: 0; height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 9px solid #fff;
+  filter: drop-shadow(-1px 0 1px rgba(0,0,0,.10));
+  pointer-events: none;
+  transition: top .2s cubic-bezier(.22,1,.36,1);
+  z-index: 2;
+  margin-top: -7px;
+}
+.break-preview-img {
+  position: absolute; top: 0; left: 0;
+  width: 100%; border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.14);
+  opacity: 0;
+  transform: translateY(8px) scale(.97);
+  transition: opacity .3s cubic-bezier(.22,1,.36,1), transform .3s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+  display: block;
+}
+/* 占位图：撑开容器高度，本身不可见 */
+.break-preview-img.placeholder {
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+}
+.break-preview-img.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+@media(max-width:768px){ .break-wrap{ grid-template-columns:1fr; } .break-preview-area{ display:none; } }
+
+    /* 02 双线策略 */
+    .strategy-lines { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+    .strategy-line { border-left: 3px solid var(--gray-300); padding: 20px 24px; background: var(--gray-100); border-radius: 0 10px 10px 0; transition: border-color 0.2s; }
+    .strategy-line:hover { border-left-color: var(--accent); }
+    .strategy-line-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--black); background: var(--accent); padding: 2px 8px; border-radius: 3px; margin-bottom: 10px; }
+    .strategy-line h4 { font-size: 15px; font-weight: 800; color: var(--black); margin-bottom: 8px; }
+    .strategy-line p { font-size: 14px; color: var(--gray-600); line-height: 1.65; margin: 0; }
+
+    /* 03 种草维度卡片 */
+    .seed-dims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+    @media (max-width: 768px) { .seed-dims { grid-template-columns: 1fr; } }
+    .seed-dim { background: var(--gray-100); border-radius: 10px; padding: 20px; }
+    .seed-dim-icon { font-size: 20px; margin-bottom: 10px; }
+    .seed-dim h4 { font-size: 14px; font-weight: 800; color: var(--black); margin-bottom: 6px; }
+    .seed-dim p { font-size: 12px; color: var(--gray-600); line-height: 1.6; margin: 0; }
+    .stat-callout { display: flex; align-items: center; gap: 16px; background: var(--black); color: var(--white); border-radius: 10px; padding: 20px 24px; margin-top: 16px; }
+    .stat-callout .stat-num { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; color: var(--accent); white-space: nowrap; }
+    .stat-callout .stat-desc { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.75); }
 
     .footer-nav { border-top: 1px solid var(--gray-200); padding: 48px; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
     .footer-nav a { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
@@ -167,7 +250,8 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-tag reveal">内容种草 · 搜索热点</div>
-    <h1 class="reveal">用 AARRR 模型拆解外卖内容，<br>找到驱动留存的关键设计杠杆</h1>
+    <h1 class="reveal">从"偶尔刷到"到"主动来看"——<br>重建外卖热点的种草全链路</h1>
+    <p class="hero-desc reveal">热点渗透率不足 1% 的根因，不是内容不好，是链路断了</p>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
@@ -182,7 +266,6 @@
         <div class="meta-value">内容产品 · 增长设计</div>
       </div>
     </div>
-    <p class="hero-desc reveal">趋势播报以"为外卖用户提供最新、最热美食的种拔草榜单"为使命。通过 AARRR 增长模型拆解热点种草全链路，构建引流→兴趣→种草→交易四阶段设计策略，目标将热点渗透用户从 45w/日提升至 1200w/日。</p>
   </section>
 
   <!-- Hero visual -->
@@ -198,163 +281,185 @@
     <!-- Metrics -->
     <div class="metrics reveal">
       <div class="metric-item">
-        <div class="metric-num"><span>12%→15%</span></div>
-        <div class="metric-label">7日点击留存目标</div>
-      </div>
-      <div class="metric-item">
-        <div class="metric-num"><span>45w→1200w</span></div>
-        <div class="metric-label">日热点渗透用户目标</div>
-      </div>
-      <div class="metric-item">
         <div class="metric-num"><span>+67%</span></div>
-        <div class="metric-label">核心用户人均点击词数提升</div>
+        <div class="metric-label">核心用户人均点击词数</div>
       </div>
       <div class="metric-item">
         <div class="metric-num"><span>2.71%</span></div>
-        <div class="metric-label">核心用户 UV_CTR（从1.24%提升）</div>
+        <div class="metric-label">核心用户 UV_CTR（从 1.24% 提升）</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>5 类</span></div>
+        <div class="metric-label">热点类型首次系统定义</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num"><span>4 阶段</span></div>
+        <div class="metric-label">引流→兴趣→种草→交易全链路</div>
       </div>
     </div>
 
-    <!-- AARRR Framework -->
-    <div class="funnel reveal">
-      <div class="funnel-title">设计框架</div>
-      <h2>用 AARRR 增长模型<br>拆解热点种草全链路</h2>
-      <div class="funnel-steps">
-        <div class="funnel-step">
-          <div class="funnel-step-num">① 引流</div>
-          <h3>先看到热点</h3>
-          <p>全场景渗透，制造热点存在感。前置链路增加热点触达，精准化运营刷"存在感"。</p>
+    <!-- 核心洞察 -->
+    <div class="insight-block reveal">
+      <div class="insight-block-label">核心洞察</div>
+      <h2>渗透率 0.35%，不是内容的问题，<br>是链路断了</h2>
+      <p>趋势播报已经积累了一批高频用户，核心用户的 UV_CTR 从 1.24% 提升到了 2.71%，7日留存也在持续增长。但日渗透率只有 0.35%——这个数字背后藏着一个判断：不是用户不感兴趣，而是他们根本没有机会"遇见"热点。调研发现，九成用户在被引导后能发现榜单，并表现出极大兴趣；但在此之前，他们完全不知道这个功能的存在。</p>
+      <div class="insight-compare">
+        <div class="compare-item">
+          <div class="compare-label bad">表面问题</div>
+          <h3>内容质量不够好</h3>
+          <p>直觉判断：优化榜单内容和视觉，让热点更吸引人。</p>
         </div>
-        <div class="funnel-step">
-          <div class="funnel-step-num">② 兴趣</div>
-          <h3>被激发感兴趣</h3>
-          <p>优化榜单吸引力，降低参与门槛。衍生榜单多形态，优化信息层级和可见性。</p>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-step-num">③ 种草</div>
-          <h3>接纳种草</h3>
-          <p>热点分层运营，精准匹配场景需求。定义5类热点类型，差异化承接策略。</p>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-step-num">④ 交易</div>
-          <h3>转化交易</h3>
-          <p>探索热点与交易的平衡点。短期积累热点选购认知，长期探索转化路径。</p>
+        <div class="compare-item">
+          <div class="compare-label good">真实问题</div>
+          <h3>触达链路断裂</h3>
+          <p>热点只有一个入口，用户在搜索框、sug 词、商品卡片等高频节点完全感知不到热点的存在。</p>
         </div>
       </div>
     </div>
 
-    <!-- Background -->
+    <!-- 01 问题定位 -->
     <div class="section reveal">
-      <div class="section-num">01 — 现状分析</div>
-      <h2>已有积累，但增长遇到瓶颈</h2>
-      <p>趋势播报全年运营效果复盘发现，已吸引一批高频用户并积累了内容偏好认知，但渗透率仍然偏低：</p>
-      <div class="data-row">
-        <div class="data-callout">
-          <div class="num">0.35%</div>
-          <div class="label">每日热点渗透率</div>
+      <div class="section-num">01 — 问题定位</div>
+      <h2>热点渗透率 0.35%，不是内容的问题，是链路断了</h2>
+      <p>每天有大量用户在外卖 APP 里搜索，但趋势播报的日渗透率只有 0.35%。面对"渗透率低"这个笼统的问题，我们的第一个判断是：不能直接跳到"优化榜单"，要先搞清楚用户从"不知道有热点"到"被种草下单"，中间经历了哪些节点，每个节点的断点在哪里。</p>
+      <div class="break-wrap">
+        <div class="break-list" id="break-list">
+          <div class="break-item" data-img="p3-break-1.png">
+            <div class="break-stage">引流</div>
+            <div class="break-body"><strong>触达面太窄</strong> <span>——热点只有一个入口，绝大多数用户在正常搜索流程中根本遇不到它</span></div>
+          </div>
+          <div class="break-item" data-img="p3-break-2.png">
+            <div class="break-stage">兴趣</div>
+            <div class="break-body"><strong>榜单形态单一</strong> <span>——可见性差，路径冗余，一个榜单要同时承担"发现"和"深度浏览"两个完全不同的场景</span></div>
+          </div>
+          <div class="break-item" data-img="p3-break-3.png">
+            <div class="break-stage">种草</div>
+            <div class="break-body"><strong>信息严重错配</strong> <span>——不同热点类型用同一套模板承接，用户看到的信息和他们真正需要的完全对不上</span></div>
+          </div>
+          <div class="break-item" data-img="p3-break-4.png">
+            <div class="break-stage">交易</div>
+            <div class="break-body"><strong>路径未打通</strong> <span>——种草和下单之间缺少连接，用户被种草后没有顺畅的转化路径</span></div>
+          </div>
         </div>
-        <div class="data-callout">
-          <div class="num">0.71%</div>
-          <div class="label">7日热点渗透率</div>
+        <!-- 右侧图片预览区 -->
+        <div class="break-preview-area" id="break-preview-area">
+          <div class="break-arrow" id="break-arrow"></div>
+          <!-- placeholder 撑开容器高度，本身不可见 -->
+          <img class="break-preview-img placeholder" src="p3-break-1.png" alt="">
+          <img class="break-preview-img" id="break-img-1" src="p3-break-1.png" alt="">
+          <img class="break-preview-img" id="break-img-2" src="p3-break-2.png" alt="">
+          <img class="break-preview-img" id="break-img-3" src="p3-break-3.png" alt="">
+          <img class="break-preview-img" id="break-img-4" src="p3-break-4.png" alt="">
         </div>
-        <div class="data-callout">
-          <div class="num">23.9%</div>
-          <div class="label">查看完整10条热词用户占比</div>
-        </div>
-        <div class="data-callout">
-          <div class="num">2条</div>
-          <div class="label">已形成差异化内容壁垒</div>
-        </div>
-      </div>
-      <div class="highlight" style="margin-top: 32px;">
-        <p>调研发现：键盘和搜索结果遮挡导致部分用户不了解榜单功能，但了解后展示出极大兴趣——这说明问题在于触达和发现，而非内容本身。</p>
       </div>
     </div>
 
-    <!-- Hot types -->
+    <!-- 02 触达与兴趣 -->
     <div class="section reveal">
-      <div class="section-num">02 — 核心创新</div>
-      <h2>首次定义外卖平台 5 类热点类型</h2>
-      <p>不同热点类型的用户场景和信息需求差异显著，需要差异化的承接形态。这是本次升级的核心信息架构创新：</p>
+      <div class="section-num">02 — 触达与兴趣</div>
+      <h2>让热点"无处不在"：从单一入口到全场景渗透</h2>
+      <div class="strategy-lines">
+        <div class="strategy-line">
+          <div class="strategy-line-tag">触达线</div>
+          <h4>热点要出现在用户已经在走的路径上</h4>
+          <p>不是等用户主动来找，而是在搜索框内词、sug 打标、二搜结果页、商家/商品卡片等高频节点增加热点标记——让用户在正常搜索流程中就能感知到热点的存在。</p>
+        </div>
+        <div class="strategy-line">
+          <div class="strategy-line-tag">兴趣线</div>
+          <h4>一个榜单不能同时服务两种完全不同的场景</h4>
+          <p>原有榜单既要承担"发现"功能，又要承担"深度浏览"功能。我们拆成沉浸落地页（深度种草）和轻量半浮层（快速浏览）两种形态，同时把"看完一个热点再看下一个"的跳转层级从多步压缩到一步。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 热点分层 -->
+    <div class="section reveal">
+      <div class="section-num">03 — 热点分层运营</div>
+      <h2>五类热点，五套信息架构——不是模板复用，是精准匹配</h2>
+      <p>种草这条线最难的地方，是不同热点的用户场景完全不同：端午节礼盒是"节日临近有礼赠需求"，瑞幸酱香拿铁是"品牌联名新品想尝鲜"，芋泥香酥鸭是"新概念需要科普"——用同一套模板承接，必然有人看不懂，有人觉得信息不够。</p>
+      <p>我们首次定义了外卖平台的五类热点类型，并提炼出种草信息的三个核心维度：</p>
+      <div class="seed-dims">
+        <div class="seed-dim">
+          <div class="seed-dim-icon">🔥</div>
+          <h4>热度体现</h4>
+          <p>热度值、时效性标签（节日/季节限定）——让用户感知"这个现在很火"，激发从众心理和尝鲜欲望</p>
+        </div>
+        <div class="seed-dim">
+          <div class="seed-dim-icon">💡</div>
+          <h4>是什么 / 为什么</h4>
+          <p>热点起源、商品描述（外观/口味/食材）、延展内容——帮用户从"听说过"到"真的懂了"</p>
+        </div>
+        <div class="seed-dim">
+          <div class="seed-dim-icon">🤝</div>
+          <h4>相信认同</h4>
+          <p>用户真实评价、群体认同感、平台/品牌信任——让用户从"感兴趣"到"愿意下单"</p>
+        </div>
+      </div>
+      <div class="stat-callout">
+        <div class="stat-num">80%</div>
+        <div class="stat-desc">访谈用户认为引入真实评论会提高购买概率——"相信认同"维度的数据支撑</div>
+      </div>
       <div class="hot-types">
         <div class="hot-type-item hot-type-header">
           <div>热点类型</div>
-          <div>典型案例</div>
+          <div>典型案例 · 用户场景</div>
           <div>承接形态</div>
         </div>
         <div class="hot-type-item">
           <div class="hot-type-name">周期热点</div>
-          <div class="hot-type-example">端午节礼盒、毕业花束<br><span style="color:var(--gray-400);font-size:12px">节日临近，有礼赠需求</span></div>
-          <div class="hot-type-form">小一点的阿拉丁或轻量半浮层</div>
+          <div class="hot-type-example">端午节礼盒、毕业花束<br><span>节日临近，有礼赠需求</span></div>
+          <div class="hot-type-form">轻量半浮层</div>
         </div>
         <div class="hot-type-item">
           <div class="hot-type-name">爆发新热点</div>
-          <div class="hot-type-example">芋泥香酥鸭、青草蛋糕<br><span style="color:var(--gray-400);font-size:12px">新热点概念，需要科普</span></div>
-          <div class="hot-type-form">大一点的阿拉丁，支持互动组件</div>
+          <div class="hot-type-example">芋泥香酥鸭、青草蛋糕<br><span>新热点概念，需要科普</span></div>
+          <div class="hot-type-form">大阿拉丁 + 互动组件</div>
         </div>
         <div class="hot-type-item">
           <div class="hot-type-name">品牌新品</div>
-          <div class="hot-type-example">瑞幸酱香拿铁、DQ美乐蒂<br><span style="color:var(--gray-400);font-size:12px">品牌联名新品，新奇口味</span></div>
-          <div class="hot-type-form">非常规结果页，针对单 SPU</div>
+          <div class="hot-type-example">瑞幸酱香拿铁、DQ美乐蒂<br><span>品牌联名新品，新奇口味</span></div>
+          <div class="hot-type-form">非常规结果页（单 SPU）</div>
         </div>
         <div class="hot-type-item">
           <div class="hot-type-name">小话题专题</div>
-          <div class="hot-type-example">碱水面包怎么吃、榴莲选购指南<br><span style="color:var(--gray-400);font-size:12px">熟悉又不特了解的话题</span></div>
+          <div class="hot-type-example">碱水面包怎么吃、榴莲选购指南<br><span>熟悉又不特了解的话题</span></div>
           <div class="hot-type-form">导购落地页</div>
         </div>
         <div class="hot-type-item">
           <div class="hot-type-name">大话题合集</div>
-          <div class="hot-type-example">奶茶趋势播报<br><span style="color:var(--gray-400);font-size:12px">自带多个热点的品类</span></div>
+          <div class="hot-type-example">奶茶趋势播报<br><span>自带多个热点的品类</span></div>
           <div class="hot-type-form">二搜落地页</div>
         </div>
       </div>
     </div>
 
-    <!-- Design strategy -->
-    <div class="section reveal">
-      <div class="section-num">03 — 设计策略</div>
-      <h2>种草信息体系：三个维度</h2>
-      <p>提炼热点内容的核心信息需求，建立可扩展的种草信息架构：</p>
-      <div class="two-col">
-        <div class="card card-accent">
-          <h3>热度体现</h3>
-          <p>热度值、时效性（节日/季节限定）。让用户感知到"这个现在很火"，激发从众心理和尝鲜欲望。</p>
-        </div>
-        <div class="card">
-          <h3>是什么 & 为什么</h3>
-          <p>热点起源、商品描述（外观/口味/食材/热量）、延展内容。80% 访谈对象认为引入用户评论将有助于提高购买概率。</p>
-        </div>
-        <div class="card">
-          <h3>相信认同</h3>
-          <p>用户真实评价、购买偏好认同（群体认同）、平台/品牌信任感、互动讨论。48% 用户期待口味描述和营养成分。</p>
-        </div>
-        <div class="card">
-          <h3>多形态榜单生态</h3>
-          <p>新建沉浸落地页 + 轻量半浮层两种榜单形态，满足从稳定心智到快捷浏览的不同场景需求。</p>
-        </div>
-      </div>
-    </div>
+    <div class="divider"></div>
 
-    <!-- Highlights -->
+    <!-- 04 复盘 -->
     <div class="section reveal">
-      <div class="section-num">04 — 设计亮点</div>
-      <h2>值得一提的几个决策</h2>
+      <div class="section-num">04 — 设计者视角</div>
+      <h2>这个项目真正难的地方</h2>
+      <p>框架搭好了，但背后有几个判断值得复盘。</p>
       <div class="two-col">
-        <div class="card card-accent">
-          <h3>系统化框架搭建</h3>
-          <p>基于 AARRR 模型拆解热点种草全链路，构建四阶段设计策略框架，而非碎片化需求堆砌。</p>
+        <div class="card">
+          <div class="card-num">01</div>
+          <h4>渗透率低，先别急着改榜单</h4>
+          <p>这个项目最容易走的弯路，是直接优化榜单内容和视觉——毕竟那是最显眼的设计对象。但数据告诉我们，用户不是因为榜单不好看才不来，而是根本没有机会看到。<span class="kw">问题在链路，不在终点</span>。用 AARRR 拆解之后，我们才发现触达环节才是最大的断点——渗透率 0.35% 的根因，是热点只有一个入口。这个判断让我们把资源优先投入到前置触达，而不是继续打磨已经在用的用户才能看到的东西。</p>
         </div>
         <div class="card">
-          <h3>数据驱动设计决策</h3>
-          <p>通过用户访谈（Q1）+ 数据分析发现用户行为特征，精准定位问题：键盘遮挡可见性、路径跳转冗余、种草信息缺失。</p>
+          <div class="card-num">02</div>
+          <h4>一套模板服务五类热点，是在偷懒</h4>
+          <p>种草阶段最大的取舍，是要不要为不同热点类型分别设计信息架构。这件事很重，意味着更多的设计和开发成本；但不做，意味着用"节日礼盒"的模板去承接"品牌联名新品"，用户看到的信息永远是错的。我们的判断是<span class="kw">宁可分层，不能错配</span>。五类热点的划分不是为了分类而分类，是因为每类热点背后的用户场景、决策逻辑、所需信息都不一样。</p>
         </div>
         <div class="card">
-          <h3>热点类型信息架构</h3>
-          <p>首次定义外卖平台 5 类热点类型，构建差异化的信息呈现和种草策略矩阵，为后续运营提供可复用框架。</p>
+          <div class="card-num">03</div>
+          <h4>设计定义了热点类型，产品才有了运营抓手</h4>
+          <p>热点类型的五分法，最初是设计侧在梳理信息架构时提出的——不是产品需求，是设计在分析用户场景时发现"现有分类根本不够用"。这个框架后来被产品和运营采纳，成为热点内容分发和运营策略的基础分类体系。<span class="kw">设计定义信息架构</span>，反向影响了业务的运营逻辑——设计不只是执行需求，也可以是定义问题的那个角色。</p>
         </div>
         <div class="card">
-          <h3>种草信息体系设计</h3>
-          <p>提炼热度体现、是什么/为什么、相信认同三个种草信息维度，建立可扩展的热点内容信息架构。</p>
+          <div class="card-num">04</div>
+          <h4>种草和交易的矛盾，要敢于说"现在不做"</h4>
+          <p>项目初期有讨论：要不要在热点页面直接加购物车，缩短种草到下单的路径？数据和访谈都显示用户有交易意愿，但我们最终的判断是<span class="kw">短期不强推交易转化</span>。原因是：热点激发场景和交易场景的用户心态不同，强行合并会破坏种草体验，反而降低留存。这个"不做"的判断比"做什么"更难——它需要你在有数据支撑的情况下，主动放弃一个看起来合理的方向。</p>
         </div>
       </div>
     </div>
@@ -397,6 +502,55 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
 reveals.forEach(el => observer.observe(el));
+    /* ── Break-list hover 图片预览 ── */
+    (function(){
+      const items   = document.querySelectorAll('.break-item[data-img]');
+      const arrow   = document.getElementById('break-arrow');
+      const preview = document.getElementById('break-preview-area');
+      if (!items.length) return;
+
+      /* id → img 元素的映射，跳过 placeholder */
+      const imgMap = {
+        'p3-break-1.png': document.getElementById('break-img-1'),
+        'p3-break-2.png': document.getElementById('break-img-2'),
+        'p3-break-3.png': document.getElementById('break-img-3'),
+        'p3-break-4.png': document.getElementById('break-img-4'),
+      };
+
+      let currentImg = null;
+
+      /* 箭头：相对预览区顶部的偏移 = 激活行中心 - 预览区顶部 */
+      function updateArrow(item) {
+        if (!arrow || !preview) return;
+        const listRect    = document.getElementById('break-list').getBoundingClientRect();
+        const previewRect = preview.getBoundingClientRect();
+        const itemRect    = item.getBoundingClientRect();
+        /* 激活行中心相对于预览区顶部的距离 */
+        const centerY = itemRect.top - previewRect.top + itemRect.height / 2;
+        arrow.style.top = centerY + 'px';
+      }
+
+      function activate(item) {
+        items.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        updateArrow(item);
+        const next = imgMap[item.dataset.img];
+        if (!next || next === currentImg) return;
+        if (currentImg) currentImg.classList.remove('visible');
+        next.classList.add('visible');
+        currentImg = next;
+      }
+
+      items.forEach(item => {
+        item.addEventListener('mouseenter', () => activate(item));
+      });
+
+      /* 默认激活第一行，等图片加载完再算箭头位置 */
+      window.addEventListener('load', () => activate(items[0]));
+      /* 也立即激活图片（load 可能已经触发过） */
+      activate(items[0]);
+    })();
+
     (function(){const el=document.getElementById('logo-xh');if(!el)return;let isUX=false,animating=false;function flipTo(toUX){if(animating)return;animating=true;const cls=toUX?'flip-to-ux':'flip-to-xh';el.classList.remove('flip-to-ux','flip-to-xh');void el.offsetWidth;el.classList.add(cls);setTimeout(()=>{el.textContent=toUX?'ux':'xh';},380);el.addEventListener('animationend',function done(){el.removeEventListener('animationend',done);isUX=toUX;animating=false;});}setTimeout(()=>flipTo(true),1500);document.getElementById('nav-logo').addEventListener('mouseenter',()=>{if(!animating)flipTo(!isUX);});})();
 </script>
 </body>
