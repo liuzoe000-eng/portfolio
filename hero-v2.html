@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liu Xiaohui · Portfolio</title>
+<style>
+/* ── Reset & Tokens ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f5f1ec;
+  --text:#1a1a1a;
+  --text2:#666;
+  --accent:#ff5e3a;
+  --white:#fff;
+  --dot:#34c759;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Helvetica Neue',Helvetica,'PingFang SC',Arial,sans-serif;
+  background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+
+/* ── Hero Container ── */
+.hero{
+  position:sticky;top:0;
+  height:100vh;width:100%;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* ── Text Layer (initially behind images, fade+scale in on scroll) ── */
+.hero-text-layer{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:2;
+  opacity:0;
+  transform:scale(.5);
+  transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.hero-text-layer.visible{
+  opacity:1;transform:scale(1);
+  pointer-events:auto;
+}
+
+.hero-title{
+  font-size:clamp(42px,6vw,80px);
+  font-weight:800;letter-spacing:-.04em;
+  line-height:1.05;text-align:center;
+}
+.hero-title span{display:block;}
+
+.hero-desc{
+  font-size:18px;color:var(--text2);
+  margin-top:20px;text-align:center;
+  max-width:460px;line-height:1.6;
+}
+
+.hero-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:36px;
+  padding:14px 32px;
+  background:var(--text);color:var(--white);
+  border:none;border-radius:999px;
+  font-size:14px;font-weight:600;letter-spacing:.02em;
+  transition:background .2s,transform .2s;
+}
+.hero-cta:hover{
+  background:var(--accent);
+  transform:scale(1.04);
+}
+
+/* ── Image Stack ── */
+.hero-image-stack{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;
+  width:0;height:0;
+}
+.hero-card{
+  position:absolute;
+  width:220px;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.18),0 4px 12px rgba(0,0,0,.06);
+  background:var(--white);
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+.hero-card img,.hero-card .card-placeholder{
+  display:block;width:220px;height:290px;
+  pointer-events:none;user-select:none;
+}
+
+/* 5 cards: each preset with rotation + slight offset */
+.card-1{transform:rotate(-10deg) translate(-20px,12px);z-index:1;}
+.card-2{transform:rotate(8deg) translate(18px,-8px);z-index:2;}
+.card-3{transform:rotate(-18deg) translate(-6px,22px);z-index:3;}
+.card-4{transform:rotate(14deg) translate(14px,6px);z-index:4;}
+.card-5{transform:rotate(-4deg) translate(-10px,-14px);z-index:5;}
+
+/* Scattered state: each flies to a different direction + shrinks */
+.hero-card.scattered .card-1{transform:rotate(-12deg) translate(-280px,-220px) scale(.8);}
+.hero-card.scattered .card-2{transform:rotate(6deg) translate(260px,-190px) scale(.8);}
+.hero-card.scattered .card-3{transform:rotate(-20deg) translate(-240px,180px) scale(.8);}
+.hero-card.scattered .card-4{transform:rotate(16deg) translate(250px,200px) scale(.8);}
+.hero-card.scattered .card-5{transform:rotate(-6deg) translate(0px,280px) scale(.8);}
+
+/* ── Hover: spring scale + lift ── */
+.hero-card{
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s;
+}
+.hero-card:hover{
+  box-shadow:0 28px 72px rgba(0,0,0,.22),0 6px 16px rgba(0,0,0,.08);
+}
+.hero-card:not(.scattered):hover{
+  /* Base hover: scale & lift relative to its current transform */
+  /* Overridden by JS for spring effect */
+}
+/* JS adds .hovering class for spring animation */
+.hero-card.hovering{
+  animation:cardSpringIn .4s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes cardSpringIn{
+  0%{transform:inherit;;}
+  50%{transform:inherit;;}
+  100%{transform:inherit;;}
+}
+
+/* We'll use a custom property approach in JS */
+
+/* ── Bottom Bar ── */
+.hero-bottom-bar{
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 40px;
+  font-size:13px;color:var(--text2);
+}
+.hero-bottom-bar .email{
+  font-weight:500;letter-spacing:.02em;
+}
+.hero-bottom-bar .status{
+  display:flex;align-items:center;gap:8px;
+}
+.hero-status-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--dot);
+  animation:dotPulse 2.2s ease-in-out infinite;
+}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.hero-status-text{
+  font-weight:500;letter-spacing:.02em;
+  color:var(--text);
+}
+
+/* ── Spacer to allow scrolling ── */
+.scroll-spacer{
+  height:300vh;
+}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .hero-card{width:160px;}
+  .hero-bottom-bar{padding:20px 24px;font-size:12px;}
+  .hero-title{font-size:clamp(32px,8vw,48px);}
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+
+  <!-- Text layer -->
+  <div class="hero-text-layer" id="hero-text-layer">
+    <h1 class="hero-title">
+      <span>Liu Xiaohui</span>
+    </h1>
+    <p class="hero-desc">
+      Product designer crafting meaningful digital experiences
+      through research, strategy, and pixel-perfect execution.
+    </p>
+    <a href="#works" class="hero-cta">See my work ↓</a>
+  </div>
+
+  <!-- Image stack -->
+  <div class="hero-image-stack" id="hero-image-stack">
+    <div class="hero-card card-1" data-index="0">
+      <div class="card-placeholder" style="background:linear-gradient(135deg,#667eea,#764ba2)"></div>
+    </div>
+    <div class="hero-card card-2" data-index="1">
+      <div class="card-placeholder" style="background:linear-gradient(135deg,#f093fb,#f5576c)"></div>
+    </div>
+    <div class="hero-card card-3" data-index="2">
+      <div class="card-placeholder" style="background:linear-gradient(135deg,#4facfe,#00f2fe)"></div>
+    </div>
+    <div class="hero-card card-4" data-index="3">
+      <div class="card-placeholder" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"></div>
+    </div>
+    <div class="hero-card card-5" data-index="4">
+      <div class="card-placeholder" style="background:linear-gradient(135deg,#fa709a,#fee140)"></div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="hero-bottom-bar">
+    <span class="email">hi@liuxiaohui.design</span>
+    <div class="status">
+      <span class="hero-status-dot"></span>
+      <span class="hero-status-text">Available for work</span>
+    </div>
+  </div>
+</section>
+
+<div class="scroll-spacer"></div>
+
+<script>
+/* ── Scroll-driven: scatter images + reveal text ── */
+(function(){
+  const hero        = document.getElementById('hero');
+  const stack       = document.getElementById('hero-image-stack');
+  const textLayer   = document.getElementById('hero-text-layer');
+  const cards       = stack.querySelectorAll('.hero-card');
+
+  let scattered = false;
+  const SCROLL_THRESHOLD = 80; // px of scroll to complete transition
+
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+
+  function onScroll(){
+    const scrollY = window.scrollY;
+    const t = clamp(scrollY / SCROLL_THRESHOLD, 0, 1);
+
+    /* Image scatter */
+    cards.forEach(card => {
+      card.style.transform = getScatteredTransform(card, t);
+      if(t > .01){
+        card.classList.add('scattered');
+      } else {
+        card.classList.remove('scattered');
+      }
+    });
+
+    /* Text reveal */
+    if(t > .05){
+      textLayer.classList.add('visible');
+    } else {
+      textLayer.classList.remove('visible');
+    }
+  }
+
+  function getScatteredTransform(card, t){
+    const idx = parseInt(card.dataset.index);
+    const scatterData = [
+      {angle:-12, tx:-280, ty:-220}, // card-1: top-left
+      {angle:6,   tx:260,  ty:-190}, // card-2: top-right
+      {angle:-20, tx:-240, ty:180},  // card-3: bottom-left
+      {angle:16,  tx:250,  ty:200},  // card-4: bottom-right
+      {angle:-6,  tx:0,    ty:280},  // card-5: downward
+    ];
+    const d = scatterData[idx] || {angle:0,tx:0,ty:0};
+    const baseAngle = idx===0?-10: idx===1?8: idx===2?-18: idx===3?14: -4;
+    const baseTX = idx===0?-20: idx===1?18: idx===2?-6: idx===3?14: -10;
+    const baseTY = idx===0?12: idx===1?-8: idx===2?22: idx===3?6: -14;
+
+    const angle  = baseAngle  + (d.angle - baseAngle) * t;
+    const tx     = baseTX     + (d.tx    - baseTX)    * t;
+    const ty     = baseTY     + (d.ty    - baseTY)    * t;
+    const scale  = 1 - (0.2 * t); // 1 → 0.8
+
+    return `rotate(${angle}deg) translate(${tx}px,${ty}px) scale(${scale})`;
+  }
+
+  /* ── Hover: spring-like scale & lift ── */
+  cards.forEach(card => {
+    const idx = parseInt(card.dataset.index);
+
+    card.addEventListener('mouseenter', function(){
+      if(window.scrollY > 1) return; // no hover effect after scattering
+      card.style.transition = 'transform .35s cubic-bezier(.34,1.56,.64,1)';
+      // Apply hover transform on top of base
+      card.style.transform = card.style.transform.replace('scale(1)','scale(1.08)');
+      // Regenerate with lift
+      const baseData = [
+        'rotate(-10deg) translate(-20px,12px) scale(1.08) translateY(-12px)',
+        'rotate(8deg) translate(18px,-8px) scale(1.08) translateY(-12px)',
+        'rotate(-18deg) translate(-6px,22px) scale(1.08) translateY(-12px)',
+        'rotate(14deg) translate(14px,6px) scale(1.08) translateY(-12px)',
+        'rotate(-4deg) translate(-10px,-14px) scale(1.08) translateY(-12px)',
+      ];
+      card.style.transform = baseData[idx];
+    });
+
+    card.addEventListener('mouseleave', function(){
+      card.style.transition = 'transform .45s cubic-bezier(.22,1,.36,1)';
+      // Reset to base
+      const baseData = [
+        'rotate(-10deg) translate(-20px,12px)',
+        'rotate(8deg) translate(18px,-8px)',
+        'rotate(-18deg) translate(-6px,22px)',
+        'rotate(14deg) translate(14px,6px)',
+        'rotate(-4deg) translate(-10px,-14px)',
+      ];
+      card.style.transform = baseData[idx];
+    });
+  });
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll(); // init
+})();
+</script>
+
+</body>
+</html>

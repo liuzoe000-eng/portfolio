@@ -108,14 +108,15 @@
     /* ── 方案概览 3D Card Stack ── */
     .card-stack-section { margin-bottom:80px; }
     .card-stack-wrap {
-      display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+      display:grid; grid-template-columns:2fr 3fr; gap:32px; align-items:center;
     }
-    .card-stack-left { padding-right:8px; }
+    .card-stack-left { padding-right:0; max-width:360px; }
     .card-stack-right {
       position:relative; height:560px;
       /* 横向扇形展开，transform-origin 在卡片底部中心 */
       display:flex; align-items:flex-end; justify-content:center;
       padding-bottom:40px;
+      transform: translateX(-120px);
     }
     .cs-card {
       position:absolute;
@@ -156,7 +157,14 @@
     .cs-btn { width:40px; height:40px; border-radius:50%; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .2s, background .2s, color .2s; }
     .cs-btn:hover { border-color:var(--black); background:var(--black); color:var(--white); }
     .cs-btn svg { pointer-events:none; }
-    @media(max-width:768px){ .card-stack-wrap{ grid-template-columns:1fr; } .card-stack-right{ height:420px; } .cs-card{ width:200px; } }
+    @media(max-width:768px){
+  .card-stack-wrap{ grid-template-columns:1fr; gap:32px; }
+  .card-stack-left{ padding-right:0; order:2; }
+  .card-stack-right{ height:340px; order:1; overflow:hidden; padding-bottom:20px; }
+  .cs-card{ width:160px; }
+  .cs-step-title{ font-size:18px; }
+  .cs-step-desc{ font-size:13px; }
+}
 
     /* ── 沉淀资产 ── */
     .assets-grid {
@@ -659,20 +667,20 @@
 
   </div><!-- /content -->
 
-  <!-- Footer nav -->
-  <div class="footer-nav">
-    <a href="project-04.html">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>
-      上一个项目
-    </a>
-    <a href="index.html">
-      <div>
-        <span class="next-label">回到</span>
-        全部作品
-      </div>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </a>
-  </div>
+<!-- Footer nav -->
+<div class="footer-nav">
+<a href="project-02.html">
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>
+主链路优惠感传递
+</a>
+<a href="project-06.html">
+<div>
+<span class="next-label">下一个</span>
+情感化分析
+</div>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
+</a>
+</div>
 
   <script>
     /* 正常模式：把 data-src 赋值给 src 才开始加载视频 */
@@ -841,15 +849,46 @@
         if (dir > 0) updateInfo();  /* 提前切文案，视觉更同步 */
       }
 
+      /* 直接跳转到指定 idx 的卡片（无动画，瞬时重排） */
+      function goTo(targetIdx) {
+        if (busy) return;
+        const domCards = Array.from(stack.querySelectorAll('.cs-card:not(.exiting)'));
+        const topCard = domCards[0];
+        if (!topCard) return;
+        const currentIdx = parseInt(topCard.dataset.idx, 10);
+        if (currentIdx === targetIdx) return;
+
+        /* 按目标 idx 重新排列 DOM 顺序 */
+        const sorted = allCards.slice();
+        /* 找到目标卡片在 allCards 里的位置，从那里开始轮转 */
+        const startPos = sorted.findIndex(c => parseInt(c.dataset.idx, 10) === targetIdx);
+        const reordered = [...sorted.slice(startPos), ...sorted.slice(0, startPos)];
+
+        /* 瞬时重排 DOM */
+        reordered.forEach(c => {
+          c.style.transition = 'none';
+          stack.appendChild(c);
+        });
+        void stack.offsetWidth; /* 强制 reflow */
+        reordered.forEach(c => { c.style.transition = ''; });
+        applyStackStyles();
+        updateInfo();
+      }
+
       nextBtn.addEventListener('click', () => advance(1));
       prevBtn.addEventListener('click', () => advance(-1));
-      dots.forEach((d, i) => d.addEventListener('click', () => {
-        const topIdx = parseInt(stack.querySelector('.cs-card:not(.exiting)')?.dataset.idx ?? 0, 10);
-        if (i === topIdx) return;
-        /* 简单判断方向 */
-        const diff = i - topIdx;
-        advance(diff > 0 ? 1 : -1);
-      }));
+
+      /* dots 点击：直接跳转 */
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+      /* 卡片点击：点击非栈顶卡片时跳转到该卡片 */
+      allCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          const idx = parseInt(card.dataset.idx, 10);
+          goTo(idx);
+        });
+      });
 
       /* 自动播放 3.8s */
       let autoTimer = setInterval(() => advance(1), 3800);

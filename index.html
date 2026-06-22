@@ -55,6 +55,9 @@ img{display:block;max-width:100%;}
              border-color .25s;
 }
 body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
+/* 深色区域光标反色 */
+body.dark-cursor #cursor-ring{border-color:var(--lime);}
+body.dark-cursor #cursor{mix-blend-mode:normal;}
 
 /* ═══════════════════════════════════════
    PROGRESS
@@ -348,6 +351,8 @@ body.ch #cursor-ring{width:60px;height:60px;border-color:var(--lime);}
 .work-card:nth-child(2){margin-top:40px;}
 .work-card:nth-child(3){margin-top:0;}
 .work-card:nth-child(4){margin-top:40px;}
+.work-card:nth-child(5){margin-top:0;}
+.work-card:nth-child(6){margin-top:40px;}
 
 .work-img{
   position:relative;height:260px;overflow:hidden;
@@ -483,16 +488,19 @@ transition:border-color .2s,color .2s;
 
 /* 数字指标行 */
 .metrics-row{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:var(--r);overflow:hidden;
-  margin-top:20px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  margin-top:28px;
 }
 .metric-item{
-  padding:32px 28px;
-  border-right:1px solid rgba(255,255,255,.08);
+  padding:12px 20px;
+  border:1px solid var(--lime);
+  border-radius:100px;
+  text-align:center;
+  transition:background .3s;
 }
-.metric-item:last-child{border-right:none;}
+.metric-item:hover{
+  background:rgba(190,255,0,.08);
+}
 .metric-val{
   display:block;
   font-size:clamp(32px,3.5vw,48px);font-weight:800;letter-spacing:-.04em;
@@ -703,6 +711,7 @@ transition:border-color .2s,color .2s;
 .rv.in{opacity:1;transform:translateY(0);}
 .rv.d1{transition-delay:.08s;}.rv.d2{transition-delay:.16s;}
 .rv.d3{transition-delay:.24s;}.rv.d4{transition-delay:.32s;}
+.rv.d5{transition-delay:.40s;}
 
 /* ═══════════════════════════════════════
    RESPONSIVE
@@ -713,10 +722,7 @@ transition:border-color .2s,color .2s;
   .works-grid{grid-template-columns:1fr;}
   .work-card:nth-child(n){margin-top:0;}
   .services-grid{grid-template-columns:1fr;}
-  .metrics-row{grid-template-columns:1fr 1fr;}
-  .metric-item:nth-child(2){border-right:none;}
-  .metric-item:nth-child(3){border-top:1px solid rgba(255,255,255,.08);}
-  .metric-item:nth-child(4){border-top:1px solid rgba(255,255,255,.08);}
+.metrics-row{justify-content:center;gap:16px;}
   .footer{flex-direction:column;gap:20px;text-align:center;}
   .footer-right{text-align:center;}
 }
@@ -725,8 +731,7 @@ transition:border-color .2s,color .2s;
   .nav{padding:0 20px;}
   .sec{padding:72px 0;}
   .contact-title{font-size:clamp(40px,12vw,80px);}
-  .metrics-row{grid-template-columns:1fr;}
-  .metric-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
+.metrics-row{gap:12px;}
 }
 </style>
 </head>
@@ -760,7 +765,7 @@ transition:border-color .2s,color .2s;
   <div class="hero-inner">
     <div class="hero-eyebrow">
       <span class="hero-dot"></span>
-      <span class="hero-eyebrow-txt">Liu Xiaohui · UX Designer · Meituan · 8 Years</span>
+      <span class="hero-eyebrow-txt">外卖C端体验设计专家 · 8年 · AI 原生设计</span>
     </div>
 
     <h1 class="hero-title" id="hero-title"></h1>
@@ -805,7 +810,7 @@ transition:border-color .2s,color .2s;
         <div class="sec-kicker">Selected Works</div>
         <h2 class="sec-title">Featured <em>Projects</em></h2>
       </div>
-      <div class="sec-count">04</div>
+      <div class="sec-count">06</div>
     </div>
 
     <div class="works-grid">
@@ -871,11 +876,43 @@ transition:border-color .2s,color .2s;
       </div>
 
       <!-- W3 -->
-      <div class="work-card rv d2" onclick="location.href='project-03.html'" style="cursor:none;">
+      <div class="work-card rv d2" onclick="location.href='project-05.html'" style="cursor:none;">
+        <div class="work-img">
+          <div class="work-img-color" style="background:#1e1b4b;padding:0;overflow:hidden;">
+            <img src="cover-sqs.webp" alt="神抢手 AI 偏好定制" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div class="work-view">View<br>Project</div>
+          <div class="work-num-badge">03</div>
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <div class="work-tags">
+              <span class="work-tag">AI 产品</span>
+              <span class="work-tag">Vibe Coding</span>
+            </div>
+          </div>
+<h3 class="work-title">神抢手 AI 偏好定制</h3>
+<p class="work-hook">设计一个 AI 产品，也用 AI 方式做设计</p>
+<p class="work-sub">主设计师 · Vibe Coding 原型 · 动效代码交付</p>
+          <div class="work-footer">
+            <button class="work-cta">
+              查看详情
+              <span class="work-cta-circle">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M2 8l6-6M8 8V2H2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- W4 -->
+      <div class="work-card rv d3" onclick="location.href='project-03.html'" style="cursor:none;">
         <div class="work-img">
           <img src="cover-trend.webp" alt="搜索热点趋势播报种草">
           <div class="work-view">View<br>Project</div>
-          <div class="work-num-badge">03</div>
+          <div class="work-num-badge">04</div>
         </div>
         <div class="work-body">
           <div class="work-meta">
@@ -900,12 +937,12 @@ transition:border-color .2s,color .2s;
         </div>
       </div>
 
-      <!-- W4 -->
-      <div class="work-card rv d3" onclick="location.href='project-04.html'" style="cursor:none;">
+      <!-- W5 -->
+      <div class="work-card rv d4" onclick="location.href='project-04.html'" style="cursor:none;">
         <div class="work-img">
           <img src="cover-cake.webp" alt="蛋糕品类建设">
           <div class="work-view">View<br>Project</div>
-          <div class="work-num-badge">04</div>
+          <div class="work-num-badge">05</div>
         </div>
         <div class="work-body">
           <div class="work-meta">
@@ -930,25 +967,25 @@ transition:border-color .2s,color .2s;
         </div>
       </div>
 
-      <!-- W5 -->
-      <div class="work-card rv d4" onclick="location.href='project-05.html'" style="cursor:none;">
+      <!-- W6 -->
+      <div class="work-card rv d5" onclick="location.href='project-06.html'" style="cursor:none;">
         <div class="work-img">
-          <div class="work-img-color" style="background:#1e1b4b;padding:0;overflow:hidden;">
-            <img src="cover-sqs.webp" alt="神抢手 AI 偏好定制" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div class="work-img-color" style="background:linear-gradient(135deg,#0c4a6e,#0e7490,#06b6d4);padding:0;overflow:hidden;">
+            <img src="s6-cover.png" alt="高价值人群权益情感化分析" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <div class="work-view">View<br>Project</div>
-          <div class="work-num-badge">05</div>
+          <div class="work-num-badge">06</div>
         </div>
         <div class="work-body">
           <div class="work-meta">
             <div class="work-tags">
-              <span class="work-tag">AI 产品</span>
-              <span class="work-tag">Vibe Coding</span>
+              <span class="work-tag">AI驱动用研</span>
+              <span class="work-tag">情感机制分析</span>
             </div>
           </div>
-<h3 class="work-title">神抢手 AI 偏好定制</h3>
-<p class="work-hook">设计一个 AI 产品，也用 AI 方式做设计</p>
-<p class="work-sub">主设计师 · Vibe Coding 原型 · 动效代码交付</p>
+<h3 class="work-title">高价值人群权益情感化分析</h3>
+<p class="work-hook">花钱最多的人，出问题时身份最先消失</p>
+<p class="work-sub">30个AI数字分身 · 主R · 外卖高价值用户研究</p>
           <div class="work-footer">
             <button class="work-cta">
               查看详情
@@ -1000,60 +1037,72 @@ transition:border-color .2s,color .2s;
     <div class="services-grid rv d1">
       <div class="service-card">
         <div class="service-num">01</div>
-        <h3 class="service-title">Research</h3>
-        <p class="service-desc">用户访谈 · 问卷调研 · 可用性测试 · Kano 分析 · NPS · 焦点小组 · 满意度调研 · 专家走查 · 眼动测试 · A/B 实验设计</p>
-        <p class="service-quote">不问用户想要什么，而是理解他们为什么这么做</p>
+        <h3 class="service-title">C端体验设计</h3>
+        <p class="service-quote">不只画方案，要跑通从洞察到结果的全程</p>
         <div class="service-tags">
-          <span class="service-tag-item">用户访谈</span>
-          <span class="service-tag-item">Kano 分析</span>
-          <span class="service-tag-item">焦点小组</span>
-          <span class="service-tag-item">眼动测试</span>
+          <span class="service-tag-item">深耕搜索业务</span>
+          <span class="service-tag-item">全链路体验策略</span>
+          <span class="service-tag-item">信息架构重构</span>
+          <span class="service-tag-item">A/B 实验闭环</span>
+          <span class="service-tag-item">用户旅程地图</span>
+          <span class="service-tag-item">竞品分析</span>
+          <span class="service-tag-item">体验度量体系</span>
           <span class="service-tag-item">可用性测试</span>
+          <span class="service-tag-item">数据归因分析</span>
+          <span class="service-tag-item">场景化设计</span>
+          <span class="service-tag-item">触点体验优化</span>
+          <span class="service-tag-item">转化漏斗分析</span>
         </div>
       </div>
       <div class="service-card">
         <div class="service-num">02</div>
-        <h3 class="service-title">Design</h3>
-        <p class="service-desc">需求洞察 · 信息架构 · 交互设计 · 系统化推导 · 全链路体验策略 · 视觉规范 · 设计方法论 · 情感化设计</p>
-        <p class="service-quote">方案要能被操作感受，不能只被看懂</p>
+        <h3 class="service-title">AI 原生设计</h3>
+        <p class="service-quote">设计师的交付物，不该止步于图稿</p>
         <div class="service-tags">
-          <span class="service-tag-item">信息架构</span>
-          <span class="service-tag-item">交互策略</span>
-          <span class="service-tag-item">系统化推导</span>
-          <span class="service-tag-item">情感化设计</span>
           <span class="service-tag-item">Vibe Coding</span>
-          <span class="service-tag-item">动效实现</span>
+          <span class="service-tag-item">动效代码交付</span>
+          <span class="service-tag-item">AI 产品 UX</span>
+          <span class="service-tag-item">AI 驱动用研</span>
+          <span class="service-tag-item">Prompt Engineering</span>
+          <span class="service-tag-item">AI 原型验证</span>
+          <span class="service-tag-item">Design Token</span>
+          <span class="service-tag-item">设计资产skill</span>
+          <span class="service-tag-item">AI Agent 工作流</span>
+          <span class="service-tag-item">智能推荐体验</span>
+          <span class="service-tag-item">生成式 UI</span>
         </div>
       </div>
       <div class="service-card">
         <div class="service-num">03</div>
-        <h3 class="service-title">Validate</h3>
-        <p class="service-desc">A/B 实验设计 · 数据驱动验证 · 定量 + 定性双轨 · 设计方法论落地 · 业务结果衡量</p>
-        <p class="service-quote">数据验证不是终点，是下一轮设计的起点</p>
+        <h3 class="service-title">跨职能推动力</h3>
+        <p class="service-quote">好设计的起点是重新定义问题，设计师最大的杠杆是影响命题本身</p>
         <div class="service-tags">
-          <span class="service-tag-item">A/B 实验设计</span>
-          <span class="service-tag-item">定量 + 定性双轨</span>
-          <span class="service-tag-item">业务结果闭环</span>
+          <span class="service-tag-item">命题重构</span>
+          <span class="service-tag-item">跨业务协同</span>
+          <span class="service-tag-item">用研驱动决策</span>
+          <span class="service-tag-item">方法论沉淀</span>
+          <span class="service-tag-item">业务前置共建</span>
+          <span class="service-tag-item">设计评审机制</span>
+          <span class="service-tag-item">团队能力建设</span>
+          <span class="service-tag-item">项目全局Owner</span>
+          <span class="service-tag-item">设计价值度量</span>
+          <span class="service-tag-item">上下游链路协作</span>
         </div>
       </div>
     </div>
 
     <div class="metrics-row rv d2">
       <div class="metric-item">
-        <span class="metric-val">8<span class="unit">yr</span></span>
-        <span class="metric-lbl">外卖 · 搜索 · 内容，8年核心业务</span>
+        <span class="metric-lbl" style="font-size:14px;color:rgba(255,255,255,.92);font-weight:700;">◆ 8 年 C 端体验设计</span>
       </div>
       <div class="metric-item">
-        <span class="metric-val">+10<span class="unit">%</span></span>
-        <span class="metric-lbl">搜索结果页屏效提升，A/B 验证落地</span>
+        <span class="metric-lbl" style="font-size:14px;color:rgba(255,255,255,.92);font-weight:700;">◆ 5 个 AI 产品从 0 到 1</span>
       </div>
       <div class="metric-item">
-        <span class="metric-val">12<span class="unit">+</span></span>
-        <span class="metric-lbl">全链路触点覆盖，优惠感知系统重构</span>
+        <span class="metric-lbl" style="font-size:14px;color:rgba(255,255,255,.92);font-weight:700;">◆ 主导 20+ 核心项目</span>
       </div>
       <div class="metric-item">
-        <span class="metric-val">+63<span class="unit">%</span></span>
-        <span class="metric-lbl">内容产品7日留存提升，用研驱动设计决策</span>
+        <span class="metric-lbl" style="font-size:14px;color:rgba(255,255,255,.92);font-weight:700;">◆ CLC 美团年度追光奖 · 2025</span>
       </div>
     </div>
   </div>
@@ -1138,7 +1187,13 @@ document.getElementById('copy-year').textContent = new Date().getFullYear();
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  // 深色区域光标反色
+  var el=document.elementFromPoint(mx,my);
+  var onDark=el&&el.closest('.sec-dark');
+  document.body.classList.toggle('dark-cursor',!!onDark);
+});
 (function animCursor(){
   rx+=(mx-rx)*.16; ry+=(my-ry)*.16;
   cur.style.left=mx+'px'; cur.style.top=my+'px';
@@ -1302,32 +1357,6 @@ const PROJECT_DATA={
     results:[{val:'12+',lbl:'全链路覆盖触点'},{val:'↑',lbl:'全局 UV_CXR & RPM'},{val:'↑',lbl:'用户优惠满意度'}],
   },
   pc3:{
-    title:'用 AARRR 拆解内容产品的设计机会，然后逐一击破',
-    cover:null,
-    coverBg:'linear-gradient(135deg,#164e63,#06b6d4)',
-    tags:['用研驱动','AARRR 模型','内容产品'],
-    accentColor:'#0891b2',
-    sections:[
-      {label:'项目背景',text:'趋势播报已积累一批高频用户（7日点击留存 8.47%，占搜索大盘 28%），但热点渗透率极低——每日渗透率仅 0.35%，热点分发入口稀少、榜单形态单一。用户访谈发现：键盘遮挡导致部分用户从未注意到趋势播报，了解后却展现出极大兴趣；种草信息不足导致用户"只看不点"，UV_CTR 从 1.5% 降至 0.93%。目标：7日留存 12%→15%，热点渗透日活 45w→1200w。'},
-      {label:'设计策略',text:'以 AARRR 模型为骨架，拆解出四阶段设计机会：① 引流——前置链路新增框内热词/sug打标/二搜打标/商家热点标签，扩大热点"存在感"；② 兴趣——新建沉浸落地页和轻量半浮层两种榜单形态，修复键盘遮挡可见性问题；③ 种草——首次定义5类热点类型（周期/爆发/品牌新品/小话题/大话题），构建热度体现、是什么为什么、相信认同三维种草信息体系，按类型匹配差异化承接形态；④ 交易——短期积累热点选购认知，长期探索单SPU热点"种草即下单"路径。'},
-      {label:'我的角色',text:'主设计师（100%），负责用户访谈方案设计、AARRR 框架拆解、热点类型分类体系建立，以及四阶段设计方案落地。'},
-    ],
-    results:[{val:'+119%',lbl:'UV_CTR（1.24%→2.71%）'},{val:'+63%',lbl:'7日点击留存（8.47%→13.83%）'}],
-  },
-  pc4:{
-    title:'同一平台，不同品类，用户决策逻辑完全不同——精细化设计的起点',
-    cover:'cover-cake.webp',
-    coverBg:'linear-gradient(135deg,#4a1942,#ec4899)',
-    tags:['品类差异化','用户决策模型','AI提效'],
-    accentColor:'#db2777',
-    sections:[
-      {label:'项目背景',text:'蛋糕用户的核心关注点聚焦于商品本身（口味、品质、性价比），对品牌和店铺信息敏感度显著低于餐饮大盘；但外卖平台沿用通用餐饮展示逻辑，"以店铺为中心"的呈现方式与蛋糕品类"以商品为中心"的决策模型错配，导致订单量与用户渗透率均存在较大提升空间。'},
-      {label:'设计策略',text:'两轨并进：① 强化用户心智——打造蛋糕品类专属视觉体系，通过情感化设计构建仪式感（配送动效、品类专属色调），激活"生日/节庆"场景下的购买欲；② 优化选购体验——重构商品列表页展示逻辑（突出口味/造型等商品核心信息），建立适配蛋糕品类的多维筛选体系（口味/尺寸/场合/价格），引入蛋糕推荐 Agent，根据用户场景智能匹配。同步推进 AI 提效：商品图片质量检测自动化、属性标签自动生成，为精准筛选和推荐打通数据基建。'},
-      {label:'我的角色',text:'参与设计师（约40%），负责搜索结果页蛋糕品类模板设计、用户决策模型研究，以及 AI 提效方案设计配合。'},
-    ],
-    results:[{val:'↑',lbl:'蛋糕品类订单量'},{val:'↑',lbl:'用户渗透率'},{val:'AI',lbl:'图片处理 & 标签生成提效'}],
-  },
-  pc5:{
     title:'设计一个 AI 产品，也用 AI 方式做设计',
     cover:null,
     coverBg:'linear-gradient(135deg,#1e1b4b,#4c1d95,#7c2d8a)',
@@ -1340,6 +1369,46 @@ const PROJECT_DATA={
     ],
     results:[{val:'3轮',lbl:'可交互原型驱动决策'},{val:'0',lbl:'AE 文件，动效全程 Coding'},{val:'2x',lbl:'评审效率提升'}],
     detailPage:'project-05.html',
+  },
+  pc4:{
+    title:'用 AARRR 拆解内容产品的设计机会，然后逐一击破',
+    cover:null,
+    coverBg:'linear-gradient(135deg,#164e63,#06b6d4)',
+    tags:['用研驱动','AARRR 模型','内容产品'],
+    accentColor:'#0891b2',
+    sections:[
+      {label:'项目背景',text:'趋势播报已积累一批高频用户（7日点击留存 8.47%，占搜索大盘 28%），但热点渗透率极低——每日渗透率仅 0.35%，热点分发入口稀少、榜单形态单一。用户访谈发现：键盘遮挡导致部分用户从未注意到趋势播报，了解后却展现出极大兴趣；种草信息不足导致用户"只看不点"，UV_CTR 从 1.5% 降至 0.93%。目标：7日留存 12%→15%，热点渗透日活 45w→1200w。'},
+      {label:'设计策略',text:'以 AARRR 模型为骨架，拆解出四阶段设计机会：① 引流——前置链路新增框内热词/sug打标/二搜打标/商家热点标签，扩大热点"存在感"；② 兴趣——新建沉浸落地页和轻量半浮层两种榜单形态，修复键盘遮挡可见性问题；③ 种草——首次定义5类热点类型（周期/爆发/品牌新品/小话题/大话题），构建热度体现、是什么为什么、相信认同三维种草信息体系，按类型匹配差异化承接形态；④ 交易——短期积累热点选购认知，长期探索单SPU热点"种草即下单"路径。'},
+      {label:'我的角色',text:'主设计师（100%），负责用户访谈方案设计、AARRR 框架拆解、热点类型分类体系建立，以及四阶段设计方案落地。'},
+    ],
+    results:[{val:'+119%',lbl:'UV_CTR（1.24%→2.71%）'},{val:'+63%',lbl:'7日点击留存（8.47%→13.83%）'}],
+  },
+  pc5:{
+    title:'同一平台，不同品类，用户决策逻辑完全不同——精细化设计的起点',
+    cover:'cover-cake.webp',
+    coverBg:'linear-gradient(135deg,#4a1942,#ec4899)',
+    tags:['品类差异化','用户决策模型','AI提效'],
+    accentColor:'#db2777',
+    sections:[
+      {label:'项目背景',text:'蛋糕用户的核心关注点聚焦于商品本身（口味、品质、性价比），对品牌和店铺信息敏感度显著低于餐饮大盘；但外卖平台沿用通用餐饮展示逻辑，"以店铺为中心"的呈现方式与蛋糕品类"以商品为中心"的决策模型错配，导致订单量与用户渗透率均存在较大提升空间。'},
+      {label:'设计策略',text:'两轨并进：① 强化用户心智——打造蛋糕品类专属视觉体系，通过情感化设计构建仪式感（配送动效、品类专属色调），激活"生日/节庆"场景下的购买欲；② 优化选购体验——重构商品列表页展示逻辑（突出口味/造型等商品核心信息），建立适配蛋糕品类的多维筛选体系（口味/尺寸/场合/价格），引入蛋糕推荐 Agent，根据用户场景智能匹配。同步推进 AI 提效：商品图片质量检测自动化、属性标签自动生成，为精准筛选和推荐打通数据基建。'},
+      {label:'我的角色',text:'参与设计师（约40%），负责搜索结果页蛋糕品类模板设计、用户决策模型研究，以及 AI 提效方案设计配合。'},
+    ],
+    results:[{val:'+3.8%',lbl:'金标蛋糕 UVCTR 提升'},{val:'+5.3%',lbl:'金标蛋糕 UVCXR 提升'},{val:'+1.29%',lbl:'店铺页预订转化提升'}],
+  },
+  pc6:{
+    title:'当花钱最多的人得到最差体验，我们用 AI 重构了情感化价值',
+    cover:'s6-cover.png',
+    coverBg:'linear-gradient(135deg,#0c4a6e,#0e7490,#06b6d4)',
+    tags:['AI驱动用研','情感机制分析','体验旅程'],
+    accentColor:'#06b6d4',
+    sections:[
+      {label:'项目背景',text:'外卖平台功能完善，但高价值用户（黑金/黑钻）出问题时身份最先消失——客服不知道他们的等级，系统不记得他们的偏好，被对待的方式和普通用户一样。超时>10分钟次日留存下降1.6pp。项目目标：不是"让体验更温暖"，而是"让花钱最多的人在最需要时被认真对待"。'},
+      {label:'设计策略',text:'三个AI驱动的研究创新：①AI数字分身（30人深访提取五维度→用大模型构建分身→8方向优先级排序→问卷交叉验证，准确率86%）；②跨行业16个案例机制提炼（丽思卡尔顿/达美/亚马逊→偏好记忆/预判通知/信任资产化）；③1008条工单+158条社媒大规模语言分析。由此导出三大设计方向（懂我感/安全感/专属感）和三条设计红线（不表演温暖/不替用户表达/不增加负担）。'},
+      {label:'我的角色',text:'主R安全感方向（4个子方向的拆解与方案设计），参与整体研究方法创新和三条红线制定。'},
+    ],
+    results:[{val:'86%',lbl:'AI数字分身准确率（基准71.7%）'},{val:'30个',lbl:'可反复对话的 AI 数字分身'},{val:'1008条',lbl:'客服工单全量分析'},{val:'3类',lbl:'核心情感缺口'}],
+    detailPage:'project-06.html',
   },
 };
 

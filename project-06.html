@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高价值人群权益情感化分析 — Liu Xiaohui</title>
+  <style>
+    :root {
+      --accent: #beff00;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #222;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor { width: 12px; height: 12px; background: var(--black); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s; }
+    .cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--black); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, width 0.2s, height 0.2s; }
+
+    /* Nav */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; gap: 24px; padding: 20px 48px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); }
+    .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; color: var(--black); display: inline-flex; align-items: baseline; gap: 1px; user-select: none; }
+    .nav-logo .logo-xh { color: #9ed400; display: inline-block; transform-style: preserve-3d; perspective: 200px; }
+    @keyframes xh-to-ux { 0%{transform:rotate(0deg) rotateY(0deg)} 15%{transform:rotate(-12deg) rotateY(0deg)} 30%{transform:rotate(8deg) rotateY(0deg)} 45%{transform:rotate(-5deg) rotateY(90deg)} 60%{transform:rotate(0deg) rotateY(180deg)} 80%{transform:rotate(3deg) rotateY(180deg)} 100%{transform:rotate(0deg) rotateY(180deg)} }
+    @keyframes ux-to-xh { 0%{transform:rotate(0deg) rotateY(180deg)} 20%{transform:rotate(5deg) rotateY(180deg)} 45%{transform:rotate(-4deg) rotateY(90deg)} 65%{transform:rotate(8deg) rotateY(0deg)} 80%{transform:rotate(-5deg) rotateY(0deg)} 100%{transform:rotate(0deg) rotateY(0deg)} }
+    .nav-logo .logo-xh.flip-to-ux { animation: xh-to-ux .75s cubic-bezier(.4,0,.2,1) forwards; }
+    .nav-logo .logo-xh.flip-to-xh { animation: ux-to-xh .75s cubic-bezier(.4,0,.2,1) forwards; }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--gray-600); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--black); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* Hero */
+    .hero { padding: 140px 48px 72px; max-width: 1200px; margin: 0 auto; }
+    .hero-tag { display: inline-block; background: var(--accent); color: var(--black); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 2px; margin-bottom: 28px; }
+    .hero h1 { font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 28px; max-width: 900px; }
+    .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+    .meta-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px; }
+    .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
+    .hero-desc { font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px; }
+
+    /* Hero visual */
+    .hero-visual { max-width: 1200px; margin: 0 auto 80px; padding: 0 48px; }
+    .hero-visual img { width: 100%; border-radius: 16px; display: block; border: 1px solid var(--gray-200); }
+
+    /* Metrics bar */
+    .metrics-bar-wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px 80px; }
+    .metrics-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; }
+    .metrics-bar-item { background: var(--white); padding: 36px 24px; text-align: center; }
+    .metrics-num { font-size: 42px; font-weight: 800; letter-spacing: -0.04em; color: var(--black); line-height: 1; margin-bottom: 8px; }
+    .metrics-num span { color: var(--accent); background: var(--black); padding: 0 4px; border-radius: 3px; }
+    .metrics-label { font-size: 12px; color: var(--gray-600); font-weight: 500; line-height: 1.5; }
+
+    /* Content wrapper */
+    .content { max-width: 1200px; margin: 0 auto; padding: 0 48px 120px; }
+
+    /* Section */
+    .section { margin-bottom: 96px; }
+    .section-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+    .section h2 { font-size: clamp(24px, 3vw, 38px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.15; }
+    .section > p, .section-intro { font-size: 16px; line-height: 1.8; color: var(--gray-600); max-width: 720px; margin-bottom: 20px; }
+    .logic-connector { font-size: 14px; line-height: 1.6; color: var(--gray-400); margin: 32px 0 16px; padding-left: 12px; border-left: 2px solid var(--gray-200); max-width: 640px; }
+
+    /* Highlight quote */
+    .highlight { border-left: 3px solid var(--accent); padding: 20px 24px; background: var(--gray-100); border-radius: 0 8px 8px 0; margin: 28px 0; }
+    .highlight p { font-size: 15px; font-style: italic; color: var(--gray-800); margin: 0; line-height: 1.7; }
+
+    /* Divider */
+    .divider { height: 1px; background: var(--gray-200); margin: 80px 0; }
+
+    /* ===== Identity chain ===== */
+    .identity-chain { display: flex; align-items: stretch; gap: 8px; margin-top: 40px; }
+    .chain-node { flex: 1; padding: 24px 16px; text-align: center; background: var(--gray-100); border-radius: 10px; }
+    .chain-connector { display: flex; align-items: center; justify-content: center; width: 24px; flex-shrink: 0; font-size: 16px; color: var(--gray-400); font-weight: 700; }
+    .chain-connector.broken-conn { color: #e53e3e; }
+    .chain-node.broken { background: #fff5f5; border: 1.5px dashed #e53e3e; }
+    .chain-icon { font-size: 24px; margin-bottom: 8px; }
+    .chain-title { font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+    .chain-desc { font-size: 11px; color: var(--gray-600); line-height: 1.4; }
+
+    /* Pain points strip */
+    .pain-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .pain-item { padding: 20px; border-radius: 10px; border: 1px solid var(--gray-200); }
+    .pain-quote { font-size: 13px; font-style: italic; color: var(--gray-800); line-height: 1.5; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid var(--accent); }
+    .pain-label { font-size: 11px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Section divider */
+    .section-divider { display: flex; align-items: center; gap: 16px; margin: 48px 0 24px; }
+    .section-divider-line { flex: 1; height: 1px; background: var(--gray-200); }
+    .section-divider-text { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .subsection-title { font-size: 18px; font-weight: 800; color: var(--black); margin-bottom: 12px; line-height: 1.4; }
+
+    /* ===== Timeline ===== */
+    .timeline { margin-top: 48px; position: relative; padding-left: 40px; }
+    .timeline::before { content: ''; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: var(--gray-200); }
+    .tl-step { position: relative; padding-bottom: 40px; }
+    .tl-step:last-child { padding-bottom: 0; }
+    .tl-dot { position: absolute; left: -40px; top: 2px; width: 28px; height: 28px; border-radius: 50%; background: var(--black); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: var(--accent); z-index: 1; }
+    .tl-title { font-size: 17px; font-weight: 800; color: var(--black); margin-bottom: 8px; letter-spacing: -0.01em; }
+    .tl-desc { font-size: 14px; line-height: 1.7; color: var(--gray-600); max-width: 640px; }
+    .tl-detail { margin-top: 12px; padding: 14px 18px; background: var(--gray-100); border-radius: 8px; display: inline-flex; gap: 24px; flex-wrap: wrap; }
+    .tl-detail-item { font-size: 12px; color: var(--gray-600); }
+    .tl-detail-item strong { color: var(--black); font-weight: 700; }
+
+    /* Ranking bars */
+    .rank-section { margin-top: 40px; padding: 28px; background: var(--gray-100); border-radius: 12px; }
+    .rank-title { font-size: 13px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 20px; }
+    .rank-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .rank-row:last-child { margin-bottom: 0; }
+    .rank-pos { font-size: 11px; font-weight: 800; color: var(--accent); background: var(--black); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; flex-shrink: 0; }
+    .rank-label { font-size: 13px; font-weight: 600; color: var(--black); width: 72px; flex-shrink: 0; }
+    .rank-track { flex: 1; height: 20px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+    .rank-fill { height: 100%; background: var(--black); border-radius: 4px; }
+
+    /* ===== Migration cards ===== */
+    .migrate-header { display: flex; align-items: center; justify-content: space-between; margin-top: 36px; margin-bottom: 20px; }
+    .migrate-header-title { font-size: 13px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; }
+    .migrate-header-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; background: var(--black); font-size: 11px; font-weight: 700; color: var(--accent); }
+    .migrate-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .migrate-card { border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    .migrate-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .migrate-from { padding: 20px 20px 16px; background: var(--black); }
+    .migrate-industry { display: block; font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .migrate-mech { display: block; font-size: 15px; font-weight: 800; color: var(--white); line-height: 1.4; }
+    .migrate-logic { display: block; font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 8px; font-style: italic; }
+    .migrate-arrow-bar { text-align: center; padding: 8px 0; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--gray-400); background: var(--gray-100); text-transform: uppercase; }
+    .migrate-to { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .migrate-to strong { display: block; font-size: 15px; font-weight: 800; color: var(--black); }
+    .migrate-to span { font-size: 12px; line-height: 1.6; color: var(--gray-600); }
+    .migrate-to .migrate-kw { display: inline; color: var(--black); font-weight: 600; background: rgba(190,255,0,0.15); padding: 0 3px; border-radius: 2px; }
+
+    /* Contrast stats */
+    .contrast-section { margin-top: 48px; }
+    .contrast-stats { display: flex; gap: 32px; margin: 20px 0; }
+    .contrast-stat-num { font-size: 36px; font-weight: 800; color: var(--black); line-height: 1; }
+    .contrast-stat-desc { font-size: 12px; color: var(--gray-600); margin-top: 4px; line-height: 1.4; }
+
+    /* Voice compare */
+    .voice-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 24px; border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-200); }
+    .voice-card { padding: 24px; }
+    .voice-card.voice-user { background: #fff8f8; }
+    .voice-card.voice-platform { background: var(--gray-100); }
+    .voice-card .voice-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; color: var(--gray-400); }
+    .voice-card.voice-user .voice-tag { color: #e53e3e; }
+    .voice-card p { font-size: 14px; line-height: 1.6; color: var(--gray-800); margin: 0 0 8px; }
+    .voice-card .voice-result { font-size: 12px; color: var(--gray-600); font-style: italic; }
+
+    /* ===== Copywriting compare ===== */
+    .copy-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .copy-card { padding: 24px; border-radius: 12px; }
+    .copy-card.copy-bad { background: #fff8f8; border: 1px solid #fecaca; }
+    .copy-card.copy-good { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .copy-badge { font-size: 11px; font-weight: 700; margin-bottom: 10px; }
+    .copy-card.copy-bad .copy-badge { color: #e53e3e; }
+    .copy-card.copy-good .copy-badge { color: #16a34a; }
+    .copy-card p { font-size: 15px; line-height: 1.6; color: var(--gray-800); margin: 0; }
+
+    /* Principles grid */
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px; }
+    .principle-item { padding: 28px 24px; border: 1px solid var(--gray-200); border-radius: 10px; }
+    .principle-icon { font-size: 22px; margin-bottom: 12px; }
+    .principle-item h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .principle-item p { font-size: 13px; line-height: 1.6; color: var(--gray-600); margin: 0; }
+
+    /* Direction cards (legacy) */
+    .direction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .direction-card { padding: 28px 24px; border-radius: 12px; background: var(--black); color: var(--white); }
+    .direction-card h4 { font-size: 16px; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+    .direction-card p { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.7; margin: 0 0 10px; }
+    .direction-card .decision-note { font-size: 11px; color: rgba(255,255,255,0.4); font-style: italic; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin: 0; }
+
+    /* ===== Northstar Framework ===== */
+    .northstar-framework { margin: 32px 0; border: 1px solid var(--gray-200); border-radius: 16px; overflow: hidden; }
+    .nf-header { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: var(--gray-100); border-bottom: 1px solid var(--gray-200); }
+    .nf-badge { font-size: 12px; font-weight: 800; color: var(--black); background: var(--accent); padding: 3px 10px; border-radius: 4px; }
+    .nf-sub { font-size: 12px; color: var(--gray-400); }
+    .nf-layer { padding: 24px; }
+    .nf-constraint { background: var(--white); }
+    .nf-action { background: var(--black); }
+    .nf-layer-label { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+    .nf-label-light { color: rgba(255,255,255,0.4); }
+    .nf-count { font-weight: 400; margin-left: 8px; font-size: 10px; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; }
+    .nf-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .nf-item { padding: 20px; border-radius: 10px; border: 1px solid var(--gray-200); }
+    .nf-item-dark { border-color: rgba(255,255,255,0.1); }
+    .nf-icon { font-size: 20px; margin-bottom: 10px; }
+    .nf-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--black); }
+    .nf-item-dark h3 { color: var(--accent); }
+    .nf-item p { font-size: 12px; line-height: 1.6; color: var(--gray-600); margin: 0; }
+    .nf-item-dark p { color: rgba(255,255,255,0.6); }
+    .nf-note { display: block; font-size: 11px; color: rgba(255,255,255,0.35); font-style: italic; margin-top: 8px; }
+    .nf-arrow { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; background: var(--gray-100); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); }
+    .nf-arrow svg { color: var(--gray-400); flex-shrink: 0; }
+    .nf-arrow span { font-size: 12px; color: var(--gray-400); font-weight: 600; }
+
+    /* ===== Solution showcase (tabbed) ===== */
+    .sol-showcase { margin-top: 40px; }
+    .sol-viewer { position: relative; overflow: hidden; background: var(--black); border-radius: 0; }
+    .sol-slides { position: relative; width: 100%; overflow: hidden; aspect-ratio: 16 / 9; }
+    .sol-slide { display: none; position: absolute; inset: 0; }
+    .sol-slide.active { display: block; }
+    .sol-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .sol-caption-bar { background: var(--black); padding: 16px 24px; border-radius: 0 0 12px 12px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .sol-caption { }
+    .sol-caption-title { font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+    .sol-caption-desc { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+    /* Navigation arrows */
+    .sol-nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .sol-nav-arrow:hover { transform: translateY(-50%) scale(1.1); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+    .sol-nav-arrow.prev { left: 16px; }
+    .sol-nav-arrow.next { right: 16px; }
+    .sol-nav-arrow svg { width: 16px; height: 16px; }
+    /* Tabs */
+    .sol-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 0; padding-bottom: 20px; border-bottom: 2px solid var(--black); }
+    .sol-tab { padding: 14px 16px; border-radius: 8px; border: 1.5px solid var(--gray-200); background: var(--white); cursor: pointer; transition: all 0.2s; text-align: center; position: relative; }
+    .sol-tab:hover { border-color: var(--gray-400); background: var(--gray-100); }
+    .sol-tab.active { border-color: var(--black); background: var(--black); }
+    .sol-tab-tag { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; transition: color 0.2s; }
+    .sol-tab.active .sol-tab-tag { color: var(--accent); }
+    .sol-tab-name { font-size: 14px; font-weight: 800; color: var(--black); transition: color 0.2s; }
+    .sol-tab.active .sol-tab-name { color: var(--white); }
+    .sol-tab-hint { font-size: 11px; color: var(--gray-400); margin-top: 4px; transition: color 0.2s; }
+    .sol-tab.active .sol-tab-hint { color: rgba(255,255,255,0.5); }
+    /* More directions */
+    .sol-more { margin-top: 32px; padding: 24px; background: var(--gray-100); border-radius: 12px; }
+    .sol-more-title { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+    .sol-more-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .sol-more-item { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: var(--white); border-radius: 8px; border: 1px solid var(--gray-200); }
+    .sol-more-item .sol-more-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+    .sol-more-item h5 { font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 3px; }
+    .sol-more-item p { font-size: 11px; color: var(--gray-600); line-height: 1.5; margin: 0; }
+
+    /* ===== Journey chart ===== */
+    .journey-chart { margin-top: 40px; position: relative; }
+    .journey-track { position: relative; padding: 0; }
+    .journey-svg { width: 100%; height: 120px; display: block; }
+    .journey-stages { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--gray-200); }
+    .journey-stage { padding: 16px 12px; text-align: center; border-right: 1px solid var(--gray-200); }
+    .journey-stage:last-child { border-right: none; }
+    .stage-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--black); margin: 0 auto 8px; }
+    .stage-label { font-size: 13px; font-weight: 800; color: var(--black); margin-bottom: 4px; }
+    .stage-emotion { font-size: 11px; color: #e53e3e; margin-bottom: 6px; font-weight: 500; }
+    .stage-solution { font-size: 10px; font-weight: 600; color: var(--white); background: var(--black); padding: 3px 8px; border-radius: 10px; display: inline-block; }
+
+    /* ===== Reflections ===== */
+    .two-col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
+    .card { background: var(--gray-100); border-radius: 12px; padding: 28px; position: relative; transition: background 0.2s; }
+    .card-num { display: inline-block; background: var(--accent); color: var(--black); font-size: 18px; font-weight: 900; padding: 3px 10px; border-radius: 4px; letter-spacing: 0.02em; margin-bottom: 14px; line-height: 1.2; }
+    .card h4 { font-size: 20px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; line-height: 1.3; color: var(--black); }
+    .card p { font-size: 15px; line-height: 1.75; color: var(--gray-600); margin: 0; }
+    .card .kw { color: var(--gray-600); font-weight: 500; border-bottom: 2px dashed transparent; border-radius: 2px; padding: 0 1px; transition: color 0.18s, border-color 0.18s, font-weight 0.18s; cursor: default; }
+    .card:hover .kw { color: var(--black); font-weight: 700; border-bottom: 2px solid var(--accent); }
+
+    /* ===== Outcomes ===== */
+    .outcome-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px; }
+    .outcome-item { padding: 32px 24px; border: 1px solid var(--gray-200); border-radius: 12px; text-align: center; }
+    .outcome-icon { font-size: 28px; margin-bottom: 12px; }
+    .outcome-item h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--black); }
+    .outcome-item p { font-size: 13px; line-height: 1.6; color: var(--gray-600); margin: 0; }
+
+    /* Footer nav */
+    .footer-nav { border-top: 1px solid var(--gray-200); padding: 48px; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+    .footer-nav a { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
+    .footer-nav a:hover { opacity: 0.6; }
+    .footer-nav .next-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); display: block; margin-bottom: 4px; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .hero { padding: 100px 24px 56px; }
+      .hero-visual { padding: 0 24px; }
+      .metrics-bar-wrap { padding: 0 24px 64px; }
+      .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+      .content { padding: 0 24px 80px; }
+      .identity-chain { flex-direction: column; }
+      .chain-connector { transform: rotate(90deg); width: auto; height: 24px; }
+      .pain-strip { grid-template-columns: 1fr; }
+      .timeline { padding-left: 36px; }
+      .migrate-grid { grid-template-columns: 1fr; }
+      .voice-compare { grid-template-columns: 1fr; }
+      .copy-compare { grid-template-columns: 1fr; }
+      .principles { grid-template-columns: 1fr; }
+      .direction-grid { grid-template-columns: 1fr; }
+      .sol-tabs { grid-template-columns: 1fr; }
+      .sol-more-grid { grid-template-columns: 1fr; }
+      .journey-stages { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .outcome-grid { grid-template-columns: 1fr; }
+      .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo" id="nav-logo">liu<span class="logo-xh" id="logo-xh">xh</span></a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>
+      返回作品集
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag reveal">设计分析 &middot; AI 驱动用研</div>
+    <h1 class="reveal">当花钱最多的人得到最差体验，<br>我们用 AI 重构了情感化价值</h1>
+    <div class="hero-meta reveal">
+      <div class="meta-item">
+        <div class="meta-label">角色</div>
+        <div class="meta-value">主R &middot;「安全感」方向 4 个子方向</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">方向</div>
+        <div class="meta-value">外卖C端 &middot; 高价值用户情感化</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">亮点</div>
+        <div class="meta-value">AI数字分身 &middot; 跨行业机制迁移 &middot; 三条设计红线</div>
+      </div>
+    </div>
+    <p class="hero-desc reveal">"他离我 50 米，飘到了离我 400 米，我是无法原谅的。"——这句话不是在投诉速度，是在控诉欺骗。它改变了我们的设计原则。这个项目不是一套界面方案，而是一套从用户研究到设计决策的完整分析链路：30 个 AI 数字分身、6 行业 16 个案例机制迁移、1008 条工单语言分析，最终导出三条设计红线和三大方向。</p>
+  </section>
+
+  <!-- HERO VISUAL -->
+  <div class="hero-visual reveal">
+    <img src="s6-cover.png" alt="高价值人群权益情感化分析项目封面">
+  </div>
+
+  <!-- METRICS BAR -->
+  <div class="metrics-bar-wrap reveal">
+    <div class="metrics-bar">
+      <div class="metrics-bar-item">
+        <div class="metrics-num"><span>1008</span>条</div>
+        <div class="metrics-label">客服工单<br>全量分析</div>
+      </div>
+      <div class="metrics-bar-item">
+        <div class="metrics-num"><span>158</span>篇</div>
+        <div class="metrics-label">小红书+微博用户帖<br>10万+互动量</div>
+      </div>
+      <div class="metrics-bar-item">
+        <div class="metrics-num"><span>86%</span></div>
+        <div class="metrics-label">AI数字分身准确率</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--gray-400);">基准 71.7%</div>
+      </div>
+      <div class="metrics-bar-item">
+        <div class="metrics-num"><span>20+</span></div>
+        <div class="metrics-label">设计方案产出<br>覆盖 3 大方向</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 01: 问题定位 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">01 — 问题定位</div>
+      <h2>花钱最多的人，<br>出问题时身份最先消失</h2>
+      <p>外卖平台的功能已经足够完善，从下单到配送到售后，每一个环节都有对应的产品机制。但调研发现了一个反直觉的事实：当一切顺利时，高价值用户和普通用户的体验几乎没有区别；一旦出问题，高价值用户的身份就消失了。客服不知道他们是黑金，骑手不知道他们上周刚投诉过同样的配送问题，系统不记得他们三次强调过的忌口。他们在备注里写"不要敲门家里有孩子睡觉"，下次点餐还要再写一遍。花了最多钱，但出问题时被对待的方式和任何人一样——排队、举证、等待、被安抚。</p>
+      <p>项目的起点不是"怎么让体验更温暖"，而是"怎么让花钱最多的人，在最需要的时候被认真对待"。</p>
+
+      <!-- 身份断裂链路 -->
+      <div class="identity-chain">
+        <div class="chain-node">
+          <div class="chain-icon">&#x1F464;</div>
+          <div class="chain-title">用户下单</div>
+          <div class="chain-desc">累计消费数千元<br>忠实高频用户</div>
+        </div>
+        <div class="chain-connector">&#8594;</div>
+        <div class="chain-node">
+          <div class="chain-icon">&#x26A0;&#xFE0F;</div>
+          <div class="chain-title">异常发生</div>
+          <div class="chain-desc">超时/错送/漏送<br>需要平台介入</div>
+        </div>
+        <div class="chain-connector broken-conn">&#x2717;</div>
+        <div class="chain-node broken">
+          <div class="chain-icon">&#x1F507;</div>
+          <div class="chain-title">身份消失</div>
+          <div class="chain-desc">客服不知是黑金<br>骑手不知有历史</div>
+        </div>
+        <div class="chain-connector broken-conn">&#x2717;</div>
+        <div class="chain-node broken">
+          <div class="chain-icon">&#x1F504;</div>
+          <div class="chain-title">从零开始</div>
+          <div class="chain-desc">排队&middot;举证&middot;等待<br>和任何人一样</div>
+        </div>
+      </div>
+
+      <!-- 痛点条 -->
+      <div class="pain-strip">
+        <div class="pain-item">
+          <div class="pain-quote">"不要敲门家里有孩子睡觉"——下次还要再写一遍</div>
+          <div class="pain-label">偏好不被记忆</div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-quote">"他离我50米，飘到400米，我无法原谅"</div>
+          <div class="pain-label">信息欺骗感</div>
+        </div>
+        <div class="pain-item">
+          <div class="pain-quote">"AI客服兜圈子，转人工还要重新说一遍"</div>
+          <div class="pain-label">身份不连续</div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <p>超时大于 10 分钟，次日留存下降 1.6pp。这个数字背后不是"慢了"，是"我不知道发生了什么，不知道有没有人在管"。</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 02: AI 数字分身 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">02 — 研究方法：AI 数字分身</div>
+      <h2>从一次性访谈到<br>24 小时可调用的用户研究库</h2>
+      <p>传统深访最大的痛点是——访谈就那 45 分钟，结束之后设计师再想确认什么，只能翻笔记靠回忆。比如设计了一个"预判式通知"方案，想验证用户认不认可，没法再约一次访谈。问卷能量化但问不出深度，深访有深度但不能反复调用。AI 数字分身就是为了解决"一次性对话"这个限制。</p>
+      <p>构建分身不是简单的聊天机器人，而是试图还原这个人的思维方式——面对一个问题，这个真实用户会怎么想、怎么回答。测试集准确率达到 86%，而该领域奠基性研究的平均准确率是 71.7%，说明分身的回答和真实用户高度一致。最关键的价值不只是"用 AI 做了个排序"，而是设计师从此拥有了一个可以 24 小时反复调用的用户研究库——方案评审时如果有人质疑"用户真的这么想吗"，直接问分身验证，不用翻三个月前的访谈笔记。</p>
+
+      <!-- 四步法时间线 -->
+      <div class="timeline">
+        <div class="tl-step">
+          <div class="tl-dot">1</div>
+          <div class="tl-title">深度访谈 &times; 30人</div>
+          <div class="tl-desc">1v1 深访，每位约 45 分钟。结构化提取五个维度：现实处境、人生历程、身份构建、消费理念、外卖需求。</div>
+          <div class="tl-detail">
+            <div class="tl-detail-item"><strong>30人</strong> 深度访谈</div>
+            <div class="tl-detail-item"><strong>16人</strong> 点餐日记</div>
+            <div class="tl-detail-item"><strong>5</strong> 个提取维度</div>
+          </div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot">2</div>
+          <div class="tl-title">构建 AI 数字分身</div>
+          <div class="tl-desc">五维度信息用大模型构建分身——不是简单的聊天机器人，而是试图还原这个人的思维方式。测试集准确率达到 86%（基准 71.7%）。</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot">3</div>
+          <div class="tl-title">优先级排序</div>
+          <div class="tl-desc">梳理出 8 个服务方向，直接问 30 个分身同一个问题让它们排序。坦白说我在这一步犹豫过——担心 AI 会放大某些偏差，让排序变成"分身的共识"而非"用户的真实需求"。所以第 4 步的交叉验证不是锦上添花，而是这个方法能不能站住脚的关键。</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-dot">4</div>
+          <div class="tl-title">交叉验证</div>
+          <div class="tl-desc">同时跑外部定量问卷（214 份有效）。三条数据线交叉验证：深访定性洞察 &#8594; 数字分身量化排序 &#8594; 问卷验证。三者指向同一方向，排序才有说服力。</div>
+        </div>
+      </div>
+
+      <!-- 排序结果 -->
+      <div class="rank-section reveal">
+        <div class="rank-title">数字分身优先级排序结果</div>
+        <div class="rank-row">
+          <div class="rank-pos">1</div>
+          <div class="rank-label">安全保障</div>
+          <div class="rank-track"><div class="rank-fill" style="width:100%"></div></div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-pos">2</div>
+          <div class="rank-label">售后特权</div>
+          <div class="rank-track"><div class="rank-fill" style="width:85%"></div></div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-pos">3</div>
+          <div class="rank-label">配送保障</div>
+          <div class="rank-track"><div class="rank-fill" style="width:72%"></div></div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-pos">4</div>
+          <div class="rank-label">偏好记忆</div>
+          <div class="rank-track"><div class="rank-fill" style="width:60%"></div></div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-pos">6</div>
+          <div class="rank-label">惊喜互动</div>
+          <div class="rank-track"><div class="rank-fill" style="width:38%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 03: 跨行业案例库 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">03 — 跨行业案例库与大规模语言分析</div>
+      <h2>不是看他们做了什么界面，<br>而是提炼背后的机制能否迁移</h2>
+      <p>除了 AI 数字分身，项目还有两个 AI 驱动的研究突破。第一个是跨行业案例库——系统收集 6 个行业的 16 个标杆案例，不是看"他们做了什么界面"，而是提炼背后的机制逻辑能否迁移到外卖场景。16 个案例里我选了以下 3 个重点展开，因为它们的机制最适配外卖的「异常发生时身份消失」这个核心问题。Netflix 的推荐算法很精准但属于"猜你喜欢"范式，而我们要解决的不是推荐，是"出了问题之后怎么对待你"——所以最终聚焦在服务异常场景下的身份感知机制。</p>
+
+      <!-- 迁移卡片 -->
+      <div class="section-divider" style="margin-top:36px;">
+        <span class="section-divider-line"></span>
+        <span class="section-divider-text">研究突破 1/2</span>
+        <span class="section-divider-line"></span>
+      </div>
+      <div class="migrate-header">
+        <span class="migrate-header-title">跨行业机制迁移</span>
+        <span class="migrate-header-badge">6 行业 &middot; 16 案例</span>
+      </div>
+      <div class="migrate-grid">
+        <div class="migrate-card">
+          <div class="migrate-from">
+            <span class="migrate-industry">&#x1F3E8; 酒店 &middot; 丽思卡尔顿</span>
+            <span class="migrate-mech">偏好录入全球系统，<br>下次入住前已准备好</span>
+            <span class="migrate-logic">核心：响应需求 &#8594; 预判需求</span>
+          </div>
+          <div class="migrate-arrow-bar">&#8595; 迁移到外卖</div>
+          <div class="migrate-to">
+            <strong>偏好记忆网络</strong>
+            <span>用户说过"不要香菜"，下次点同店时<span class="migrate-kw">主动询问</span>"继续备注忌口吗"</span>
+          </div>
+        </div>
+        <div class="migrate-card">
+          <div class="migrate-from">
+            <span class="migrate-industry">&#x2708;&#xFE0F; 航空 &middot; 达美航空</span>
+            <span class="migrate-mech">预测取消风险，<br>官宣前已完成改签</span>
+            <span class="migrate-logic">核心：问题发生前已解决</span>
+          </div>
+          <div class="migrate-arrow-bar">&#8595; 迁移到外卖</div>
+          <div class="migrate-to">
+            <strong>预判式通知</strong>
+            <span>检测到超时风险，<span class="migrate-kw">主动推送</span>"延迟 8 分钟，原因：道路施工"</span>
+          </div>
+        </div>
+        <div class="migrate-card">
+          <div class="migrate-from">
+            <span class="migrate-industry">&#x1F4E6; 电商 &middot; 亚马逊</span>
+            <span class="migrate-mech">高信用用户退款，<br>无需退货寄回</span>
+            <span class="migrate-logic">核心：历史行为 = 信用担保</span>
+          </div>
+          <div class="migrate-arrow-bar">&#8595; 迁移到外卖</div>
+          <div class="migrate-to">
+            <strong>信任资产化</strong>
+            <span>下了 500 单、投诉率极低，出问题<span class="migrate-kw">免举证</span>直接补偿</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 视觉分隔 -->
+      <div class="section-divider">
+        <span class="section-divider-line"></span>
+        <span class="section-divider-text">研究突破 2/2</span>
+        <span class="section-divider-line"></span>
+      </div>
+
+      <!-- 语言分析 -->
+      <h3 class="subsection-title">大规模用户语言分析：不只听用户说了什么，更分析语言模式揭示的隐性需求</h3>
+      <p class="section-intro">小红书+微博双平台 158 条有效帖子（总互动量超 10 万+），客服工单 1008 条全量样本（其中 349 条高价值用户工单深度分析）。一个关键发现：用户说"他离我 50 米，飘到了离我 400 米，我是无法原谅的"——注意这句话里的情绪，不是"怎么还没到"的焦急，而是"我被骗了"的愤怒。用户的痛点不是"等待"，而是"被骗"。</p>
+
+      <div class="contrast-section reveal">
+        <h3 style="font-size:16px;font-weight:800;margin-bottom:16px;">大规模用户语言分析</h3>
+        <div class="contrast-stats">
+          <div>
+            <div class="contrast-stat-num">158</div>
+            <div class="contrast-stat-desc">小红书+微博有效帖子<br>总互动量超 10万+</div>
+          </div>
+          <div>
+            <div class="contrast-stat-num">1,008</div>
+            <div class="contrast-stat-desc">客服工单全量样本<br>其中 349 条高价值用户</div>
+          </div>
+        </div>
+
+        <div class="voice-compare">
+          <div class="voice-card voice-user">
+            <div class="voice-tag">用户真实语言</div>
+            <p>"他离我50米，飘到了离我400米，我是无法原谅的"</p>
+            <div class="voice-result">情绪本质：不是焦急，是"我被骗了"的愤怒</div>
+          </div>
+          <div class="voice-card voice-platform">
+            <div class="voice-tag">平台当前回应</div>
+            <p>"快到了" &times; 3次</p>
+            <div class="voice-result">结果：用户失去的不只是时间，是对平台的基本信任</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <p>用户的痛点不是"等待"，而是"被骗"。这个洞察直接导出了设计原则：原因透明 > 安抚话术。</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 04: 设计北极星 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">04 — 设计北极星</div>
+      <h2>情感化不是「更会说话」，<br>而是「更具体地行动」</h2>
+      <p>整个项目最核心的设计理念转变：从"怎么让文案更温暖"变成了"怎么让平台的动作被用户感知到"。这不是一句话的口号，而是贯穿所有方案评审的硬约束——每条文案必须挂靠一个具体行动、真实状态或可验证数据。</p>
+      <p>三条设计红线被确立为整个项目的价值观底线：不表演温暖（不说"为您守护每一单"）、不替用户表达感受（不说"您一定很着急"）、不增加用户/骑手/商家负担（系统主动，用户零操作）。这三条红线在方案评审中去掉了大量"温暖""守护""陪伴"类的空泛表达，留下的都是"原因+动作"的透明信息。"骑手目前距离您 800 米，预计 5 分钟送达，因前方道路拥堵稍有延迟"——这比"您的订单正在飞速赶来"温暖一百倍，因为它把用户当成年人对待。</p>
+
+      <!-- 话术对比：具象化核心理念 -->
+      <p class="logic-connector">一个例子说明这意味着什么——</p>
+      <div class="copy-compare">
+        <div class="copy-card copy-bad">
+          <div class="copy-badge">&#x2717; 表演温暖</div>
+          <p>"您的订单正在飞速赶来"</p>
+        </div>
+        <div class="copy-card copy-good">
+          <div class="copy-badge">&#x2713; 具体行动</div>
+          <p>"骑手目前距离您 800米，预计 5 分钟送达，因前方道路拥堵稍有延迟"</p>
+        </div>
+      </div>
+
+      <!-- 北极星框架：约束层 + 行动层 -->
+      <p class="logic-connector">这个判断背后是一套完整的设计框架——上层是红线约束（不做什么），下层是方向落地（做什么）：</p>
+      <div class="northstar-framework">
+        <div class="nf-header">
+          <span class="nf-badge">设计北极星框架</span>
+          <span class="nf-sub">方案评审的唯一标尺</span>
+        </div>
+        <!-- 约束层 -->
+        <div class="nf-layer nf-constraint">
+          <div class="nf-layer-label">约束层 · 不做什么</div>
+          <div class="nf-items">
+            <div class="nf-item">
+              <div class="nf-icon">&#x1F6AB;</div>
+              <h3>不表演温暖</h3>
+              <p>每句话必须对应一个正在发生的具体动作或真实数据</p>
+            </div>
+            <div class="nf-item">
+              <div class="nf-icon">&#x1F6AB;</div>
+              <h3>不替用户表达感受</h3>
+              <p>用户的感受是他们自己的，平台提供信息而非贴标签</p>
+            </div>
+            <div class="nf-item">
+              <div class="nf-icon">&#x1F6AB;</div>
+              <h3>不增加负担</h3>
+              <p>情感化成本由平台承担，不向用户/骑手/商家转嫁</p>
+            </div>
+          </div>
+        </div>
+        <!-- 过渡箭头 -->
+        <div class="nf-arrow">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-5-5m5 5l5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>红线约束下，提炼出三大设计方向</span>
+        </div>
+        <!-- 行动层 -->
+        <div class="nf-layer nf-action">
+          <div class="nf-layer-label nf-label-light">行动层 · 做什么 <span class="nf-count">覆盖 20+ 机会点</span></div>
+          <div class="nf-items">
+            <div class="nf-item nf-item-dark">
+              <h3>懂我感</h3>
+              <p>偏好记忆网络——打通用户&#8594;商家&#8594;骑手&#8594;客服信息链路</p>
+              <span class="nf-note">边界：仅用户主动告知内容</span>
+            </div>
+            <div class="nf-item nf-item-dark">
+              <h3>安全感</h3>
+              <p>预判式通知——异常时主动推送"原因+可选方案"</p>
+              <span class="nf-note">边界：超时风险 >5min 才触发</span>
+            </div>
+            <div class="nf-item nf-item-dark">
+              <h3>专属感</h3>
+              <p>售后身份不消失——信任资产化，免举证直接处理</p>
+              <span class="nf-note">边界：恶意投诉率 &lt;0.3%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 05: 方案产出 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">05 — 方案产出：安全感方向</div>
+      <h2>从洞察到界面，<br>20+ 方案中的代表示意</h2>
+      <p>研究洞察最终需要转化为可落地的设计方案。整个项目产出了 20+ 个方案尝试，覆盖懂我感、安全感、专属感三个方向。以下是「安全感」方向中 3 个核心子方案的 AI 生成 Demo——用于快速验证设计逻辑和信息结构，非最终交付稿。</p>
+
+      <!-- 交互式方案展示 -->
+      <div class="sol-showcase" id="solShowcase">
+        <!-- 三个 Tab（放在图片上方） -->
+        <div class="sol-tabs">
+          <div class="sol-tab active" onclick="goToSlide(0)">
+            <div class="sol-tab-tag">Sub-01</div>
+            <div class="sol-tab-name">预判式通知</div>
+            <div class="sol-tab-hint">风险预判 &middot; 主动推送</div>
+          </div>
+          <div class="sol-tab" onclick="goToSlide(1)">
+            <div class="sol-tab-tag">Sub-02</div>
+            <div class="sol-tab-name">异常主动介入</div>
+            <div class="sol-tab-hint">先于用户 &middot; 一键补偿</div>
+          </div>
+          <div class="sol-tab" onclick="goToSlide(2)">
+            <div class="sol-tab-tag">Sub-03</div>
+            <div class="sol-tab-name">专人跟进</div>
+            <div class="sol-tab-hint">进度可见 &middot; 自动升级</div>
+          </div>
+        </div>
+
+        <!-- 大图区域 -->
+        <div class="sol-viewer">
+          <div class="sol-slides">
+            <div class="sol-slide active" data-index="0">
+              <img src="s6-demo-status-card.png" alt="安全感前置 · 三级状态卡">
+            </div>
+            <div class="sol-slide" data-index="1">
+              <img src="s6-demo-proactive-intervene.png" alt="售后问题预判主动介入">
+            </div>
+            <div class="sol-slide" data-index="2">
+              <img src="s6-demo-escalation.png" alt="本单已转专人跟进">
+            </div>
+          </div>
+          <!-- 左右箭头 -->
+          <button class="sol-nav-arrow prev" onclick="switchSlide(-1)">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
+          </button>
+          <button class="sol-nav-arrow next" onclick="switchSlide(1)">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>
+          </button>
+        </div>
+
+        <!-- Caption 横条（和黑线一体） -->
+        <div class="sol-caption-bar">
+          <div class="sol-caption" data-index="0" style="display:block;">
+            <div class="sol-caption-title">安全感前置 &middot; 三级状态卡</div>
+            <div class="sol-caption-desc">异常发生 → 自动诊断 → 状态展示 → 用户确认。用户看到的第一条信息不是"出了问题"而是"已经处理了"。三段式结构：原因 + 预计时间 + 可选动作。</div>
+          </div>
+          <div class="sol-caption" data-index="1" style="display:none;">
+            <div class="sol-caption-title">售后问题预判主动介入</div>
+            <div class="sol-caption-desc">系统检测到超时后自动弹出补偿卡片。一键确认领取，不需要填写申请、不需要举证——平台已经准备好了，用户只是确认。</div>
+          </div>
+          <div class="sol-caption" data-index="2" style="display:none;">
+            <div class="sol-caption-title">本单已转专人跟进</div>
+            <div class="sol-caption-desc">第 2 次异常自动升级专人处理。状态区实时展示处理进度时间轴，"放下手机，有进展通知我"——用进度代替承诺，用行动代替安慰。</div>
+          </div>
+        </div>
+
+        <!-- 更多方向 -->
+        <div class="sol-more">
+          <div class="sol-more-title">更多子方向</div>
+          <div class="sol-more-grid">
+            <div class="sol-more-item">
+              <span class="sol-more-icon">&#x1F4CD;</span>
+              <div>
+                <h5>轨迹透明化</h5>
+                <p>"骑手正在 XX 路等红灯"替代纯定位点——信息具体 > 数据精确，消除定位飘移带来的焦虑</p>
+              </div>
+            </div>
+            <div class="sol-more-item">
+              <span class="sol-more-icon">&#x1F91D;</span>
+              <div>
+                <h5>售后身份连续</h5>
+                <p>用户进入客服通道时，首屏自动展示"黑金用户 · 累计 XX 单 · 近期异常 X 次"，跳过验证直接处理</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight" style="margin-top:36px;">
+        <p>这四个子方向不是四个独立功能，而是一条"信息连续链"的四个环节——从风险预判到主动介入到过程透明到售后承接，用户的身份在每个环节都不消失。</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 06: 体验旅程地图 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">06 — 体验旅程地图</div>
+      <h2>从选购到售后，五个阶段的情绪崩溃曲线</h2>
+      <p>旅程地图的价值不是"展示痛点"——那些在 Section 01 已经说过了。它的真正作用是把每个阶段的痛点和设计方向精确对应：选购→偏好记忆，履约→预判式通知，售后→信任资产化。下面这张图，红色曲线是当前体验的持续下行，绿色虚线是方案介入后的预期回升。</p>
+
+      <!-- CSS 情绪曲线 -->
+      <div class="journey-chart">
+        <div style="display:flex;gap:20px;margin-bottom:12px;font-size:11px;font-weight:600;">
+          <span style="display:flex;align-items:center;gap:6px;color:#e53e3e;"><span style="width:20px;height:3px;background:#e53e3e;border-radius:2px;display:inline-block;"></span>当前体验</span>
+          <span style="display:flex;align-items:center;gap:6px;color:#16a34a;"><span style="width:20px;height:3px;background:#16a34a;border-radius:2px;display:inline-block;border-top:2px dashed #16a34a;background:none;"></span>方案介入后预期</span>
+        </div>
+        <div class="journey-track">
+          <svg viewBox="0 0 500 130" class="journey-svg" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="emotionGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e53e3e" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#e53e3e" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="hopeGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#16a34a" stop-opacity="0.06"/>
+                <stop offset="100%" stop-color="#16a34a" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- 当前体验下行线 -->
+            <path d="M0,20 C50,23 80,32 130,42 C180,52 220,62 270,70 C320,78 370,84 420,90 C450,93 480,96 500,98" fill="none" stroke="#e53e3e" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M0,20 C50,23 80,32 130,42 C180,52 220,62 270,70 C320,78 370,84 420,90 C450,93 480,96 500,98 L500,130 L0,130 Z" fill="url(#emotionGrad)"/>
+            <!-- 方案介入后预期上行线 -->
+            <path d="M0,20 C50,22 80,28 130,34 C180,38 220,36 270,38 C320,35 370,32 420,30 C450,29 480,28 500,27" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>
+            <path d="M0,20 C50,22 80,28 130,34 C180,38 220,36 270,38 C320,35 370,32 420,30 C450,29 480,28 500,27 L500,130 L0,130 Z" fill="url(#hopeGrad)"/>
+            <!-- 当前体验数据点 -->
+            <circle cx="50" cy="23" r="4" fill="#e53e3e"/>
+            <circle cx="150" cy="44" r="4" fill="#e53e3e"/>
+            <circle cx="270" cy="70" r="4" fill="#e53e3e"/>
+            <circle cx="370" cy="84" r="4" fill="#e53e3e"/>
+            <circle cx="470" cy="97" r="4" fill="#e53e3e"/>
+            <!-- 方案介入点 -->
+            <circle cx="50" cy="22" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="150" cy="35" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="270" cy="38" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="370" cy="32" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="470" cy="28" r="4" fill="#16a34a" opacity="0.7"/>
+            <!-- 介入点竖虚线 -->
+            <line x1="150" y1="35" x2="150" y2="44" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="270" y1="38" x2="270" y2="70" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="370" y1="32" x2="370" y2="84" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="470" y1="28" x2="470" y2="97" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <!-- 数据标注 -->
+            <text x="270" y="82" font-size="8" fill="#e53e3e" text-anchor="middle" font-weight="600">留存↓1.6pp</text>
+            <text x="50" y="14" font-size="8" fill="#999" text-anchor="middle">9,351赞帖</text>
+            <text x="470" y="108" font-size="8" fill="#e53e3e" text-anchor="middle" font-weight="600">349条高价值工单</text>
+            <text x="370" y="44" font-size="8" fill="#16a34a" text-anchor="middle">预判式通知</text>
+            <text x="470" y="20" font-size="8" fill="#16a34a" text-anchor="middle">信任资产化</text>
+          </svg>
+          <div class="journey-stages">
+            <div class="journey-stage">
+              <div class="stage-dot"></div>
+              <div class="stage-label">选购</div>
+              <div class="stage-emotion">无奈被忽视</div>
+              <div class="stage-solution">偏好记忆网络</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-dot"></div>
+              <div class="stage-label">交易</div>
+              <div class="stage-emotion">疲惫不耐烦</div>
+              <div class="stage-solution">备注标签体系</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-dot"></div>
+              <div class="stage-label">履约</div>
+              <div class="stage-emotion">愤怒焦虑</div>
+              <div class="stage-solution">预判式通知</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-dot"></div>
+              <div class="stage-label">收餐</div>
+              <div class="stage-emotion">失望</div>
+              <div class="stage-solution">备注透传强化</div>
+            </div>
+            <div class="journey-stage">
+              <div class="stage-dot"></div>
+              <div class="stage-label">售后</div>
+              <div class="stage-emotion">被背叛感</div>
+              <div class="stage-solution">信任资产化</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight">
+        <p>这不是五个独立阶段的问题，是一个"信息不连续"的系统问题——选购的备注在履约中生效，履约的异常在售后中被自动关联。用户和平台之间的每一次信息断裂，都在为下一次情绪崩溃蓄能。</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 07: 设计者视角 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">07 — 设计者视角</div>
+      <h2>AI 放大分析半径，但不替代分析本身</h2>
+      <p>回头看这个项目，最有价值的不是产出了多少方案，而是建立了一套可以用"是否在表演温暖"来检验方案的标尺。情感化设计最容易跑偏的方向就是变成"文案大赛"——谁的话更温暖、谁的插画更可爱。三条红线把这个问题从根源上切断了。</p>
+      <p>AI 数字分身是整个项目方法论上最大的创新。它的价值不在于"代替用户测试"，而在于让设计师拥有了与研究数据持续对话的能力。但这个方法也有明确的边界：分身输出的排序只是输入而非结论——之所以可信，不是因为 AI 说了，而是因为外部问卷的交叉验证和设计师对业务场景的判断都指向同一方向。AI 处理了大规模数据，放大了分析半径，但"哪些洞察值得推进"依然是设计师的判断。</p>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-num">01</div>
+          <h4>情感化不是更会说话，而是更具体地行动</h4>
+          <p>丽思卡尔顿的核心不是话说得好，而是把客人随口说的偏好录入了系统。<span class="kw">机制设计</span>比<span class="kw">文案优化</span>的杠杆大一个量级，但也难一个量级——因为机制需要产品、技术、运营的协同。</p>
+        </div>
+        <div class="card">
+          <div class="card-num">02</div>
+          <h4>三条红线不是约束，是方案的加速器</h4>
+          <p>"感谢您的理解与支持"被判定为<span class="kw">表演温暖</span>，直接砍掉；"您一定等得很辛苦"被判定为<span class="kw">替用户表达感受</span>，替换为"配送超时18分钟，补偿方案已就绪"。红线把主观的"感觉不对"变成了可执行的<span class="kw">硬约束</span>。</p>
+        </div>
+        <div class="card">
+          <div class="card-num">03</div>
+          <h4>AI 放大分析半径，但不替代分析本身</h4>
+          <p>30 个 AI 数字分身让设计师可以 24 小时反复"对话"用户。但排序只是<span class="kw">输入</span>而非结论——之所以可信，不是因为 AI 说了，而是因为<span class="kw">三条数据线交叉验证</span>都指向同一方向。真正的价值是设计师拥有了一个<span class="kw">24 小时可调用的用户研究库</span>。</p>
+        </div>
+        <div class="card">
+          <div class="card-num">04</div>
+          <h4>用户的痛点不是等待，而是被骗</h4>
+          <p>"他离我50米，飘到了离我400米，我是无法原谅的。"这句话不是在投诉速度，是在控诉欺骗。"快到了"说三次之后，用户失去的不只是时间，是<span class="kw">对平台的基本信任</span>。这个洞察直接改变了设计原则——<span class="kw">原因透明 > 安抚话术</span>。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!-- SECTION 08: 项目成果 -->
+    <!-- ══════════════════════════════════════ -->
+    <div class="section reveal">
+      <div class="section-num">08 — 项目成果</div>
+      <h2>从研究到落地，<br>实际推动了什么</h2>
+      <p>这个项目不只停留在"研究报告"层面。三条设计红线和安全感方向的 4 个子方案经过了完整的评审和推进流程，在团队内部产生了可衡量的影响。</p>
+
+      <div class="outcome-grid">
+        <div class="outcome-item">
+          <div class="outcome-icon">&#x2705;</div>
+          <h3>设计评审通过</h3>
+          <p>安全感方向 4 个子方案全部通过总监评审，进入开发排期。三条红线被纳入后续迭代的方案自检清单。</p>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-icon">&#x1F9EA;</div>
+          <h3>技术预研启动</h3>
+          <p>"预判式通知"与算法团队联动，完成超时风险预测模型的可行性验证，模型准确率达到 78%。</p>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-icon">&#x1F4CF;</div>
+          <h3>红线纳入标准</h3>
+          <p>三条设计红线被写入团队文案规范文档，后续所有情感化方案必须过"红线自检"才能进入评审。</p>
+        </div>
+      </div>
+
+      <div class="highlight" style="margin-top:36px;">
+        <p>方法论层面：AI 数字分身的构建范式被组内复用到另外两个项目中，"深访 → 分身 → 排序 → 交叉验证"成为团队可复用的研究工具链。</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer nav -->
+  <div class="footer-nav">
+    <a href="project-05.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>
+      上一个项目
+    </a>
+    <a href="index.html">
+      <div>
+        <span class="next-label">回到</span>
+        全部作品
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
+    </a>
+  </div>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Solution showcase slider
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.sol-slide');
+    const tabs = document.querySelectorAll('.sol-tab');
+    const captions = document.querySelectorAll('.sol-caption-bar .sol-caption');
+
+    function goToSlide(index) {
+      currentSlide = index;
+      slides.forEach(s => s.classList.remove('active'));
+      tabs.forEach(t => t.classList.remove('active'));
+      captions.forEach(c => c.style.display = 'none');
+      slides[index].classList.add('active');
+      tabs[index].classList.add('active');
+      captions[index].style.display = 'block';
+    }
+
+    function switchSlide(dir) {
+      let next = currentSlide + dir;
+      if (next < 0) next = slides.length - 1;
+      if (next >= slides.length) next = 0;
+      goToSlide(next);
+    }
+
+    // Logo flip
+    (function(){
+      const el = document.getElementById('logo-xh');
+      if(!el) return;
+      let isUX = false, animating = false;
+      function flipTo(toUX){
+        if(animating) return;
+        animating = true;
+        const cls = toUX ? 'flip-to-ux' : 'flip-to-xh';
+        el.classList.remove('flip-to-ux','flip-to-xh');
+        void el.offsetWidth;
+        el.classList.add(cls);
+        setTimeout(function(){ el.textContent = toUX ? 'ux' : 'xh'; }, 340);
+        el.addEventListener('animationend', function done(){
+          el.removeEventListener('animationend', done);
+          isUX = toUX; animating = false;
+        });
+      }
+      setTimeout(function(){ flipTo(true); }, 1500);
+      document.getElementById('nav-logo').addEventListener('mouseenter', function(){ if(!animating) flipTo(!isUX); });
+    })();
+  </script>
+</body>
+</html>
