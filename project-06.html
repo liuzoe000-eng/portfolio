@@ -48,7 +48,7 @@
     .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
     .meta-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px; }
     .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
-    .hero-desc { font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px; }
+    .hero-desc { font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 800px; }
 
     /* Hero visual */
     .hero-visual { max-width: 1200px; margin: 0 auto 80px; padding: 0 48px; }
@@ -57,8 +57,8 @@
     /* Metrics bar */
     .metrics-bar-wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px 80px; }
     .metrics-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; }
-    .metrics-bar-item { background: var(--white); padding: 36px 24px; text-align: center; }
-    .metrics-num { font-size: 42px; font-weight: 800; letter-spacing: -0.04em; color: var(--black); line-height: 1; margin-bottom: 8px; }
+    .metrics-bar-item { background: var(--white); padding: 36px 32px; text-align: center; }
+    .metrics-num { font-size: 48px; font-weight: 800; letter-spacing: -0.04em; color: var(--black); line-height: 1; margin-bottom: 8px; }
     .metrics-num span { color: var(--accent); background: var(--black); padding: 0 4px; border-radius: 3px; }
     .metrics-label { font-size: 12px; color: var(--gray-600); font-weight: 500; line-height: 1.5; }
 
@@ -69,8 +69,8 @@
     .section { margin-bottom: 96px; }
     .section-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
     .section h2 { font-size: clamp(24px, 3vw, 38px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.15; }
-    .section > p, .section-intro { font-size: 16px; line-height: 1.8; color: var(--gray-600); max-width: 720px; margin-bottom: 20px; }
-    .logic-connector { font-size: 14px; line-height: 1.6; color: var(--gray-400); margin: 32px 0 16px; padding-left: 12px; border-left: 2px solid var(--gray-200); max-width: 640px; }
+    .section > p, .section-intro { font-size: 16px; line-height: 1.8; color: var(--gray-600); max-width: 880px; margin-bottom: 20px; }
+    .logic-connector { font-size: 14px; line-height: 1.6; color: var(--gray-400); margin: 32px 0 16px; padding-left: 12px; border-left: 2px solid var(--gray-200); max-width: 800px; }
 
     /* Highlight quote */
     .highlight { border-left: 3px solid var(--accent); padding: 20px 24px; background: var(--gray-100); border-radius: 0 8px 8px 0; margin: 28px 0; }
@@ -180,29 +180,27 @@
     .direction-card p { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.7; margin: 0 0 10px; }
     .direction-card .decision-note { font-size: 11px; color: rgba(255,255,255,0.4); font-style: italic; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin: 0; }
 
-    /* ===== Northstar Framework ===== */
-    .northstar-framework { margin: 32px 0; border: 1px solid var(--gray-200); border-radius: 16px; overflow: hidden; }
-    .nf-header { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: var(--gray-100); border-bottom: 1px solid var(--gray-200); }
-    .nf-badge { font-size: 12px; font-weight: 800; color: var(--black); background: var(--accent); padding: 3px 10px; border-radius: 4px; }
-    .nf-sub { font-size: 12px; color: var(--gray-400); }
-    .nf-layer { padding: 24px; }
-    .nf-constraint { background: var(--white); }
-    .nf-action { background: var(--black); }
-    .nf-layer-label { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
-    .nf-label-light { color: rgba(255,255,255,0.4); }
-    .nf-count { font-weight: 400; margin-left: 8px; font-size: 10px; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; }
-    .nf-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .nf-item { padding: 20px; border-radius: 10px; border: 1px solid var(--gray-200); }
-    .nf-item-dark { border-color: rgba(255,255,255,0.1); }
-    .nf-icon { font-size: 20px; margin-bottom: 10px; }
-    .nf-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--black); }
-    .nf-item-dark h3 { color: var(--accent); }
-    .nf-item p { font-size: 12px; line-height: 1.6; color: var(--gray-600); margin: 0; }
-    .nf-item-dark p { color: rgba(255,255,255,0.6); }
-    .nf-note { display: block; font-size: 11px; color: rgba(255,255,255,0.35); font-style: italic; margin-top: 8px; }
-    .nf-arrow { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; background: var(--gray-100); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); }
-    .nf-arrow svg { color: var(--gray-400); flex-shrink: 0; }
-    .nf-arrow span { font-size: 12px; color: var(--gray-400); font-weight: 600; }
+    /* ===== Northstar Map (spine) ===== */
+    .ns-map { position: relative; margin: 48px 0; padding-left: 48px; }
+    .ns-map::before { content: ''; position: absolute; left: 22px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--black) 0%, var(--gray-200) 100%); }
+    .ns-core { position: relative; display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
+    .ns-core-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--black); border: 3px solid var(--accent); position: absolute; left: -33px; }
+    .ns-core span { font-size: 18px; font-weight: 800; color: var(--black); letter-spacing: -0.02em; }
+    .ns-branch { position: relative; margin-bottom: 32px; }
+    .ns-branch::before { content: ''; position: absolute; left: -33px; top: 2px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--black); background: var(--white); z-index: 1; }
+    .ns-branch-action::before { background: var(--black); border-color: var(--black); }
+    .ns-branch-label { font-size: 12px; font-weight: 700; color: var(--gray-400); margin-bottom: 12px; letter-spacing: 0.02em; }
+    .ns-branch-items { display: flex; flex-direction: column; gap: 10px; }
+    .ns-leaf { display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--gray-200); background: var(--white); transition: box-shadow 0.2s; }
+    .ns-leaf:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .ns-leaf-dark { background: var(--black); border-color: rgba(255,255,255,0.06); }
+    .ns-leaf-dark:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+    .ns-leaf-icon { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #fef2f2; color: #dc2626; font-size: 11px; font-weight: 800; margin-top: 1px; }
+    .ns-leaf-num { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent); color: var(--black); font-size: 11px; font-weight: 800; margin-top: 1px; }
+    .ns-leaf strong { font-size: 14px; font-weight: 700; color: var(--black); display: block; margin-bottom: 2px; }
+    .ns-leaf-dark strong { color: var(--white); }
+    .ns-leaf p { font-size: 12px; line-height: 1.5; color: var(--gray-500); margin: 0; }
+    .ns-leaf-dark p { color: rgba(255,255,255,0.5); }
 
     /* ===== Solution showcase (tabbed) ===== */
     .sol-showcase { margin-top: 40px; }
@@ -321,7 +319,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-tag reveal">设计分析 &middot; AI 驱动用研</div>
-    <h1 class="reveal">当花钱最多的人得到最差体验，<br>我们用 AI 重构了情感化价值</h1>
+    <h1 class="reveal">花钱最多的人，体验最差<br>我们用 AI 重构了情感化价值</h1>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
@@ -336,7 +334,8 @@
         <div class="meta-value">AI数字分身 &middot; 跨行业机制迁移 &middot; 三条设计红线</div>
       </div>
     </div>
-    <p class="hero-desc reveal">"他离我 50 米，飘到了离我 400 米，我是无法原谅的。"——这句话不是在投诉速度，是在控诉欺骗。它改变了我们的设计原则。这个项目不是一套界面方案，而是一套从用户研究到设计决策的完整分析链路：30 个 AI 数字分身、6 行业 16 个案例机制迁移、1008 条工单语言分析，最终导出三条设计红线和三大方向。</p>
+    <p class="hero-desc reveal">"他离我 50 米，飘到了离我 400 米，我是无法原谅的。"——这句话不是在投诉速度，是在控诉欺骗。它改变了我们的设计原则。</p>
+    <p class="hero-desc reveal">这个项目不是一套界面方案，而是从用户研究到设计决策的完整分析链路：30 个 AI 数字分身、6 行业 16 个案例机制迁移、1008 条工单语言分析，最终导出三条设计红线和三大方向。</p>
   </section>
 
   <!-- HERO VISUAL -->
@@ -357,8 +356,7 @@
       </div>
       <div class="metrics-bar-item">
         <div class="metrics-num"><span>86%</span></div>
-        <div class="metrics-label">AI数字分身准确率</div>
-        <div style="margin-top:8px;font-size:11px;color:var(--gray-400);">基准 71.7%</div>
+        <div class="metrics-label">AI数字分身准确率<br>基准 71.7%</div>
       </div>
       <div class="metrics-bar-item">
         <div class="metrics-num"><span>20+</span></div>
@@ -376,8 +374,8 @@
     <div class="section reveal">
       <div class="section-num">01 — 问题定位</div>
       <h2>花钱最多的人，<br>出问题时身份最先消失</h2>
-      <p>外卖平台的功能已经足够完善，从下单到配送到售后，每一个环节都有对应的产品机制。但调研发现了一个反直觉的事实：当一切顺利时，高价值用户和普通用户的体验几乎没有区别；一旦出问题，高价值用户的身份就消失了。客服不知道他们是黑金，骑手不知道他们上周刚投诉过同样的配送问题，系统不记得他们三次强调过的忌口。他们在备注里写"不要敲门家里有孩子睡觉"，下次点餐还要再写一遍。花了最多钱，但出问题时被对待的方式和任何人一样——排队、举证、等待、被安抚。</p>
-      <p>项目的起点不是"怎么让体验更温暖"，而是"怎么让花钱最多的人，在最需要的时候被认真对待"。</p>
+      <p>一切顺利时，高价值用户和普通用户体验无差别。但一旦出问题——身份消失。客服不知道你是黑金，骑手不知道你上周投诉过同样问题，系统不记得你三次强调的忌口。</p>
+      <p>备注写"不要敲门家里有孩子睡觉"，下次点餐还要再写一遍。花了最多钱，出问题时被对待的方式和任何人一样——排队、举证、等待、被安抚。项目的起点：怎么让花钱最多的人，在最需要的时候被认真对待。</p>
 
       <!-- 身份断裂链路 -->
       <div class="identity-chain">
@@ -435,8 +433,8 @@
     <div class="section reveal">
       <div class="section-num">02 — 研究方法：AI 数字分身</div>
       <h2>从一次性访谈到<br>24 小时可调用的用户研究库</h2>
-      <p>传统深访最大的痛点是——访谈就那 45 分钟，结束之后设计师再想确认什么，只能翻笔记靠回忆。比如设计了一个"预判式通知"方案，想验证用户认不认可，没法再约一次访谈。问卷能量化但问不出深度，深访有深度但不能反复调用。AI 数字分身就是为了解决"一次性对话"这个限制。</p>
-      <p>构建分身不是简单的聊天机器人，而是试图还原这个人的思维方式——面对一个问题，这个真实用户会怎么想、怎么回答。测试集准确率达到 86%，而该领域奠基性研究的平均准确率是 71.7%，说明分身的回答和真实用户高度一致。最关键的价值不只是"用 AI 做了个排序"，而是设计师从此拥有了一个可以 24 小时反复调用的用户研究库——方案评审时如果有人质疑"用户真的这么想吗"，直接问分身验证，不用翻三个月前的访谈笔记。</p>
+      <p><strong>传统方法的瓶颈：</strong>访谈 45 分钟结束后，设计师无法再追问。问卷能量化但问不出深度，深访有深度但不能反复调用。设计师的用研资产是一次性的。</p>
+      <p><strong>AI 突破：</strong>用五维度信息构建数字分身，还原用户思维方式而非简单的聊天机器人。测试集准确率 86%（领域基准 71.7%）。设计师从此拥有 24 小时可反复调用的用户研究库——方案评审时直接问分身验证，不用翻三个月前的笔记。</p>
 
       <!-- 四步法时间线 -->
       <div class="timeline">
@@ -458,12 +456,12 @@
         <div class="tl-step">
           <div class="tl-dot">3</div>
           <div class="tl-title">优先级排序</div>
-          <div class="tl-desc">梳理出 8 个服务方向，直接问 30 个分身同一个问题让它们排序。坦白说我在这一步犹豫过——担心 AI 会放大某些偏差，让排序变成"分身的共识"而非"用户的真实需求"。所以第 4 步的交叉验证不是锦上添花，而是这个方法能不能站住脚的关键。</div>
+          <div class="tl-desc">梳理出 8 个服务方向，直接问 30 个分身同一个问题让它们排序。担心 AI 会放大偏差，所以第 4 步交叉验证是关键。</div>
         </div>
         <div class="tl-step">
           <div class="tl-dot">4</div>
           <div class="tl-title">交叉验证</div>
-          <div class="tl-desc">同时跑外部定量问卷（214 份有效）。三条数据线交叉验证：深访定性洞察 &#8594; 数字分身量化排序 &#8594; 问卷验证。三者指向同一方向，排序才有说服力。</div>
+          <div class="tl-desc">同时跑外部定量问卷（214 份有效）。深访定性洞察 → 数字分身量化排序 → 问卷验证，三者指向一致才有说服力。</div>
         </div>
       </div>
 
@@ -506,7 +504,8 @@
     <div class="section reveal">
       <div class="section-num">03 — 跨行业案例库与大规模语言分析</div>
       <h2>不是看他们做了什么界面，<br>而是提炼背后的机制能否迁移</h2>
-      <p>除了 AI 数字分身，项目还有两个 AI 驱动的研究突破。第一个是跨行业案例库——系统收集 6 个行业的 16 个标杆案例，不是看"他们做了什么界面"，而是提炼背后的机制逻辑能否迁移到外卖场景。16 个案例里我选了以下 3 个重点展开，因为它们的机制最适配外卖的「异常发生时身份消失」这个核心问题。Netflix 的推荐算法很精准但属于"猜你喜欢"范式，而我们要解决的不是推荐，是"出了问题之后怎么对待你"——所以最终聚焦在服务异常场景下的身份感知机制。</p>
+      <p><strong>传统方法的瓶颈：</strong>竞品分析通常只做同行业对标，容易陷入"他们做了什么界面我们也做一个"的惯性。而外卖场景的情感化问题，同行里没有现成答案。</p>
+      <p><strong>AI 突破：</strong>用 AI 系统性地扫描 6 个行业 16 个标杆案例，提炼的不是界面，而是背后的机制逻辑能否迁移。聚焦标准：服务异常时的身份感知机制——不是"猜你喜欢"，而是"出了问题怎么对待你"。</p>
 
       <!-- 迁移卡片 -->
       <div class="section-divider" style="margin-top:36px;">
@@ -565,8 +564,8 @@
       </div>
 
       <!-- 语言分析 -->
-      <h3 class="subsection-title">大规模用户语言分析：不只听用户说了什么，更分析语言模式揭示的隐性需求</h3>
-      <p class="section-intro">小红书+微博双平台 158 条有效帖子（总互动量超 10 万+），客服工单 1008 条全量样本（其中 349 条高价值用户工单深度分析）。一个关键发现：用户说"他离我 50 米，飘到了离我 400 米，我是无法原谅的"——注意这句话里的情绪，不是"怎么还没到"的焦急，而是"我被骗了"的愤怒。用户的痛点不是"等待"，而是"被骗"。</p>
+      <h3 class="subsection-title">大规模用户语言分析</h3>
+      <p class="section-intro"><strong>传统方法的瓶颈：</strong>人工读 1008 条工单需要数周，且难以发现跨样本的语言模式。<strong>AI 突破：</strong>全量分析 158 条社媒帖子 + 1008 条工单，识别出语言模式而非个体案例。关键发现：用户说"飘到 400 米，我无法原谅"——痛点不是"等待"，而是"被骗"。</p>
 
       <div class="contrast-section reveal">
         <h3 style="font-size:16px;font-weight:800;margin-bottom:16px;">大规模用户语言分析</h3>
@@ -608,8 +607,8 @@
     <div class="section reveal">
       <div class="section-num">04 — 设计北极星</div>
       <h2>情感化不是「更会说话」，<br>而是「更具体地行动」</h2>
-      <p>整个项目最核心的设计理念转变：从"怎么让文案更温暖"变成了"怎么让平台的动作被用户感知到"。这不是一句话的口号，而是贯穿所有方案评审的硬约束——每条文案必须挂靠一个具体行动、真实状态或可验证数据。</p>
-      <p>三条设计红线被确立为整个项目的价值观底线：不表演温暖（不说"为您守护每一单"）、不替用户表达感受（不说"您一定很着急"）、不增加用户/骑手/商家负担（系统主动，用户零操作）。这三条红线在方案评审中去掉了大量"温暖""守护""陪伴"类的空泛表达，留下的都是"原因+动作"的透明信息。"骑手目前距离您 800 米，预计 5 分钟送达，因前方道路拥堵稍有延迟"——这比"您的订单正在飞速赶来"温暖一百倍，因为它把用户当成年人对待。</p>
+      <p>核心理念转变：从"怎么让文案更温暖"变成"怎么让平台的动作被用户感知到"。</p>
+      <p>每条文案必须挂靠一个具体行动、真实状态或可验证数据——这是贯穿所有方案评审的硬约束。红线去掉了大量"温暖""守护""陪伴"类空泛表达，留下的都是"原因+动作"的透明信息。</p>
 
       <!-- 话术对比：具象化核心理念 -->
       <p class="logic-connector">一个例子说明这意味着什么——</p>
@@ -624,57 +623,64 @@
         </div>
       </div>
 
-      <!-- 北极星框架：约束层 + 行动层 -->
-      <p class="logic-connector">这个判断背后是一套完整的设计框架——上层是红线约束（不做什么），下层是方向落地（做什么）：</p>
-      <div class="northstar-framework">
-        <div class="nf-header">
-          <span class="nf-badge">设计北极星框架</span>
-          <span class="nf-sub">方案评审的唯一标尺</span>
+      <!-- 北极星图谱：中轴脊柱 -->
+      <div class="ns-map">
+        <!-- 核心节点 -->
+        <div class="ns-core">
+          <div class="ns-core-dot"></div>
+          <span>具体行动 &gt; 表演温暖</span>
         </div>
-        <!-- 约束层 -->
-        <div class="nf-layer nf-constraint">
-          <div class="nf-layer-label">约束层 · 不做什么</div>
-          <div class="nf-items">
-            <div class="nf-item">
-              <div class="nf-icon">&#x1F6AB;</div>
-              <h3>不表演温暖</h3>
-              <p>每句话必须对应一个正在发生的具体动作或真实数据</p>
+        <!-- 红线分支 -->
+        <div class="ns-branch ns-branch-constraint">
+          <div class="ns-branch-label">三条红线 · 评审淘汰标准</div>
+          <div class="ns-branch-items">
+            <div class="ns-leaf">
+              <span class="ns-leaf-icon">&#x2715;</span>
+              <div>
+                <strong>不表演温暖</strong>
+                <p>每句话必须挂靠具体动作或真实数据</p>
+              </div>
             </div>
-            <div class="nf-item">
-              <div class="nf-icon">&#x1F6AB;</div>
-              <h3>不替用户表达感受</h3>
-              <p>用户的感受是他们自己的，平台提供信息而非贴标签</p>
+            <div class="ns-leaf">
+              <span class="ns-leaf-icon">&#x2715;</span>
+              <div>
+                <strong>不替用户表达感受</strong>
+                <p>平台提供信息，不给用户贴标签</p>
+              </div>
             </div>
-            <div class="nf-item">
-              <div class="nf-icon">&#x1F6AB;</div>
-              <h3>不增加负担</h3>
-              <p>情感化成本由平台承担，不向用户/骑手/商家转嫁</p>
+            <div class="ns-leaf">
+              <span class="ns-leaf-icon">&#x2715;</span>
+              <div>
+                <strong>不增加负担</strong>
+                <p>情感化成本由平台承担，用户零操作</p>
+              </div>
             </div>
           </div>
         </div>
-        <!-- 过渡箭头 -->
-        <div class="nf-arrow">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-5-5m5 5l5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>红线约束下，提炼出三大设计方向</span>
-        </div>
-        <!-- 行动层 -->
-        <div class="nf-layer nf-action">
-          <div class="nf-layer-label nf-label-light">行动层 · 做什么 <span class="nf-count">覆盖 20+ 机会点</span></div>
-          <div class="nf-items">
-            <div class="nf-item nf-item-dark">
-              <h3>懂我感</h3>
-              <p>偏好记忆网络——打通用户&#8594;商家&#8594;骑手&#8594;客服信息链路</p>
-              <span class="nf-note">边界：仅用户主动告知内容</span>
+        <!-- 方向分支 -->
+        <div class="ns-branch ns-branch-action">
+          <div class="ns-branch-label">三大方向 · 覆盖 20+ 机会点</div>
+          <div class="ns-branch-items">
+            <div class="ns-leaf ns-leaf-dark">
+              <span class="ns-leaf-num">1</span>
+              <div>
+                <strong>懂我感</strong>
+                <p>偏好记忆网络——打通用户&#8594;商家&#8594;骑手&#8594;客服信息链路</p>
+              </div>
             </div>
-            <div class="nf-item nf-item-dark">
-              <h3>安全感</h3>
-              <p>预判式通知——异常时主动推送"原因+可选方案"</p>
-              <span class="nf-note">边界：超时风险 >5min 才触发</span>
+            <div class="ns-leaf ns-leaf-dark">
+              <span class="ns-leaf-num">2</span>
+              <div>
+                <strong>安全感</strong>
+                <p>预判式通知——异常时主动推送"原因+可选方案"</p>
+              </div>
             </div>
-            <div class="nf-item nf-item-dark">
-              <h3>专属感</h3>
-              <p>售后身份不消失——信任资产化，免举证直接处理</p>
-              <span class="nf-note">边界：恶意投诉率 &lt;0.3%</span>
+            <div class="ns-leaf ns-leaf-dark">
+              <span class="ns-leaf-num">3</span>
+              <div>
+                <strong>专属感</strong>
+                <p>售后身份不消失——信任资产化，免举证直接处理</p>
+              </div>
             </div>
           </div>
         </div>
@@ -750,30 +756,6 @@
           </div>
         </div>
 
-        <!-- 更多方向 -->
-        <div class="sol-more">
-          <div class="sol-more-title">更多子方向</div>
-          <div class="sol-more-grid">
-            <div class="sol-more-item">
-              <span class="sol-more-icon">&#x1F4CD;</span>
-              <div>
-                <h5>轨迹透明化</h5>
-                <p>"骑手正在 XX 路等红灯"替代纯定位点——信息具体 > 数据精确，消除定位飘移带来的焦虑</p>
-              </div>
-            </div>
-            <div class="sol-more-item">
-              <span class="sol-more-icon">&#x1F91D;</span>
-              <div>
-                <h5>售后身份连续</h5>
-                <p>用户进入客服通道时，首屏自动展示"黑金用户 · 累计 XX 单 · 近期异常 X 次"，跳过验证直接处理</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="highlight" style="margin-top:36px;">
-        <p>这四个子方向不是四个独立功能，而是一条"信息连续链"的四个环节——从风险预判到主动介入到过程透明到售后承接，用户的身份在每个环节都不消失。</p>
       </div>
     </div>
 
