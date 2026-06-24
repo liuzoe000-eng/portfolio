@@ -242,7 +242,7 @@
     /* ===== Journey chart ===== */
     .journey-chart { margin-top: 40px; position: relative; }
     .journey-track { position: relative; padding: 0; }
-    .journey-svg { width: 100%; height: 120px; display: block; }
+    .journey-svg { width: 100%; height: auto; display: block; }
     .journey-stages { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--gray-200); }
     .journey-stage { padding: 16px 12px; text-align: center; border-right: 1px solid var(--gray-200); }
     .journey-stage:last-child { border-right: none; }
@@ -319,7 +319,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-tag reveal">设计分析 &middot; AI 驱动用研</div>
-    <h1 class="reveal">花钱最多的人，体验最差<br>我们用 AI 重构了情感化价值</h1>
+    <h1 class="reveal">花钱最多的人，体验最差<br>AI 驱动的深度用户洞察</h1>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
@@ -512,6 +512,12 @@
         <span class="section-divider-line"></span>
         <span class="section-divider-text">研究突破 1/2</span>
         <span class="section-divider-line"></span>
+      </div>
+      <div class="migrate-method-tags" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+        <span style="font-size:12px;padding:4px 12px;border:1px solid var(--gray-200);border-radius:100px;color:var(--gray-600);font-weight:500;">竞品深度拆解</span>
+        <span style="font-size:12px;padding:4px 12px;border:1px solid var(--gray-200);border-radius:100px;color:var(--gray-600);font-weight:500;">机制归纳</span>
+        <span style="font-size:12px;padding:4px 12px;border:1px solid var(--gray-200);border-radius:100px;color:var(--gray-600);font-weight:500;">场景映射</span>
+        <span style="font-size:12px;padding:4px 12px;border:1px solid var(--gray-200);border-radius:100px;color:var(--gray-600);font-weight:500;">丽思卡尔顿 · 达美航空 · 亚马逊等标杆案例</span>
       </div>
       <div class="migrate-header">
         <span class="migrate-header-title">跨行业机制迁移</span>
@@ -776,7 +782,7 @@
           <span style="display:flex;align-items:center;gap:6px;color:#16a34a;"><span style="width:20px;height:3px;background:#16a34a;border-radius:2px;display:inline-block;border-top:2px dashed #16a34a;background:none;"></span>方案介入后预期</span>
         </div>
         <div class="journey-track">
-          <svg viewBox="0 0 500 130" class="journey-svg" preserveAspectRatio="none">
+          <svg viewBox="0 0 1000 130" class="journey-svg" preserveAspectRatio="xMidYMid meet">
             <defs>
               <linearGradient id="emotionGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#e53e3e" stop-opacity="0.12"/>
@@ -788,34 +794,34 @@
               </linearGradient>
             </defs>
             <!-- 当前体验下行线 -->
-            <path d="M0,20 C50,23 80,32 130,42 C180,52 220,62 270,70 C320,78 370,84 420,90 C450,93 480,96 500,98" fill="none" stroke="#e53e3e" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M0,20 C50,23 80,32 130,42 C180,52 220,62 270,70 C320,78 370,84 420,90 C450,93 480,96 500,98 L500,130 L0,130 Z" fill="url(#emotionGrad)"/>
+            <path d="M0,20 C100,23 160,32 260,42 C360,52 440,62 540,70 C640,78 740,84 840,90 C900,93 960,96 1000,98" fill="none" stroke="#e53e3e" stroke-width="2" stroke-linecap="round"/>
+            <path d="M0,20 C100,23 160,32 260,42 C360,52 440,62 540,70 C640,78 740,84 840,90 C900,93 960,96 1000,98 L1000,130 L0,130 Z" fill="url(#emotionGrad)"/>
             <!-- 方案介入后预期上行线 -->
-            <path d="M0,20 C50,22 80,28 130,34 C180,38 220,36 270,38 C320,35 370,32 420,30 C450,29 480,28 500,27" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>
-            <path d="M0,20 C50,22 80,28 130,34 C180,38 220,36 270,38 C320,35 370,32 420,30 C450,29 480,28 500,27 L500,130 L0,130 Z" fill="url(#hopeGrad)"/>
+            <path d="M0,20 C100,22 160,28 260,34 C360,38 440,36 540,38 C640,35 740,32 840,30 C900,29 960,28 1000,27" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="6 4" stroke-linecap="round"/>
+            <path d="M0,20 C100,22 160,28 260,34 C360,38 440,36 540,38 C640,35 740,32 840,30 C900,29 960,28 1000,27 L1000,130 L0,130 Z" fill="url(#hopeGrad)"/>
             <!-- 当前体验数据点 -->
-            <circle cx="50" cy="23" r="4" fill="#e53e3e"/>
-            <circle cx="150" cy="44" r="4" fill="#e53e3e"/>
-            <circle cx="270" cy="70" r="4" fill="#e53e3e"/>
-            <circle cx="370" cy="84" r="4" fill="#e53e3e"/>
-            <circle cx="470" cy="97" r="4" fill="#e53e3e"/>
+            <circle cx="100" cy="23" r="4" fill="#e53e3e"/>
+            <circle cx="300" cy="44" r="4" fill="#e53e3e"/>
+            <circle cx="540" cy="70" r="4" fill="#e53e3e"/>
+            <circle cx="740" cy="84" r="4" fill="#e53e3e"/>
+            <circle cx="940" cy="97" r="4" fill="#e53e3e"/>
             <!-- 方案介入点 -->
-            <circle cx="50" cy="22" r="4" fill="#16a34a" opacity="0.7"/>
-            <circle cx="150" cy="35" r="4" fill="#16a34a" opacity="0.7"/>
-            <circle cx="270" cy="38" r="4" fill="#16a34a" opacity="0.7"/>
-            <circle cx="370" cy="32" r="4" fill="#16a34a" opacity="0.7"/>
-            <circle cx="470" cy="28" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="100" cy="22" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="300" cy="35" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="540" cy="38" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="740" cy="32" r="4" fill="#16a34a" opacity="0.7"/>
+            <circle cx="940" cy="28" r="4" fill="#16a34a" opacity="0.7"/>
             <!-- 介入点竖虚线 -->
-            <line x1="150" y1="35" x2="150" y2="44" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
-            <line x1="270" y1="38" x2="270" y2="70" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
-            <line x1="370" y1="32" x2="370" y2="84" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
-            <line x1="470" y1="28" x2="470" y2="97" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="300" y1="35" x2="300" y2="44" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="540" y1="38" x2="540" y2="70" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="740" y1="32" x2="740" y2="84" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <line x1="940" y1="28" x2="940" y2="97" stroke="#16a34a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
             <!-- 数据标注 -->
-            <text x="270" y="82" font-size="8" fill="#e53e3e" text-anchor="middle" font-weight="600">留存↓1.6pp</text>
-            <text x="50" y="14" font-size="8" fill="#999" text-anchor="middle">9,351赞帖</text>
-            <text x="470" y="108" font-size="8" fill="#e53e3e" text-anchor="middle" font-weight="600">349条高价值工单</text>
-            <text x="370" y="44" font-size="8" fill="#16a34a" text-anchor="middle">预判式通知</text>
-            <text x="470" y="20" font-size="8" fill="#16a34a" text-anchor="middle">信任资产化</text>
+            <text x="540" y="82" font-size="11" fill="#e53e3e" text-anchor="middle" font-weight="600">留存↓1.6pp</text>
+            <text x="100" y="14" font-size="11" fill="#999" text-anchor="middle">9,351赞帖</text>
+            <text x="940" y="108" font-size="11" fill="#e53e3e" text-anchor="middle" font-weight="600">349条高价值工单</text>
+            <text x="740" y="44" font-size="11" fill="#16a34a" text-anchor="middle">预判式通知</text>
+            <text x="940" y="20" font-size="11" fill="#16a34a" text-anchor="middle">信任资产化</text>
           </svg>
           <div class="journey-stages">
             <div class="journey-stage">

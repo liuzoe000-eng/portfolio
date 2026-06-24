@@ -114,9 +114,13 @@
       text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px;
     }
     .meta-value { font-size: 14px; font-weight: 500; color: var(--black); }
-    .hero-desc {
-      font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
-    }
+.hero-desc {
+font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
+}
+.hero-visual {
+  max-width: 1200px; margin: 0 auto; padding: 0 48px 60px;
+}
+.hero-visual img { width: 100%; display: block; border-radius: 16px; }
 
     /* ── Metrics bar (hero 下方) ── */
     .metrics-bar-wrap {
@@ -397,7 +401,7 @@
   <!-- ① HERO -->
   <section class="hero">
     <div class="hero-tag reveal">搜索体验 · S 级项目</div>
-    <h1 class="reveal">清偿六年的<br>体验技术债</h1>
+    <h1 class="reveal">搜索结果页<br>系统性框架重构</h1>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
@@ -418,6 +422,11 @@
     </div>
     <p class="hero-desc reveal">搜索结果页是外卖主链路的核心选购场。多年叠加式迭代在这里留下了框架臃肿、信息繁杂、供给割裂的体验债——这次改版不是单点优化，是一次系统性的清偿。</p>
   </section>
+
+  <!-- HERO VISUAL -->
+  <div class="hero-visual reveal">
+    <img src="s1-cover.png" alt="搜索结果页系统性框架重构封面">
+  </div>
 
   <!-- ② METRICS BAR -->
   <div class="metrics-bar-wrap reveal">

@@ -818,7 +818,7 @@ transition:border-color .2s,color .2s;
       <!-- W1 -->
       <div class="work-card rv" onclick="location.href='project-01.html'" style="cursor:none;">
         <div class="work-img">
-          <img src="cover-search.webp" alt="搜索结果页改版">
+          <img src="s1-cover.png" alt="搜索结果页改版">
           <div class="work-view">View<br>Project</div>
           <div class="work-num-badge">01</div>
         </div>
@@ -984,7 +984,7 @@ transition:border-color .2s,color .2s;
             </div>
           </div>
 <h3 class="work-title">高价值人群权益情感化分析</h3>
-<p class="work-hook">花钱最多的人，出问题时身份最先消失</p>
+<p class="work-hook">花钱最多的人，体验最差——AI 驱动的深度用户洞察</p>
 <p class="work-sub">30个AI数字分身 · 主R · 外卖高价值用户研究</p>
           <div class="work-footer">
             <button class="work-cta">
@@ -1332,7 +1332,7 @@ document.querySelectorAll('[data-target]').forEach(el=>metricIo.observe(el));
 const PROJECT_DATA={
   pc1:{
     title:'从堆砌到系统——一次让屏效提升 10% 的框架重构',
-    cover:'cover-search.webp',
+    cover:'s1-cover.png',
     coverBg:'linear-gradient(135deg,#312e81,#6366f1)',
     tags:['系统化重构','信息架构','A/B 验证'],
     accentColor:'#6366f1',
@@ -1397,7 +1397,7 @@ const PROJECT_DATA={
     results:[{val:'+3.8%',lbl:'金标蛋糕 UVCTR 提升'},{val:'+5.3%',lbl:'金标蛋糕 UVCXR 提升'},{val:'+1.29%',lbl:'店铺页预订转化提升'}],
   },
   pc6:{
-    title:'当花钱最多的人得到最差体验，我们用 AI 重构了情感化价值',
+    title:'花钱最多的人，体验最差——AI 驱动的深度用户洞察',
     cover:'s6-cover.png',
     coverBg:'linear-gradient(135deg,#0c4a6e,#0e7490,#06b6d4)',
     tags:['AI驱动用研','情感机制分析','体验旅程'],
@@ -1544,11 +1544,11 @@ function closeDetailOnBackdrop(e){
 
   /* ═══ 初始入场 ═══ */
   heroState = 'visible';
-  // 页面加载后触发入场
-  if(document.readyState === 'complete'){
-    animateIn();
+  // DOM就绪即触发入场，不等待图片等资源
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', () => setTimeout(animateIn, 50));
   } else {
-    window.addEventListener('load', animateIn);
+    setTimeout(animateIn, 50);
   }
 })();
 
