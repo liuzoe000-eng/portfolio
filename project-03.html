@@ -230,6 +230,44 @@
       .funnel { padding: 32px 24px; }
       .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
     }
+  
+    /* ── Image Loading Placeholder ── */
+    img[loading="lazy"] {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      min-height: 200px;
+      border-radius: 12px;
+    }
+    img[loading="lazy"].loaded {
+      animation: none;
+      background: none;
+      min-height: unset;
+    }
+    /* Dark variant for dark-bg sections */
+    .section-img-dark[loading="lazy"],
+    .img-full-dark[loading="lazy"] {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    /* Video placeholder */
+    video:not(.loaded) {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      min-height: 300px;
+      border-radius: 12px;
+    }
+    video.loaded {
+      animation: none;
+      background: none;
+      min-height: unset;
+    }
+
   </style>
 </head>
 <body>
@@ -553,5 +591,43 @@ reveals.forEach(el => observer.observe(el));
 
     (function(){const el=document.getElementById('logo-xh');if(!el)return;let isUX=false,animating=false;function flipTo(toUX){if(animating)return;animating=true;const cls=toUX?'flip-to-ux':'flip-to-xh';el.classList.remove('flip-to-ux','flip-to-xh');void el.offsetWidth;el.classList.add(cls);setTimeout(()=>{el.textContent=toUX?'ux':'xh';},380);el.addEventListener('animationend',function done(){el.removeEventListener('animationend',done);isUX=toUX;animating=false;});}setTimeout(()=>flipTo(true),1500);document.getElementById('nav-logo').addEventListener('mouseenter',()=>{if(!animating)flipTo(!isUX);});})();
 </script>
+
+  <!-- Image load fade-in -->
+  <script>
+  (function(){
+    function markLoaded(img){
+      img.classList.add('loaded');
+    }
+    // Handle already-cached images
+    document.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+      if(img.complete && img.naturalHeight > 0){
+        markLoaded(img);
+      } else {
+        img.addEventListener('load', function(){ markLoaded(img); });
+        img.addEventListener('error', function(){ markLoaded(img); });
+      }
+    });
+    // Handle dynamically loaded images (MutationObserver)
+    new MutationObserver(function(mutations){
+      mutations.forEach(function(m){
+        m.addedNodes.forEach(function(node){
+          if(node.tagName === 'IMG' && node.getAttribute('loading') === 'lazy'){
+            if(node.complete && node.naturalHeight > 0){
+              markLoaded(node);
+            } else {
+              node.addEventListener('load', function(){ markLoaded(node); });
+            }
+          }
+        });
+      });
+    }).observe(document.body, {childList: true, subtree: true});
+    // Videos
+    document.querySelectorAll('video').forEach(function(v){
+      v.addEventListener('loadeddata', function(){ v.classList.add('loaded'); });
+      if(v.readyState >= 2) v.classList.add('loaded');
+    });
+  })();
+  </script>
+
 </body>
 </html>

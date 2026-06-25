@@ -733,7 +733,45 @@ transition:border-color .2s,color .2s;
   .contact-title{font-size:clamp(40px,12vw,80px);}
 .metrics-row{gap:12px;}
 }
-</style>
+
+    /* ── Image Loading Placeholder ── */
+    img[loading="lazy"] {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      min-height: 200px;
+      border-radius: 12px;
+    }
+    img[loading="lazy"].loaded {
+      animation: none;
+      background: none;
+      min-height: unset;
+    }
+    /* Dark variant for dark-bg sections */
+    .section-img-dark[loading="lazy"],
+    .img-full-dark[loading="lazy"] {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    /* Video placeholder */
+    video:not(.loaded) {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      min-height: 300px;
+      border-radius: 12px;
+    }
+    video.loaded {
+      animation: none;
+      background: none;
+      min-height: unset;
+    }
+
+  </style>
 </head>
 <body>
 
@@ -879,7 +917,7 @@ transition:border-color .2s,color .2s;
       <div class="work-card rv d2" onclick="location.href='project-05.html'" style="cursor:none;">
         <div class="work-img">
           <div class="work-img-color" style="background:#1e1b4b;padding:0;overflow:hidden;">
-            <img src="cover-sqs.webp" alt="神抢手 AI 偏好定制" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="cover-sqs.webp" alt="神抢手 AI 偏好定制" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <div class="work-view">View<br>Project</div>
           <div class="work-num-badge">03</div>
@@ -910,7 +948,7 @@ transition:border-color .2s,color .2s;
       <!-- W4 -->
       <div class="work-card rv d3" onclick="location.href='project-03.html'" style="cursor:none;">
         <div class="work-img">
-          <img src="cover-trend.webp" alt="搜索热点趋势播报种草">
+          <img src="cover-trend.webp" alt="搜索热点趋势播报种草" loading="lazy">
           <div class="work-view">View<br>Project</div>
           <div class="work-num-badge">04</div>
         </div>
@@ -1581,5 +1619,43 @@ function copyEmail(){
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();closeEmailModal();}});
 </script>
+
+  <!-- Image load fade-in -->
+  <script>
+  (function(){
+    function markLoaded(img){
+      img.classList.add('loaded');
+    }
+    // Handle already-cached images
+    document.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+      if(img.complete && img.naturalHeight > 0){
+        markLoaded(img);
+      } else {
+        img.addEventListener('load', function(){ markLoaded(img); });
+        img.addEventListener('error', function(){ markLoaded(img); });
+      }
+    });
+    // Handle dynamically loaded images (MutationObserver)
+    new MutationObserver(function(mutations){
+      mutations.forEach(function(m){
+        m.addedNodes.forEach(function(node){
+          if(node.tagName === 'IMG' && node.getAttribute('loading') === 'lazy'){
+            if(node.complete && node.naturalHeight > 0){
+              markLoaded(node);
+            } else {
+              node.addEventListener('load', function(){ markLoaded(node); });
+            }
+          }
+        });
+      });
+    }).observe(document.body, {childList: true, subtree: true});
+    // Videos
+    document.querySelectorAll('video').forEach(function(v){
+      v.addEventListener('loadeddata', function(){ v.classList.add('loaded'); });
+      if(v.readyState >= 2) v.classList.add('loaded');
+    });
+  })();
+  </script>
+
 </body>
 </html>
