@@ -324,19 +324,19 @@
       <p>每天有大量用户在外卖 APP 里搜索，但趋势播报的日渗透率只有 0.35%。面对"渗透率低"这个笼统的问题，我们的第一个判断是：不能直接跳到"优化榜单"，要先搞清楚用户从"不知道有热点"到"被种草下单"，中间经历了哪些节点，每个节点的断点在哪里。</p>
       <div class="break-wrap">
         <div class="break-list" id="break-list">
-          <div class="break-item" data-img="p3-break-1.png">
+          <div class="break-item" data-img="p3-break-1.webp">
             <div class="break-stage">引流</div>
             <div class="break-body"><strong>触达面太窄</strong> <span>——热点只有一个入口，绝大多数用户在正常搜索流程中根本遇不到它</span></div>
           </div>
-          <div class="break-item" data-img="p3-break-2.png">
+          <div class="break-item" data-img="p3-break-2.webp">
             <div class="break-stage">兴趣</div>
             <div class="break-body"><strong>榜单形态单一</strong> <span>——可见性差，路径冗余，一个榜单要同时承担"发现"和"深度浏览"两个完全不同的场景</span></div>
           </div>
-          <div class="break-item" data-img="p3-break-3.png">
+          <div class="break-item" data-img="p3-break-3.webp">
             <div class="break-stage">种草</div>
             <div class="break-body"><strong>信息严重错配</strong> <span>——不同热点类型用同一套模板承接，用户看到的信息和他们真正需要的完全对不上</span></div>
           </div>
-          <div class="break-item" data-img="p3-break-4.png">
+          <div class="break-item" data-img="p3-break-4.webp">
             <div class="break-stage">交易</div>
             <div class="break-body"><strong>路径未打通</strong> <span>——种草和下单之间缺少连接，用户被种草后没有顺畅的转化路径</span></div>
           </div>
@@ -345,11 +345,11 @@
         <div class="break-preview-area" id="break-preview-area">
           <div class="break-arrow" id="break-arrow"></div>
           <!-- placeholder 撑开容器高度，本身不可见 -->
-          <img class="break-preview-img placeholder" src="p3-break-1.png" alt="">
-          <img class="break-preview-img" id="break-img-1" src="p3-break-1.png" alt="">
-          <img class="break-preview-img" id="break-img-2" src="p3-break-2.png" alt="">
-          <img class="break-preview-img" id="break-img-3" src="p3-break-3.png" alt="">
-          <img class="break-preview-img" id="break-img-4" src="p3-break-4.png" alt="">
+          <img loading="lazy" class="break-preview-img placeholder" src="p3-break-1.webp" alt="">
+          <img loading="lazy" class="break-preview-img" id="break-img-1" src="p3-break-1.webp" alt="">
+          <img loading="lazy" class="break-preview-img" id="break-img-2" src="p3-break-2.webp" alt="">
+          <img loading="lazy" class="break-preview-img" id="break-img-3" src="p3-break-3.webp" alt="">
+          <img loading="lazy" class="break-preview-img" id="break-img-4" src="p3-break-4.webp" alt="">
         </div>
       </div>
     </div>
@@ -511,10 +511,10 @@ reveals.forEach(el => observer.observe(el));
 
       /* id → img 元素的映射，跳过 placeholder */
       const imgMap = {
-        'p3-break-1.png': document.getElementById('break-img-1'),
-        'p3-break-2.png': document.getElementById('break-img-2'),
-        'p3-break-3.png': document.getElementById('break-img-3'),
-        'p3-break-4.png': document.getElementById('break-img-4'),
+        'p3-break-1.webp': document.getElementById('break-img-1'),
+        'p3-break-2.webp': document.getElementById('break-img-2'),
+        'p3-break-3.webp': document.getElementById('break-img-3'),
+        'p3-break-4.webp': document.getElementById('break-img-4'),
       };
 
       let currentImg = null;
