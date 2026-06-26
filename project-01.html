@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>搜索结果页改版 — Liu Xiaohui</title>
+  <title>外卖搜索 · 6年系统性重构 — Liu Xiaohui</title>
   <style>
     :root {
       --accent: #beff00;
@@ -380,6 +380,10 @@ font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
       .ab-result { grid-template-columns: 1fr; }
       .two-col { grid-template-columns: 1fr; }
       .footer-nav { padding: 32px 24px; flex-direction: column; gap: 24px; }
+      .timeline-node { padding-left: 60px; }
+      .timeline-node::before { left: 36px; }
+      .timeline-node:not(:last-child)::after { left: 40px; }
+      .metrics-point-num { font-size: 22px; }
     }
   
     /* ── Image Loading Placeholder ── */
@@ -418,6 +422,65 @@ font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
       min-height: unset;
     }
 
+    /* ── Metrics comparison (3 versions) ── */
+    .metrics-version {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gray-400);
+      margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .metrics-point { margin-bottom: 16px; }
+    .metrics-point:last-child { margin-bottom: 0; }
+    .metrics-point-num {
+      font-size: 26px; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--black); line-height: 1.1; margin-bottom: 2px;
+    }
+    .metrics-point-num span {
+      color: var(--accent); background: var(--black);
+      padding: 0 4px; border-radius: 3px;
+    }
+    .metrics-point-label {
+      font-size: 12px; color: var(--gray-600); font-weight: 500;
+    }
+    .metrics-footnote {
+      text-align: center; font-size: 13px; color: var(--gray-400);
+      font-weight: 500; margin-top: 24px; letter-spacing: 0.02em;
+    }
+
+    /* ── Timeline (Section 00) ── */
+    .timeline { margin-top: 40px; }
+    .timeline-node {
+      position: relative; padding-left: 80px; padding-bottom: 44px;
+    }
+    .timeline-node:last-child { padding-bottom: 0; }
+    .timeline-node::before {
+      content: ''; position: absolute; left: 48px; top: 6px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--black); z-index: 1;
+    }
+    .timeline-node:not(:last-child)::after {
+      content: ''; position: absolute; left: 52px; top: 20px;
+      width: 2px; bottom: 0; background: var(--gray-200);
+    }
+    .timeline-year {
+      position: absolute; left: 0; top: 2px;
+      font-size: 13px; font-weight: 800; color: var(--black);
+    }
+    .timeline-title {
+      font-size: 18px; font-weight: 800; margin-bottom: 10px;
+      letter-spacing: -0.01em; line-height: 1.3;
+    }
+    .timeline-body {
+      font-size: 15px; line-height: 1.8; color: var(--gray-600);
+      margin-bottom: 12px;
+    }
+    .timeline-result {
+      font-size: 13px; font-weight: 600; line-height: 1.6;
+      margin-top: 4px;
+    }
+    .timeline-result.outcome { color: #1aaa55; }
+    .timeline-result.problem { color: var(--gray-400); }
+
   </style>
 </head>
 <body>
@@ -437,27 +500,27 @@ font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
 
   <!-- ① HERO -->
   <section class="hero">
-    <div class="hero-tag reveal">搜索体验 · S 级项目</div>
-    <h1 class="reveal">搜索结果页<br>系统性框架重构</h1>
+<div class="hero-tag reveal">外卖搜索主R · 6年深耕</div>
+<h1 class="reveal">三次重大改版<br>从单点优化到系统性重构</h1>
     <div class="hero-meta reveal">
       <div class="meta-item">
         <div class="meta-label">角色</div>
-        <div class="meta-value">主设计师 · 100% 参与</div>
+        <div class="meta-value">搜索主R设计师 · 6年深耕</div>
       </div>
       <div class="meta-item">
         <div class="meta-label">方向</div>
         <div class="meta-value">外卖搜索主链路</div>
       </div>
       <div class="meta-item">
-        <div class="meta-label">类型</div>
-        <div class="meta-value">全链路改版 · 框架重构</div>
+        <div class="meta-label">改版历程</div>
+        <div class="meta-value">2021 全链路优化 → 2023 品类差异化 → 2025 框架重构</div>
       </div>
       <div class="meta-item">
-        <div class="meta-label">项目规模</div>
-        <div class="meta-value">两大目标 · 六项策略</div>
+        <div class="meta-label">本期规模</div>
+        <div class="meta-value">两大目标 · 六项策略 · A/B 数据验证</div>
       </div>
     </div>
-    <p class="hero-desc reveal">搜索结果页是外卖主链路的核心选购场。多年叠加式迭代在这里留下了框架臃肿、信息繁杂、供给割裂的体验债——这次改版不是单点优化，是一次系统性的清偿。</p>
+    <p class="hero-desc reveal">搜索结果页是外卖主链路的核心选购场。6年间我经历了三次重大改版——第一次建立全链路体验意识，第二次沉淀品类差异化方法论，第三次直面框架级结构性问题。这不是一次孤立的改版，是六年认知累积到了必须系统清偿的时候。</p>
   </section>
 
   <!-- HERO VISUAL -->
@@ -469,25 +532,78 @@ font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
   <div class="metrics-bar-wrap reveal">
   <div class="metrics-bar">
     <div class="metrics-bar-item">
-      <div class="metrics-num"><span>+0.09pp</span></div>
-      <div class="metrics-label">全局搜索 UV_CXR</div>
+      <div class="metrics-version">2021 · 第一次改版</div>
+      <div class="metrics-point">
+        <div class="metrics-point-num"><span>6项↑</span></div>
+        <div class="metrics-point-label">满意度指标显著提升</div>
+      </div>
+      <div class="metrics-point">
+        <div class="metrics-point-num"><span>+3.28%</span></div>
+        <div class="metrics-point-label">sug 词点击率</div>
+      </div>
     </div>
     <div class="metrics-bar-item">
-      <div class="metrics-num"><span>+0.31pp</span></div>
-      <div class="metrics-label">搜索结果页 UV_CXR</div>
+      <div class="metrics-version">2023 · 第二次改版</div>
+      <div class="metrics-point">
+        <div class="metrics-point-num"><span>+0.58%</span></div>
+        <div class="metrics-point-label">奶茶 UVRPM</div>
+      </div>
+      <div class="metrics-point">
+        <div class="metrics-point-num"><span>+7.70%</span></div>
+        <div class="metrics-point-label">火锅点击位次提前</div>
+      </div>
     </div>
     <div class="metrics-bar-item">
-      <div class="metrics-num"><span>~+10%</span></div>
-      <div class="metrics-label">页面屏效提升</div>
+      <div class="metrics-version">2025 · 第三次改版</div>
+      <div class="metrics-point">
+        <div class="metrics-point-num"><span>+0.31pp</span></div>
+        <div class="metrics-point-label">结果页 UV_CXR</div>
+      </div>
+      <div class="metrics-point">
+        <div class="metrics-point-num"><span>~+10%</span></div>
+        <div class="metrics-point-label">页面屏效提升</div>
+      </div>
     </div>
   </div>
+  <div class="metrics-footnote">三次改版，每次都拿到正向数据验证</div>
   </div>
 
   <!-- MAIN CONTENT -->
   <div class="content">
 
+    <!-- ⓪ 六年演进 -->
+    <div class="section">
+      <div class="section-num reveal">00 — 六年演进</div>
+      <h2 class="reveal">每一次改版，<br>都在上一次的认知上深化</h2>
+      <p class="reveal">这三次改版不是三个独立项目，而是一条连贯的认知递进线。每一次解决的问题，都会暴露出更深层的问题——而下一层，恰好需要更系统的方法去应对。</p>
+      <div class="timeline">
+        <div class="timeline-node reveal">
+          <div class="timeline-year">2021</div>
+          <div class="timeline-title">建立全链路体验意识</div>
+          <div class="timeline-body">搜索入口、引导页、sug页、结果页全链路扫描优化。这是搜索体验第一次从“单点修补”走向“全链路视角”。用眼动测试（6人追踪+深访）验证浏览动线，用满意度前后测（千余份问卷）验证方案优劣——上下结构在 6 项满意度指标上显著提升，sug 词点击率提升 +3.28%。饿了么同期也进行了搜索布局大升级。</div>
+          <div class="timeline-result outcome">✓ 改版成果：满意度显著提升，全链路体验一致性建立</div>
+          <div class="timeline-result problem">→ 暴露的问题：所有品类用同一套模板，用户决策效率参差不齐——奶茶和火锅的决策逻辑完全不同，不该长一个样。</div>
+        </div>
+        <div class="timeline-node reveal">
+          <div class="timeline-year">2023</div>
+          <div class="timeline-title">沉淀品类差异化方法论</div>
+          <div class="timeline-body">基于「商品差异 × 图片相似度 × 决策重点 × 决策成本」四维判断框架，为奶茶、蛋糕、火锅、小吃等品类分别定制差异化模板。奶茶杯细长型纵向拉图，火锅扁平型横向布局——不是拍脑袋，是品类的物理形态决定了信息排布方式。奶茶 UVRPM +0.58%，火锅大图模板让用户点击位次提前 7.70%，浏览深度收窄——找得更快了。线上模板至今仍在使用。</div>
+          <div class="timeline-result outcome">✓ 改版成果：多品类模板数据全面正向，四维框架成为后续品类扩展的标准方法</div>
+          <div class="timeline-result problem">→ 暴露的问题：品类差异化做到极致后，旧框架本身成了天花板——再多模板也塞不进一个臃肿的结构，框架不改，差异化就没有空间了。</div>
+        </div>
+        <div class="timeline-node reveal">
+          <div class="timeline-year">2025</div>
+          <div class="timeline-title">系统性框架重构</div>
+          <div class="timeline-body">当框架成为天花板，就是系统性重构的时候。这次不是加模板，而是拆掉重建——从框架布局到信息架构到供给逻辑，6 个策略相互咬合，一次清偿。</div>
+        </div>
+      </div>
+      <p class="reveal" style="font-size: 15px; color: var(--gray-600); font-style: italic; margin-top: 36px;">以下展开第三次改版的完整过程。</p>
+    </div>
+
+    <div class="divider"></div>
+
     <!-- ③ 问题定位 -->
-    <div class="section" style="margin-top: 96px;">
+    <div class="section">
       <div class="section-num reveal">01 — 问题定位</div>
       <h2 class="reveal">四个结构性问题，<br>让页面走到了改版的临界点</h2>
       <p class="reveal">改版前我们结合各模块线上数据 + 专家走查，梳理出的不是孤立的体验问题，而是相互咬合的结构矛盾——框架撑不住业务扩张，工具留不住用户决策，商家卡片拉不开差异化。</p>
@@ -676,31 +792,31 @@ font-size: 18px; line-height: 1.7; color: var(--gray-600); max-width: 680px;
 
     <div class="divider"></div>
 
-    <!-- ⑦ 设计亮点 / 反思 -->
+    <!-- ⑦ 设计者视角 -->
     <div class="section reveal">
       <div class="section-num">05 — 设计者视角</div>
-      <h2>这个项目真正难的地方</h2>
-      <p>数字会自己说话，但背后有几个判断值得复盘。</p>
+      <h2>三次改版教会我的事</h2>
+      <p>数字会自己说话——三次改版，每次都拿到了正向验证。但比数字更重要的是背后认知的升级：从“做好单点”到“建方法论”到“做系统性决策”。</p>
       <div class="two-col">
         <div class="card">
           <div class="card-num">01</div>
-          <h4>用数据推翻直觉，需要勇气</h4>
-          <p>三明治框架更「整洁」，是所有人的<span class="kw">第一直觉</span>。但实验数据告诉我们用户不需要整洁，他们需要<span class="kw">流畅</span>。接受<span class="kw">反直觉的结果</span>，并且说服团队推进，是这个项目最难的决策之一。</p>
+          <h4>从“做好体验”到“理解业务”</h4>
+          <p>2021年我关注的是全链路体验细节——搜索框位置、引导页榜单、sug高亮。到2023年，我开始理解不同品类的决策逻辑差异：奶茶用户找品牌、蛋糕用户看颜值、火锅用户比套餐。到2025年，关注点变成了框架能不能撑住业务扩张。<span class="kw">每次改版，对业务的理解都深了一层</span>。</p>
         </div>
         <div class="card">
           <div class="card-num">02</div>
-          <h4>系统性改造，不是堆砌功能</h4>
-          <p>六个策略同时推进，每一个都在对方的基础上生效——<span class="kw">框架扁平了</span>，二搜才能融入；<span class="kw">卡片右侧空出来了</span>，运营信息才能透出。这种<span class="kw">相互咬合的设计</span>比单点优化难很多，也有价值很多。</p>
+          <h4>用研手段跟着问题走</h4>
+          <p>2021年用<span class="kw">眼动测试（6人追踪+深访）+满意度前后测（千余份问卷）</span>验证结构方案，证明上下结构更优。2023年转向<span class="kw">品类决策模型调研</span>，建立四维判断框架。2025年用<span class="kw">A/B实验</span>推翻直觉——三明治框架更“整洁”但数据更差。<span class="kw">方法没有高低，只有适不适合当前的问题</span>。</p>
         </div>
         <div class="card">
           <div class="card-num">03</div>
-          <h4>体验与商业，这次真的同向</h4>
-          <p><span class="kw">屏效提升 10%</span> 的同时，<span class="kw">用户体验满意度</span>也有明显改善。这不是偶然——当框架更清晰、信息更精准、供给更丰富时，用户的<span class="kw">决策成本降低了</span>，转化自然提升。</p>
+          <h4>系统性改造，不是堆砌功能</h4>
+          <p>第三次改版6个策略同时推进，每一个都在对方的基础上生效——<span class="kw">框架扁平了</span>，二搜才能融入；<span class="kw">卡片右侧空出来了</span>，运营信息才能透出。这种<span class="kw">相互咬合的设计</span>，是前两次改版积累的认知才能做到的——知道每个模块如何影响其他模块。</p>
         </div>
         <div class="card">
           <div class="card-num">04</div>
           <h4>可扩展性是给未来自己的礼物</h4>
-          <p>新框架上线后，后续新增的<span class="kw">特价外卖 TAB</span>、<span class="kw">趋势播报阿拉丁</span>等业务模块，都可以<span class="kw">无痛接入</span>。避免了下一次改版又从「技术债」开始——这是这次改版最低调但最重要的价值。</p>
+          <p>新框架上线后，后续新增的<span class="kw">特价外卖TAB</span>、<span class="kw">趋势播报阿拉丁</span>等模块，都可以<span class="kw">无痛接入</span>。2021年改版时没考虑扩展性，导致2023年品类模板只能硬塞；2023年的教训让2025年把<span class="kw">可扩展性</span>写进了设计北极星——避免了下一次改版又从技术债开始。</p>
         </div>
       </div>
     </div>
