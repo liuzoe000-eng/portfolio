@@ -77,6 +77,8 @@
       overflow:hidden;
     }
     .video-phone-clip video { width:100%; height:100%; object-fit:cover; display:block; }
+.video-phone-clip .demo-iframe { width:100%; height:100%; border:none; display:block; background:#fff; }
+.dot.green { background:#22c55e; }
     /* 顶部刘海装饰 */
     .video-phone-clip::before {
       content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%);
@@ -454,17 +456,15 @@
       <div class="video-row">
         <div class="video-phone-wrap">
           <div class="video-phone-clip">
-            <video autoplay muted loop playsinline poster="sqs-demo-prototype-poster.webp">
-              <source data-src="sqs-demo-prototype.mp4" type="video/mp4">
-            </video>
+            <iframe src="ai-preference-demo/index.html" class="demo-iframe" title="神抢手 AI 偏好定制可交互原型" allow="autoplay"></iframe>
             <svg class="video-phone-border" viewBox="0 0 100 100" preserveAspectRatio="none">
               <polygon points="6,0 94,0 100,6 100,94 94,100 6,100 0,94 0,6"/>
             </svg>
           </div>
         </div>
         <div class="video-right-panel">
-          <div class="video-right-label"><span class="dot"></span>交互原型录屏</div>
-          <div class="video-load-tip">视频加载较慢，请稍候</div>
+          <div class="video-right-label"><span class="dot green"></span>可交互 Demo</div>
+          <div class="video-load-tip">左侧为实际可操作的代码原型</div>
           <div class="video-right-title">三轮对齐，每轮都可以直接上手操作</div>
           <ul class="video-rounds">
             <li>
