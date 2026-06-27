@@ -77,7 +77,12 @@
       overflow:hidden;
     }
     .video-phone-clip video { width:100%; height:100%; object-fit:cover; display:block; }
-.video-phone-clip .demo-iframe { width:100%; height:100%; border:none; display:block; background:#fff; }
+.video-phone-clip .demo-iframe {
+      width:375px; height:812px;
+      border:none; display:block; background:#fff;
+      transform-origin: top left;
+      position: absolute; top: 0; left: 0;
+    }
 .dot.green { background:#22c55e; }
     /* 顶部刘海装饰 */
     .video-phone-clip::before {
@@ -994,6 +999,24 @@
       v.addEventListener('loadeddata', function(){ v.classList.add('loaded'); });
       if(v.readyState >= 2) v.classList.add('loaded');
     });
+  })();
+  </script>
+
+  <!-- Scale iframe to fit phone container -->
+  <script>
+  (function(){
+    var iframe = document.querySelector('.demo-iframe');
+    if(!iframe) return;
+    function scaleIframe(){
+      var container = iframe.parentElement;
+      var cw = container.offsetWidth;
+      var scale = cw / 375;
+      iframe.style.transform = 'scale(' + scale + ')';
+    }
+    scaleIframe();
+    window.addEventListener('resize', scaleIframe);
+    // Also scale after a short delay in case layout shifts
+    setTimeout(scaleIframe, 100);
   })();
   </script>
 

@@ -182,24 +182,50 @@ background: var(--lime); color: var(--black);
 transform: rotate(-45deg);
 ```
 
-### 5-8 Work 卡片
+### 5-8 复盘卡片关键词高亮 `.card .kw`
+```css
+/* 默认状态：黑色加粗 + 细 accent 下划线 */
+.card .kw {
+  color: var(--black);
+  font-weight: 700;
+  border-bottom: 2px solid var(--accent);
+  border-radius: 2px;
+  padding: 0 1px;
+  transition: background 0.2s, border-color 0.2s;
+  cursor: default;
+}
+
+/* Hover 状态：下划线消失，背景高亮（类似文字选中效果） */
+.card:hover .kw {
+  color: var(--black);
+  font-weight: 700;
+  border-bottom-color: transparent;
+  background: var(--accent);
+}
+```
+- 用于 Reflections / 复盘模块中需要强调的关键词
+- 默认态克制，仅用一条 `2px` accent 实线下划线暗示可交互
+- Hover 态整体背景铺满 accent 黄，形成"文字被选中"的视觉反馈
+- 所有项目页面保持一致
+
+### 5-9 Work 卡片
 - 背景：`var(--off-white)` / `var(--gray-100)`
 - 悬停边框：`0 0 0 2px var(--lime)` + lime glow 光晕
 - 图片区高度：`260px`，hover `scale(1.06)`
 - hover 圆形 CTA：`76px`，`background: var(--lime)` + `rotate(-15deg→0deg)` 弹出动画
 - 卡片序号徽章：白底黑字，`border: 1px solid var(--border)`
 
-### 5-9 自定义光标
+### 5-10 自定义光标
 - 小圆点：`10–12px`，`background: var(--lime)` 或 `var(--black)`，`mix-blend-mode: multiply`
 - 圆环：`36–38px`，`border: 1.5px solid var(--black)`
 - hover 卡片时圆环放大至 `60px`，变为 lime 色
 
-### 5-10 Marquee 跑马灯
+### 5-11 Marquee 跑马灯
 - 深色版：`background: var(--black)`，文字 `rgba(255,255,255,.45)`
 - 浅色版：`background: var(--off-white)`，文字 `var(--text2)`
 - 星号分隔符：`color: var(--lime)` / `var(--lime-d)`
 
-### 5-11 进度条
+### 5-12 进度条
 ```css
 height: 2px; background: var(--lime); transform-origin: left;
 ```
